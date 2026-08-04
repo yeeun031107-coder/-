@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>집피지기 - 부동산 안심 계약 서비스</title>
+  <meta name="description" content="부동산 안심 계약 서비스">
+  <!-- Google Fonts: Noto Sans KR -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="web-canvas">
+    <div class="mobile-frame-container">
+
+      <!-- ========================================== -->
+      <!-- MAIN APP SHELL (DIRECT LANDING NO LOGIN)   -->
+      <!-- ========================================== -->
+      <div class="main-app-shell" id="main-app-shell">
+        
+        <!-- App Header -->
+        <header class="app-header">
+          <div class="header-top">
+            <div class="brand-logo">
+              <!-- Inline SVG Logo for 100% Reliable Render -->
+              <svg width="36" height="38" viewBox="0 0 429 452" fill="none" xmlns="http://www.w3.org/2000/svg" class="brand-logo-img">
+                <path d="M220.834 30.4999L5.0003 198H66.667V421.333H220.834V337.583C140.667 337.583 140.667 253.833 220.834 253.833V198C301 198 301 114.25 220.834 114.25V30.4999Z" fill="url(#paint0_linear_3_29)" stroke="url(#paint1_linear_3_29)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M182.959 27.0755C172.155 58.2848 146.835 110.826 182.959 110.826C263.125 110.826 263.125 216.351 182.959 216.351C168.268 216.351 197.649 250.409 182.959 250.409C102.792 250.409 102.792 334.159 182.959 334.159C219.082 334.159 164.373 389.863 182.959 417.909C213.934 464.651 286.071 446.799 337.125 417.909C418.812 371.684 243.672 215.729 337.125 194.576C360.489 189.287 375.046 198.209 398.792 194.576C508.254 177.825 216.161 -68.8363 182.959 27.0755Z" fill="url(#paint2_linear_3_29)" stroke="url(#paint3_linear_3_29)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+                <defs>
+                <linearGradient id="paint0_linear_3_29" x1="5.0003" y1="30.4999" x2="373.302" y2="290.549" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#777777"/>
+                <stop offset="1" stop-color="#222222"/>
+                </linearGradient>
+                <linearGradient id="paint1_linear_3_29" x1="5.0003" y1="30.4999" x2="373.302" y2="290.549" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#777777"/>
+                <stop offset="1" stop-color="#222222"/>
+                </linearGradient>
+                <linearGradient id="paint2_linear_3_29" x1="122.834" y1="27.0755" x2="491.135" y2="287.125" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#66FF88"/>
+                <stop offset="1" stop-color="#00BA2F"/>
+                </linearGradient>
+                <linearGradient id="paint3_linear_3_29" x1="122.834" y1="27.0755" x2="491.135" y2="287.125" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#66FF88"/>
+                <stop offset="1" stop-color="#00BA2F"/>
+                </linearGradient>
+                </defs>
+              </svg>
+              <div class="brand-titles">
+                <h1 class="brand-name">집피지기</h1>
+                <p class="brand-sub">부동산 안심 계약 서비스</p>
+              </div>
+            </div>
+            <button class="btn-icon-action" id="btn-glossary-modal">
+              <i data-lucide="book-open"></i>
+              <span>용어사전</span>
+            </button>
+          </div>
+        </header>
+
+        <!-- Content Viewport -->
+        <main class="app-viewport">
+
+          <!-- ========================================== -->
+          <!-- [탭 1] 계약 가이드                          -->
+          <!-- ========================================== -->
+          <section class="tab-panel active" id="tab-guide">
+            <div class="panel-title-card">
+              <h2><i data-lucide="map"></i> 계약 가이드</h2>
+            </div>
+
+            <!-- Contract Type Bar -->
+            <div class="contract-type-bar">
+              <button class="type-btn active" data-type="monthly">월세</button>
+              <button class="type-btn" data-type="jeonse">전세</button>
+              <button class="type-btn" data-type="buying">매매</button>
+            </div>
+
+            <div class="steps-wrapper" id="guide-steps-container"></div>
+          </section>
+
+
+          <!-- ========================================== -->
+          <!-- [탭 2] 매물 안정성 & 등기부등본 해독         -->
+          <!-- ========================================== -->
+          <section class="tab-panel" id="tab-safety">
+            <div class="panel-title-card">
+              <h2><i data-lucide="shield"></i> 매물 안정성 & 등기부등본 해독</h2>
+            </div>
+
+            <!-- Debt Calculator -->
+            <div class="card-box">
+              <h3 class="card-title"><i data-lucide="calculator"></i> 깡통전세 부채비율 자동 계산기</h3>
+
+              <div class="form-group">
+                <label for="input-address">매물 주소</label>
+                <input type="text" id="input-address" value="서울시 마포구 신수동 원룸 302호">
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label for="input-my-deposit">내 보증금 (만원)</label>
+                  <input type="number" id="input-my-deposit" value="8000">
+                </div>
+                <div class="form-group">
+                  <label for="input-market-price">매물 시세 (만원)</label>
+                  <input type="number" id="input-market-price" value="15000">
+                </div>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label for="input-mortgage">근저당 (을구)</label>
+                  <input type="number" id="input-mortgage" value="3000">
+                </div>
+                <div class="form-group">
+                  <label for="input-prior-deposit">선순위 보증금 (만원)</label>
+                  <input type="number" id="input-prior-deposit" value="1000">
+                </div>
+              </div>
+
+              <button class="btn-primary full-width" id="btn-calc-safety">
+                부채비율 계산하기
+              </button>
+            </div>
+
+            <!-- Debt Ratio Result Box -->
+            <div class="card-box debt-ratio-card" id="safety-result-card">
+              <div class="traffic-light-header">
+                <div class="traffic-signal-box">
+                  <div class="light green active" id="light-green"></div>
+                  <div class="light yellow" id="light-yellow"></div>
+                  <div class="light red" id="light-red"></div>
+                </div>
+                <div class="score-summary">
+                  <span class="score-label">계산된 부채비율 (클릭 시 계산식 확인)</span>
+                  <span class="score-value" id="res-debt-ratio">80%</span>
+                  <span class="score-status-badge green" id="res-status-badge">🟢 안전 (60% 이하)</span>
+                </div>
+              </div>
+
+              <div class="ratio-bar-wrapper">
+                <div class="ratio-bar" id="res-ratio-bar" style="width: 80%;"></div>
+              </div>
+              <div class="ratio-ticks">
+                <span>0%</span>
+                <span>60% (안전)</span>
+                <span>80% (위험)</span>
+                <span>100%</span>
+              </div>
+
+              <div class="formula-box hidden" id="debt-formula-box">
+                📐 <strong>부채비율 계산식:</strong><br>
+                <code>부채비율 = (근저당 + 선순위보증금 + 내보증금) / 시세 * 100</code><br>
+                <span id="formula-calc-detail">예: (3000만 + 1000만 + 8000만) / 15000만 * 100 = 80%</span>
+              </div>
+
+              <div class="analysis-detail-box" id="res-analysis-text" style="margin-top:10px;"></div>
+            </div>
+
+            <!-- AI 등기부 위험도 분석 -->
+            <div class="card-box">
+              <h3 class="card-title"><i data-lucide="cpu"></i> AI 등기부 위험도 분석</h3>
+              <p class="card-sub-desc">등기부등본 사진/이미지를 업로드하거나 예시 매물을 선택하여 분석하세요.</p>
+
+              <div class="file-upload-box" id="file-upload-dropzone">
+                <input type="file" id="input-registry-photo" accept="image/*,.pdf">
+                <div class="upload-icon-label" id="upload-label-content">
+                  <i data-lucide="camera" style="width:28px; height:28px; color:var(--primary);"></i>
+                  <span>등기부등본 사진 업로드 (터치하여 선택)</span>
+                </div>
+                <img id="image-preview-thumb" class="image-preview-thumb hidden" alt="등기부 사진 미리보기">
+              </div>
+
+              <div class="preset-samples">
+                <span>예시 매물:</span>
+                <button class="btn-chip" id="sample-safe">안전 매물 예시</button>
+                <button class="btn-chip" id="sample-mortgage">근저당 과다 예시</button>
+                <button class="btn-chip" id="sample-trust">신탁 등기 예시</button>
+              </div>
+
+              <button class="btn-primary full-width" id="btn-run-gemini-analysis" style="margin-top:10px;">
+                <i data-lucide="sparkles"></i> 위험도 분석
+              </button>
+
+              <div class="gemini-output-box hidden" id="gemini-output-box">
+                <div class="output-loading hidden" id="gemini-loading">
+                  <div class="spinner"></div>
+                  <p>AI가 등기부 위험도를 분석 중입니다...</p>
+                </div>
+                <div class="output-content" id="gemini-result-content"></div>
+              </div>
+            </div>
+          </section>
+
+
+          <!-- ========================================== -->
+          <!-- [탭 3] 캘린더 & 매물 기록                   -->
+          <!-- ========================================== -->
+          <section class="tab-panel" id="tab-calendar">
+            <div class="panel-title-card">
+              <h2><i data-lucide="calendar"></i> 캘린더</h2>
+              <p>날짜 선택 후 일정을 확인하고 체크리스트를 활용하세요</p>
+            </div>
+
+            <!-- Calendar Card -->
+            <div class="card-box">
+              <div class="calendar-header-bar">
+                <button class="btn-icon" id="btn-cal-prev"><i data-lucide="chevron-left"></i></button>
+                <h3 id="cal-month-title">2026년 7월</h3>
+                <button class="btn-icon" id="btn-cal-next"><i data-lucide="chevron-right"></i></button>
+              </div>
+
+              <div class="calendar-grid-weekdays">
+                <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
+              </div>
+              <div class="calendar-grid-days" id="calendar-grid-days"></div>
+
+              <div class="cal-events-box" id="cal-events-box">
+                <h4><span id="selected-date-text">7월 27일</span> 일정 리스트</h4>
+                <div id="events-list-container">
+                  <p class="no-events">등록된 일정이 없습니다.</p>
+                </div>
+                <button class="btn-sm-secondary btn-rounded-pill" id="btn-add-event">
+                  <i data-lucide="plus" style="width:14px; height:14px;"></i>
+                  <span>일정 추가</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Property Records & Checklist (매물 기록) -->
+            <div class="card-box">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                <h3 class="card-title" style="margin-bottom:0;"><i data-lucide="clipboard-list"></i> 매물 기록</h3>
+                <button class="btn-sm-danger" id="btn-delete-property"><i data-lucide="trash-2" style="width:12px;"></i> 매물 삭제</button>
+              </div>
+              <p class="card-sub-desc">방문하신 여러 매물의 정보, 사진 및 체크리스트를 기록하세요.</p>
+
+              <!-- Property Tabs Bar -->
+              <div class="property-tab-bar" id="property-tab-bar"></div>
+
+              <!-- Active Property Form & Checklist Details -->
+              <div class="property-record-details" id="property-record-details">
+                <div class="form-group">
+                  <label for="prop-name">매물 이름</label>
+                  <input type="text" id="prop-name" placeholder="신수동 채광 원룸 302호">
+                </div>
+
+                <div class="form-group">
+                  <label for="prop-address">매물 주소</label>
+                  <input type="text" id="prop-address" placeholder="서울시 마포구 신수동 100-1">
+                </div>
+
+                <div class="form-group">
+                  <label for="prop-features">매물 특징 & 메모</label>
+                  <textarea id="prop-features" rows="2" placeholder="채광 우수, 보증금 8천/월세 45, 관리비 5만원 (인터넷 포함)"></textarea>
+                </div>
+
+                <!-- Photos Upload Section -->
+                <div class="form-group">
+                  <label>매물 사진 첨부</label>
+                  <div class="file-upload-box" id="prop-photo-upload-box">
+                    <input type="file" id="input-prop-photos" accept="image/*" multiple>
+                    <div class="upload-icon-label">
+                      <i data-lucide="image" style="width:24px; height:24px; color:var(--primary);"></i>
+                      <span>사진 추가하기 (여러 장 선택 가능)</span>
+                    </div>
+                  </div>
+                  <div class="prop-photo-preview-grid" id="prop-photo-gallery"></div>
+                </div>
+
+                <hr style="margin:14px 0; border:none; border-top:1px solid var(--border-light);">
+
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                  <h4 style="font-size:0.85rem; font-weight:700; color:#0f172a;">체크리스트</h4>
+                  <button class="btn-sm-outline" id="btn-add-custom-chk"><i data-lucide="plus" style="width:12px;"></i> 항목 추가</button>
+                </div>
+
+                <div class="checklist-container" id="checklist-container"></div>
+              </div>
+            </div>
+          </section>
+
+
+          <!-- ========================================== -->
+          <!-- [탭 4] AI 챗봇                             -->
+          <!-- ========================================== -->
+          <section class="tab-panel" id="tab-chatbot">
+            <div class="panel-title-card">
+              <h2><i data-lucide="bot"></i> AI 챗봇</h2>
+            </div>
+
+            <div class="card-box chat-card">
+              <div class="chat-header">
+                <img src="assets/bot_character.png" class="bot-avatar-img" alt="AI 캐릭터">
+                <div>
+                  <h4>부동산 전문 AI 챗봇 집킴이</h4>
+                </div>
+              </div>
+
+              <div class="quick-prompts">
+                <button class="btn-prompt-chip">대출 미승인 시 계약금 반환 특약 거절할 때 대응법</button>
+                <button class="btn-prompt-chip">집주인이 잔금날 대출 금지 특약 거절하면?</button>
+                <button class="btn-prompt-chip">전입신고와 확정일자 대항력 시점</button>
+              </div>
+
+              <div class="chat-messages" id="chat-messages-box">
+                <div class="message bot">
+                  <img src="assets/bot_character.png" class="bot-avatar-img" alt="AI 캐릭터">
+                  <div class="message-bubble">
+                    안녕하세요! 집피지기의 AI 챗봇 집킴이입니다! 어떤 것이 궁금하신가요?
+                  </div>
+                </div>
+              </div>
+
+              <div class="chat-input-bar">
+                <input type="text" id="chat-input" placeholder="질문하기">
+                <button id="btn-send-chat" class="btn-send-circle" aria-label="전송"><i data-lucide="send"></i></button>
+              </div>
+            </div>
+          </section>
+
+
+          <!-- ========================================== -->
+          <!-- [탭 5] 프로필                               -->
+          <!-- ========================================== -->
+          <section class="tab-panel" id="tab-profile">
+            <div class="panel-title-card">
+              <h2><i data-lucide="user"></i> 프로필</h2>
+            </div>
+
+            <!-- Profile Card -->
+            <div class="card-box">
+              <div class="profile-header-row">
+                <div>
+                  <h3 id="prof-disp-name">홍길동 님</h3>
+                  <p class="prof-sub" id="prof-disp-details">만 26세 | 세대주 | 소득 3,200만원 | 직장인 (중소기업)</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Subtab Switcher: 대출 정보 vs 혜택 정보 -->
+            <div class="sub-tab-bar">
+              <button class="sub-tab-btn active" data-prof-tab="loans">대출 정보</button>
+              <button class="sub-tab-btn" data-prof-tab="benefits">혜택 정보</button>
+            </div>
+
+            <!-- View 1: Loans ONLY -->
+            <div class="prof-sub-view active" id="prof-sub-loans">
+              <div class="filter-chips">
+                <button class="chip-btn active" data-loan-cat="all">전체</button>
+                <button class="chip-btn" data-loan-cat="buying">주택 구입 (매매)</button>
+                <button class="chip-btn" data-loan-cat="jeonse">전세 자금</button>
+                <button class="chip-btn" data-loan-cat="monthly">월세 대출</button>
+              </div>
+
+              <div class="loan-cards-list" id="loan-cards-container"></div>
+            </div>
+
+            <!-- View 2: Benefits ONLY -->
+            <div class="prof-sub-view" id="prof-sub-benefits">
+              <div class="filter-chips">
+                <button class="chip-btn active" data-benefit-cat="all">전체 혜택</button>
+                <button class="chip-btn" data-benefit-cat="monthly">월세 혜택</button>
+                <button class="chip-btn" data-benefit-cat="buying">매매 혜택</button>
+                <button class="chip-btn" data-benefit-cat="jeonse">전세 혜택</button>
+              </div>
+
+              <div class="benefit-cards-list" id="benefit-cards-container"></div>
+            </div>
+          </section>
+
+        </main>
+
+
+        <!-- Bottom 5-Tab Navigation -->
+        <nav class="bottom-nav">
+          <button class="nav-tab active" data-tab="tab-guide">
+            <i data-lucide="map"></i>
+            <span>가이드</span>
+          </button>
+          <button class="nav-tab" data-tab="tab-safety">
+            <i data-lucide="shield-check"></i>
+            <span>매물안정성</span>
+          </button>
+          <button class="nav-tab" data-tab="tab-calendar">
+            <i data-lucide="calendar"></i>
+            <span>캘린더</span>
+          </button>
+          <button class="nav-tab" data-tab="tab-chatbot">
+            <i data-lucide="message-square"></i>
+            <span>AI특약챗봇</span>
+          </button>
+          <button class="nav-tab" data-tab="tab-profile">
+            <i data-lucide="user"></i>
+            <span>프로필</span>
+          </button>
+        </nav>
+
+      </div> <!-- END MAIN APP SHELL -->
+
+    </div>
+  </div>
+
+
+  <!-- MODAL: Glossary -->
+  <div class="modal-overlay hidden" id="modal-glossary">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3><i data-lucide="book-open"></i> 부동산 용어 사전</h3>
+        <button class="btn-close" id="btn-close-glossary"><i data-lucide="x"></i></button>
+      </div>
+      <div class="modal-body">
+        <input type="text" id="glossary-search" placeholder="용어 검색 (예: 근저당, 신탁, 대항력...)">
+        <div class="glossary-list" id="glossary-list"></div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Toast Popup -->
+  <div class="toast hidden" id="toast-msg">
+    <span id="toast-text">처리가 완료되었습니다.</span>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
