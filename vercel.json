@@ -1,3 +1,6 @@
 {
-  "cleanUrls": true
+  "rewrites": [
+    { "source": "/api/analyze-registry", "destination": "/api/analyze-registry.js" },
+    { "source": "/api/chat-gemini", "destination": "/api/chat-gemini.js" }
+  ]
 }

@@ -20,7 +20,7 @@
     <div class="mobile-frame-container">
 
       <!-- ========================================== -->
-      <!-- MAIN APP SHELL (DIRECT LANDING NO LOGIN)   -->
+      <!-- MAIN APP SHELL                             -->
       <!-- ========================================== -->
       <div class="main-app-shell" id="main-app-shell">
         
@@ -56,10 +56,17 @@
                 <p class="brand-sub">부동산 안심 계약 서비스</p>
               </div>
             </div>
-            <button class="btn-icon-action" id="btn-glossary-modal">
-              <i data-lucide="book-open"></i>
-              <span>용어사전</span>
-            </button>
+            
+            <div class="header-actions">
+              <button class="btn-icon-action" id="btn-tutorial-modal">
+                <i data-lucide="help-circle"></i>
+                <span>가이드</span>
+              </button>
+              <button class="btn-icon-action" id="btn-glossary-modal">
+                <i data-lucide="book-open"></i>
+                <span>용어사전</span>
+              </button>
+            </div>
           </div>
         </header>
 
@@ -248,17 +255,17 @@
               <div class="property-record-details" id="property-record-details">
                 <div class="form-group">
                   <label for="prop-name">매물 이름</label>
-                  <input type="text" id="prop-name" placeholder="신수동 채광 원룸 302호">
+                  <input type="text" id="prop-name" placeholder="예: 신수동 채광 원룸 302호">
                 </div>
 
                 <div class="form-group">
                   <label for="prop-address">매물 주소</label>
-                  <input type="text" id="prop-address" placeholder="서울시 마포구 신수동 100-1">
+                  <input type="text" id="prop-address" placeholder="예: 서울시 마포구 신수동 100-1">
                 </div>
 
                 <div class="form-group">
                   <label for="prop-features">매물 특징 & 메모</label>
-                  <textarea id="prop-features" rows="2" placeholder="채광 우수, 보증금 8천/월세 45, 관리비 5만원 (인터넷 포함)"></textarea>
+                  <textarea id="prop-features" rows="2" placeholder="예: 채광 우수, 보증금 8천/월세 45, 관리비 5만원 (인터넷 포함)"></textarea>
                 </div>
 
                 <!-- Photos Upload Section -->
@@ -403,6 +410,76 @@
         </nav>
 
       </div> <!-- END MAIN APP SHELL -->
+
+    </div>
+  </div>
+
+
+  <!-- MODAL: Intro & Tutorial Carousel -->
+  <div class="modal-overlay tutorial-modal-overlay hidden" id="modal-tutorial">
+    <div class="tutorial-card-box">
+      
+      <!-- Tutorial Header -->
+      <div class="tutorial-header">
+        <span class="tutorial-step-badge" id="tut-step-badge">1 / 3</span>
+        <button class="btn-close-tut" id="btn-close-tutorial" aria-label="닫기">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <!-- Slide 1: Welcome with Character -->
+      <div class="tut-slide active" data-tut-slide="1">
+        <div class="tut-character-hero">
+          <img src="assets/bot_character.png" alt="집킴이 캐릭터" class="tut-char-img floating-bounce">
+          <div class="tut-speech-bubble">
+            "반가워요! 저는 집피지기의 수호 마스코트 <strong>집킴이</strong>예요!"
+          </div>
+        </div>
+        <h3 class="tut-title">부동산 안심 계약 내비게이션</h3>
+        <p class="tut-desc">
+          어렵고 복잡한 전월세·매매 계약 과정을 <strong>5단계 로드맵</strong>으로 쉽고 명쾌하게 안내해 드릴게요.
+        </p>
+      </div>
+
+      <!-- Slide 2: Debt Calc & AI Decoder -->
+      <div class="tut-slide" data-tut-slide="2">
+        <div class="tut-icon-hero">
+          <div class="icon-circle-badge green"><i data-lucide="shield-check"></i></div>
+          <div class="icon-circle-badge yellow"><i data-lucide="calculator"></i></div>
+          <div class="icon-circle-badge red"><i data-lucide="cpu"></i></div>
+        </div>
+        <h3 class="tut-title">위험 매물 사전 차단</h3>
+        <p class="tut-desc">
+          <strong>부채비율 신호등 계산기</strong>와 <strong>Gemini AI 등기부 심층 해독</strong>으로 깡통전세와 권리 위험을 1초 만에 진단하세요.
+        </p>
+      </div>
+
+      <!-- Slide 3: Property Record & AI Chatbot -->
+      <div class="tut-slide" data-tut-slide="3">
+        <div class="tut-icon-hero">
+          <div class="icon-circle-badge main"><i data-lucide="clipboard-list"></i></div>
+          <div class="icon-circle-badge main"><i data-lucide="bot"></i></div>
+        </div>
+        <h3 class="tut-title">현장 임장 노트 & AI 특약 챗봇</h3>
+        <p class="tut-desc">
+          매물별 체크리스트와 사진을 기록하고, 집주인의 거절에 대처하는 <strong>유연한 거절 타협 스크립트</strong>를 활용해 보세요!
+        </p>
+      </div>
+
+      <!-- Dots & Navigation Buttons -->
+      <div class="tut-footer">
+        <div class="tut-dots">
+          <span class="dot active" data-dot="1"></span>
+          <span class="dot" data-dot="2"></span>
+          <span class="dot" data-dot="3"></span>
+        </div>
+
+        <div class="tut-nav-btns">
+          <button class="btn-tut-prev hidden" id="btn-tut-prev">이전</button>
+          <button class="btn-primary btn-tut-next" id="btn-tut-next">다음 <i data-lucide="chevron-right" style="width:14px; height:14px;"></i></button>
+          <button class="btn-primary btn-tut-start hidden" id="btn-tut-start">집피지기 시작하기 🚀</button>
+        </div>
+      </div>
 
     </div>
   </div>

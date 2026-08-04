@@ -63,9 +63,9 @@ document.addEventListener('DOMContentLoaded', () => {
     properties: [
       {
         id: 1,
-        name: '매물 1 (신수동 원룸 302호)',
-        address: '서울시 마포구 신수동 100-1',
-        features: '채광 우수, 보증금 8천/월세 45, 관리비 5만원 (인터넷 포함)',
+        name: '매물 1',
+        address: '',
+        features: '',
         photos: [],
         checklist: DEFAULT_CHECKLIST.map(item => ({ ...item }))
       }
@@ -163,12 +163,30 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const GLOSSARY_DB = [
-    { term: '근저당권설정', desc: '집주인이 집을 담보로 은행 대출을 받았을 때, 은행이 우선 변제받을 권리를 등록한 기록입니다.' },
-    { term: '갑구 (등기부등본)', desc: '소유권(집주인 이름, 가압류, 가처분, 신탁등기)에 관한 기록입니다.' },
-    { term: '을구 (등기부등본)', desc: '소유권 이외의 권리(근저당권, 전세권, 임차권등기명령)에 관한 기록입니다.' },
-    { term: '신탁등기', desc: '소유권이 신탁회사로 넘어가 있는 매물로, 신탁회사 서면 동의 없는 계약은 무효가 됩니다.' },
-    { term: '임차권등기명령', desc: '계약 만료 후 보증금을 못 받고 이사할 때 기존 집의 대항력을 유지해 주는 법적 장치입니다.' },
-    { term: '대항력', desc: '집주인이 바뀌거나 경매 시 보증금을 받을 때까지 거주할 수 있는 법적 권리입니다. (전입신고 익일 0시 발생)' }
+    { term: '임대인', desc: '집을 빌려주는 사람. 즉, 집주인을 말합니다.' },
+    { term: '임차인', desc: '돈을 내고 집을 빌려서 사는 사람. 즉, 세입자(나)를 말합니다.' },
+    { term: '공인중개사', desc: '집주인과 세입자 사이에서 집을 소개해주고 안전하게 계약하도록 도와주는 사람입니다. (우리가 흔히 말하는 부동산 사장님)' },
+    { term: '중개수수료 (복비)', desc: '공인중개사가 계약을 도와준 대가로 우리가 내는 수수료입니다. 법으로 정해진 한도가 있습니다.' },
+    { term: '가계약(금)', desc: '마음에 드는 집을 다른 사람이 먼저 계약하지 못하도록 찜해두기 위해 먼저 거는 돈입니다. 보통 계약금의 일부를 냅니다. (주의: 단순 변심으로 취소하면 돌려받기 어려울 수 있습니다.)' },
+    { term: '계약금 / 중도금 / 잔금', desc: '• 계약금: "이 집 계약할게요" 하고 처음 내는 돈 (보통 전체 금액의 10%)\n• 중도금: 계약금과 잔금 사이에 중간에 나누어 내는 돈 (주로 매매나 새 아파트 분양 시에 있고, 일반 전월세는 생략하는 경우가 많음)\n• 잔금: 이사하는 날(열쇠를 받는 날) 마지막으로 치르는 나머지 돈입니다.' },
+    { term: '등기부등본 (등기사항전부증명서)', desc: '집의 신분증입니다. 이 집의 진짜 주인이 누구인지, 이 집을 담보로 은행에서 빌린 빚은 없는지 모든 역사가 적혀있습니다. 계약 전, 잔금 치르기 전 반드시 확인해야 합니다.' },
+    { term: '건축물대장', desc: '건물의 건강검진표입니다. 이 건물이 불법으로 개조된 곳은 없는지(위반건축물), 건물의 진짜 용도가 무엇인지(주택인지 상가인지) 건물의 스펙이 적혀있습니다.' },
+    { term: '표제부 / 갑구 / 을구 (등기부 목차)', desc: '• 표제부: 집의 주소, 면적, 층수 등 겉모습 정보\n• 갑구: 집주인이 누구인지, 압류당한 건 없는지 등 \'주인(소유권)\'에 대한 정보\n• 을구: 집주인이 이 집을 담보로 은행에 빚을 얼마나 졌는지 등 \'돈(빚)\'에 대한 정보. (을구가 깨끗할수록 안전한 집입니다.)' },
+    { term: '전입신고', desc: '내가 이 집으로 이사 왔다고 동사무소(주민센터)나 인터넷(정부24)을 통해 국가에 알리는 것입니다.' },
+    { term: '확정일자', desc: '"내가 이 날짜에 이 계약서로 계약을 했습니다"라고 동사무소나 법원에서 계약서에 도장을 찍어 증명해 주는 것입니다.' },
+    { term: '대항력', desc: '계약 기간 동안 집주인이 바뀌어도 "나 여기서 계속 살 거야!"라고 당당하게 주장할 수 있는 권리입니다. (집 열쇠를 받고 + 전입신고를 마치면 다음 날 0시부터 생깁니다.)' },
+    { term: '우선변제권', desc: '만약 집이 잘못되어 경매로 넘어가더라도, 내 보증금을 다른 사람들보다 먼저 돌려받을 수 있는 강력한 권리입니다. (대항력 + 확정일자를 받으면 생깁니다. 이사 가는 날 무조건 전입신고와 확정일자를 받아야 하는 이유입니다.)' },
+    { term: '근저당(권)', desc: '쉽게 말해 집주인의 빚(대출)입니다. 집주인이 이 집을 담보로 은행에서 돈을 빌렸다는 뜻입니다. 내 보증금과 근저당을 합친 금액이 집값과 비슷하거나 높으면 내 보증금을 돌려받지 못할 위험이 큽니다.' },
+    { term: '깡통전세', desc: '집주인의 빚과 내 전세보증금을 합친 돈이 실제 집값과 거의 비슷하거나 더 높아서, 깡통처럼 속이 텅 비어 보증금을 떼일 위험이 있는 집을 말합니다.' },
+    { term: '임차권등기명령', desc: '이사를 나가야 하는데 집주인이 보증금을 안 돌려줄 때 사용하는 최후의 수단입니다. 등기부등본에 "나 아직 이 집에서 돈 못 받았다!"라고 빨간 줄을 그어놓고 마음 편히 이사 갈 수 있게 해주는 법적 조치입니다.' },
+    { term: '전용면적', desc: '현관문을 열고 들어가서 내가 실제로 사용하는 진짜 우리 집의 크기 (방, 거실, 화장실, 주방). 보통 아파트 평수를 말할 때 \'실평수\'에 가깝습니다. (베란다는 서비스 면적이라 포함되지 않습니다.)' },
+    { term: '공급면적 (분양면적)', desc: '전용면적에다가 복도, 계단, 엘리베이터 등 이웃과 같이 쓰는 공간을 합친 크기입니다. 부동산에서 "여기 24평이에요~" 할 때 보통 이 크기를 말합니다.' },
+    { term: '다가구 주택', desc: '건물 전체의 주인이 딱 1명인 건물입니다. (예: 주인이 꼭대기 층에 살고 아래층 원룸들에 세입자들이 사는 원룸 건물)' },
+    { term: '다세대 주택 (빌라)', desc: '건물은 하나지만, 101호, 102호 등 호수마다 주인이 각각 다른 건물입니다.' },
+    { term: '전세', desc: '집주인에게 목돈(보증금)을 크게 맡기고 계약 기간 동안 살다가, 이사 나갈 때 그 목돈을 그대로 100% 돌려받는 방식입니다. 매달 내는 월세가 없습니다.' },
+    { term: '월세', desc: '보증금을 조금 걸어두고, 매달 집주인에게 집을 빌린 값(월세)을 내는 방식입니다.' },
+    { term: '반전세', desc: '전세와 월세가 섞인 형태입니다. 월세보다는 보증금을 훨씬 많이 내고, 대신 매달 내는 월세를 확 줄인 형태를 말합니다.' },
+    { term: '신탁등기', desc: '소유권이 신탁회사로 넘어가 있는 매물로, 신탁회사 서면 동의 없는 계약은 무효가 됩니다.' }
   ];
 
   // --- TAB NAVIGATION ---
@@ -1117,9 +1135,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     filtered.forEach(g => {
       const item = document.createElement('div');
-      item.style.padding = '8px 0';
+      item.style.padding = '10px 0';
       item.style.borderBottom = '1px solid var(--border-color)';
-      item.innerHTML = `<h5 style="color:var(--primary); font-size:0.82rem; margin-bottom:2px;">${g.term}</h5><p style="font-size:0.75rem; color:var(--text-sub);">${g.desc}</p>`;
+      item.innerHTML = `<h5 style="color:var(--primary); font-size:0.85rem; font-weight:700; margin-bottom:4px;">${g.term}</h5><p style="font-size:0.78rem; color:var(--text-sub); line-height:1.45; whitespace:pre-line;">${g.desc.replace(/\n/g, '<br>')}</p>`;
       listContainer.appendChild(item);
     });
   }
@@ -1136,6 +1154,91 @@ document.addEventListener('DOMContentLoaded', () => {
     if (textEl) textEl.textContent = msg;
     toast.classList.remove('hidden');
     setTimeout(() => toast.classList.add('hidden'), 2200);
+  }
+
+  // --- TUTORIAL CAROUSEL CONTROLLER ---
+  const modalTutorial = document.getElementById('modal-tutorial');
+  const btnTutorialModal = document.getElementById('btn-tutorial-modal');
+  const btnCloseTutorial = document.getElementById('btn-close-tutorial');
+  const btnTutPrev = document.getElementById('btn-tut-prev');
+  const btnTutNext = document.getElementById('btn-tut-next');
+  const btnTutStart = document.getElementById('btn-tut-start');
+  const tutStepBadge = document.getElementById('tut-step-badge');
+
+  let currentTutSlide = 1;
+  const totalTutSlides = 3;
+
+  function updateTutorialSlide(slideNum) {
+    currentTutSlide = slideNum;
+    if (tutStepBadge) tutStepBadge.textContent = `${currentTutSlide} / ${totalTutSlides}`;
+
+    document.querySelectorAll('.tut-slide').forEach(s => {
+      s.classList.toggle('active', Number(s.getAttribute('data-tut-slide')) === currentTutSlide);
+    });
+
+    document.querySelectorAll('.tut-dots .dot').forEach(d => {
+      d.classList.toggle('active', Number(d.getAttribute('data-dot')) === currentTutSlide);
+    });
+
+    if (btnTutPrev) {
+      if (currentTutSlide === 1) btnTutPrev.classList.add('hidden');
+      else btnTutPrev.classList.remove('hidden');
+    }
+
+    if (btnTutNext && btnTutStart) {
+      if (currentTutSlide === totalTutSlides) {
+        btnTutNext.classList.add('hidden');
+        btnTutStart.classList.remove('hidden');
+      } else {
+        btnTutNext.classList.remove('hidden');
+        btnTutStart.classList.add('hidden');
+      }
+    }
+  }
+
+  if (btnTutorialModal && modalTutorial) {
+    btnTutorialModal.addEventListener('click', () => {
+      updateTutorialSlide(1);
+      modalTutorial.classList.remove('hidden');
+    });
+  }
+
+  if (btnCloseTutorial && modalTutorial) {
+    btnCloseTutorial.addEventListener('click', () => {
+      modalTutorial.classList.add('hidden');
+    });
+  }
+
+  if (btnTutNext) {
+    btnTutNext.addEventListener('click', () => {
+      if (currentTutSlide < totalTutSlides) {
+        updateTutorialSlide(currentTutSlide + 1);
+      }
+    });
+  }
+
+  if (btnTutPrev) {
+    btnTutPrev.addEventListener('click', () => {
+      if (currentTutSlide > 1) {
+        updateTutorialSlide(currentTutSlide - 1);
+      }
+    });
+  }
+
+  if (btnTutStart && modalTutorial) {
+    btnTutStart.addEventListener('click', () => {
+      modalTutorial.classList.add('hidden');
+      localStorage.setItem('zipgigi_tutorial_seen', 'true');
+      showToast('🛡️ 집피지기 부동산 안심 계약 서비스 시작!');
+    });
+  }
+
+  // Auto-show tutorial on first landing
+  if (!localStorage.getItem('zipgigi_tutorial_seen') && modalTutorial) {
+    setTimeout(() => {
+      updateTutorialSlide(1);
+      modalTutorial.classList.remove('hidden');
+    }, 400);
   }
 
   // Initial renders

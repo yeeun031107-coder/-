@@ -745,3 +745,224 @@ input:focus::placeholder, textarea:focus::placeholder {
 
 .toast { position: absolute; bottom: 70px; left: 50%; transform: translateX(-50%); background: #0f172a; color: #fff; padding: 8px 14px; font-size: 0.75rem; font-weight: 700; z-index: 320; }
 .hidden { display: none !important; }
+
+/* HEADER ACTIONS BAR */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-icon-action {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 4px 8px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-main);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  border-radius: 6px !important;
+}
+.btn-icon-action:hover {
+  background: #e2e8f0;
+}
+
+/* TUTORIAL OVERLAY & CAROUSEL CARD */
+.tutorial-modal-overlay {
+  z-index: 400 !important;
+  background: rgba(15, 23, 42, 0.75) !important;
+  backdrop-filter: blur(4px);
+}
+.tutorial-card-box {
+  width: 100%;
+  max-width: 360px;
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: 24px !important;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15) !important;
+  position: relative;
+  overflow: hidden;
+}
+.tutorial-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.tutorial-step-badge {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--primary);
+  background: #f0fdf4;
+  padding: 3px 10px;
+  border-radius: 12px !important;
+}
+.btn-close-tut {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-close-tut:hover { color: var(--text-main); }
+
+.tut-slide {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 10px 0 6px 0;
+  min-height: 250px;
+}
+.tut-slide.active {
+  display: flex;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Hero Character Animation */
+.tut-character-hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.tut-char-img {
+  width: 110px;
+  height: 110px;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 16px rgba(0, 186, 47, 0.25));
+}
+.floating-bounce {
+  animation: floatBounce 3s ease-in-out infinite;
+}
+@keyframes floatBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.tut-speech-bubble {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #15803d;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 8px 12px;
+  border-radius: 14px !important;
+  margin-top: 8px;
+  position: relative;
+  line-height: 1.3;
+}
+.tut-speech-bubble::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 6px 6px 6px;
+  border-style: solid;
+  border-color: transparent transparent #bbf7d0 transparent;
+}
+
+/* Icon Badges for Slide 2 & 3 */
+.tut-icon-hero {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0 24px 0;
+}
+.icon-circle-badge {
+  width: 52px;
+  height: 52px;
+  border-radius: 50% !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+}
+.icon-circle-badge.green { background: #dcfce7; color: var(--safe-green); }
+.icon-circle-badge.yellow { background: #fef3c7; color: var(--warn-yellow); }
+.icon-circle-badge.red { background: #fee2e2; color: var(--danger-red); }
+.icon-circle-badge.main { background: #e0f2fe; color: #0284c7; }
+
+.tut-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 8px;
+  letter-spacing: -0.3px;
+}
+.tut-desc {
+  font-size: 0.8rem;
+  color: var(--text-sub);
+  line-height: 1.5;
+  word-break: keep-all;
+  padding: 0 8px;
+}
+
+/* Dots & Nav Buttons */
+.tut-footer {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+}
+.tut-dots {
+  display: flex;
+  gap: 6px;
+}
+.tut-dots .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50% !important;
+  background: var(--border-color);
+  transition: all 0.2s ease;
+}
+.tut-dots .dot.active {
+  width: 22px;
+  border-radius: 10px !important;
+  background: var(--primary);
+}
+
+.tut-nav-btns {
+  width: 100%;
+  display: flex;
+  gap: 8px;
+}
+.btn-tut-prev {
+  flex: 1;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 10px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-sub);
+  cursor: pointer;
+  border-radius: 10px !important;
+}
+.btn-tut-next, .btn-tut-start {
+  flex: 2;
+  border-radius: 10px !important;
+  padding: 10px;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
