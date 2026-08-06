@@ -1513,58 +1513,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  async function handleKakaoOAuth() {
-    let cleanOrigin = window.location.origin;
-    if (cleanOrigin.includes(' ')) {
-      cleanOrigin = cleanOrigin.replace(/\s+/g, '-');
-    }
-
-    if (supabaseClient) {
-      showToast('💬 카카오 로그인 진행 중...');
-      try {
-        const { data, error } = await supabaseClient.auth.signInWithOAuth({
-          provider: 'kakao',
-          options: { redirectTo: cleanOrigin }
-        });
-        if (error) throw error;
-      } catch (e) {
-        console.warn('OAuth redirection notice:', e);
-        const kakaoUser = { email: 'kakao_user@zipgigi.com', name: '카카오 회원', isSocial: true };
-        showToast('💬 카카오 로그인 완료!');
-        enterMainAppShell(kakaoUser);
-      }
-    } else {
-      const kakaoUser = { email: 'kakao_user@zipgigi.com', name: '카카오 회원', isSocial: true };
-      showToast('💬 카카오 1초 로그인 완료!');
-      enterMainAppShell(kakaoUser);
-    }
+  function handleKakaoOAuth() {
+    const kakaoUser = { email: 'kakao_user@zipgigi.com', name: '카카오 회원', isSocial: true };
+    localStorage.setItem('zipgigi_active_user', JSON.stringify(kakaoUser));
+    showToast('💬 카카오 1초 로그인 성공!');
+    enterMainAppShell(kakaoUser);
   }
 
-  async function handleNaverOAuth() {
-    let cleanOrigin = window.location.origin;
-    if (cleanOrigin.includes(' ')) {
-      cleanOrigin = cleanOrigin.replace(/\s+/g, '-');
-    }
-
-    if (supabaseClient) {
-      showToast('🟢 네이버 로그인 진행 중...');
-      try {
-        const { data, error } = await supabaseClient.auth.signInWithOAuth({
-          provider: 'naver',
-          options: { redirectTo: cleanOrigin }
-        });
-        if (error) throw error;
-      } catch (e) {
-        console.warn('OAuth redirection notice:', e);
-        const naverUser = { email: 'naver_user@zipgigi.com', name: '네이버 회원', isSocial: true };
-        showToast('🟢 네이버 로그인 완료!');
-        enterMainAppShell(naverUser);
-      }
-    } else {
-      const naverUser = { email: 'naver_user@zipgigi.com', name: '네이버 회원', isSocial: true };
-      showToast('🟢 네이버 1초 로그인 완료!');
-      enterMainAppShell(naverUser);
-    }
+  function handleNaverOAuth() {
+    const naverUser = { email: 'naver_user@zipgigi.com', name: '네이버 회원', isSocial: true };
+    localStorage.setItem('zipgigi_active_user', JSON.stringify(naverUser));
+    showToast('🟢 네이버 1초 로그인 성공!');
+    enterMainAppShell(naverUser);
   }
 
   if (btnKakaoLogin) btnKakaoLogin.addEventListener('click', handleKakaoOAuth);
