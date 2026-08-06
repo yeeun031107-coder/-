@@ -11,6 +11,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet">
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Supabase JS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <!-- Stylesheet -->
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -58,6 +60,10 @@
             </div>
             
             <div class="header-actions">
+              <button class="btn-icon-action" id="btn-login-modal">
+                <i data-lucide="user"></i>
+                <span id="user-header-name">로그인</span>
+              </button>
               <button class="btn-icon-action" id="btn-tutorial-modal">
                 <i data-lucide="help-circle"></i>
                 <span>가이드</span>
@@ -304,7 +310,7 @@
 
             <div class="card-box chat-card">
               <div class="chat-header">
-                <img src="assets/bot_character.png" class="bot-avatar-img" alt="AI 캐릭터">
+                <img src="assets/bot_character.png" onerror="this.onerror=null; this.src='assets/bot_avatar.svg';" class="bot-avatar-img" alt="AI 캐릭터">
                 <div>
                   <h4>부동산 전문 AI 챗봇 집킴이</h4>
                 </div>
@@ -318,7 +324,7 @@
 
               <div class="chat-messages" id="chat-messages-box">
                 <div class="message bot">
-                  <img src="assets/bot_character.png" class="bot-avatar-img" alt="AI 캐릭터">
+                  <img src="assets/bot_character.png" onerror="this.onerror=null; this.src='assets/bot_avatar.svg';" class="bot-avatar-img" alt="AI 캐릭터">
                   <div class="message-bubble">
                     안녕하세요! 집피지기의 AI 챗봇 집킴이입니다! 어떤 것이 궁금하신가요?
                   </div>
@@ -338,16 +344,17 @@
           <!-- ========================================== -->
           <section class="tab-panel" id="tab-profile">
             <div class="panel-title-card">
-              <h2><i data-lucide="user"></i> 프로필</h2>
+              <h2><i data-lucide="user"></i> 프로필 & 개인 아카이브</h2>
             </div>
 
             <!-- Profile Card -->
             <div class="card-box">
-              <div class="profile-header-row">
+              <div class="profile-header-row" style="display:flex; justify-content:space-between; align-items:center;">
                 <div>
                   <h3 id="prof-disp-name">홍길동 님</h3>
                   <p class="prof-sub" id="prof-disp-details">만 26세 | 세대주 | 소득 3,200만원 | 직장인 (중소기업)</p>
                 </div>
+                <button class="btn-sm-outline" id="btn-prof-logout"><i data-lucide="log-out" style="width:12px;"></i> 로그아웃</button>
               </div>
             </div>
 
@@ -415,6 +422,60 @@
   </div>
 
 
+  <!-- MODAL: Auth & Social Login -->
+  <div class="modal-overlay hidden" id="modal-auth">
+    <div class="auth-modal-box">
+      <div class="tutorial-header">
+        <h4 style="font-size:0.95rem; font-weight:800; color:#0f172a;" id="auth-modal-title">🔐 개인 주거 아카이브 로그인</h4>
+        <button class="btn-close-tut" id="btn-close-auth" aria-label="닫기">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <div class="auth-tab-bar">
+        <button class="auth-tab-btn active" id="tab-auth-login">로그인</button>
+        <button class="auth-tab-btn" id="tab-auth-signup">회원가입</button>
+      </div>
+
+      <!-- Form -->
+      <form id="form-auth" onsubmit="return false;">
+        <div class="form-group">
+          <label for="auth-email">이메일 계정</label>
+          <input type="email" id="auth-email" placeholder="example@zipgigi.com" required>
+        </div>
+
+        <div class="form-group">
+          <label for="auth-password">비밀번호</label>
+          <input type="password" id="auth-password" placeholder="비밀번호 입력 (6자 이상)" required>
+        </div>
+
+        <div class="form-group hidden" id="group-auth-name">
+          <label for="auth-name">이름 (닉네임)</label>
+          <input type="text" id="auth-name" placeholder="홍길동">
+        </div>
+
+        <button type="submit" class="btn-primary full-width" id="btn-submit-auth" style="margin-top:8px;">
+          로그인하기
+        </button>
+      </form>
+
+      <!-- Social Login Section -->
+      <div class="social-divider">
+        <span>또는 소셜 계정으로 1초 시작</span>
+      </div>
+
+      <div class="social-btn-group">
+        <button class="btn-social kakao" id="btn-kakao-login">
+          💬 카카오로 1초 시작하기
+        </button>
+        <button class="btn-social naver" id="btn-naver-login">
+          🟢 네이버로 1초 시작하기
+        </button>
+      </div>
+    </div>
+  </div>
+
+
   <!-- MODAL: Intro & Tutorial Carousel -->
   <div class="modal-overlay tutorial-modal-overlay hidden" id="modal-tutorial">
     <div class="tutorial-card-box">
@@ -430,7 +491,7 @@
       <!-- Slide 1: Welcome with Character -->
       <div class="tut-slide active" data-tut-slide="1">
         <div class="tut-character-hero">
-          <img src="assets/bot_character.png" alt="집킴이 캐릭터" class="tut-char-img floating-bounce">
+          <img src="assets/bot_character.png" onerror="this.onerror=null; this.src='assets/bot_avatar.svg';" alt="집킴이 캐릭터" class="tut-char-img floating-bounce">
           <div class="tut-speech-bubble">
             "반가워요! 저는 집피지기의 수호 마스코트 <strong>집킴이</strong>예요!"
           </div>

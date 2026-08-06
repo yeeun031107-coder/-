@@ -1280,6 +1280,167 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 400);
   }
 
+  // --- SUPABASE CLOUD DATABASE CONFIGURATION ---
+  const SUPABASE_URL = 'https://jterkfiskoevvlvpavjc.supabase.co';
+  let SUPABASE_KEY = 'sb_publishable_Tsvkt8K4L4v-qOKNk2-fNQ_3EdYM';
+  let supabaseClient = null;
+
+  if (window.supabase && SUPABASE_URL) {
+    try {
+      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+      console.log('Supabase Cloud Database Client Initialized:', SUPABASE_URL);
+    } catch (e) {
+      console.warn('Supabase init warning:', e);
+    }
+  }
+
+  // --- AUTH & SOCIAL LOGIN ENGINE ---
+  const modalAuth = document.getElementById('modal-auth');
+  const btnLoginModal = document.getElementById('btn-login-modal');
+  const btnCloseAuth = document.getElementById('btn-close-auth');
+  const userHeaderName = document.getElementById('user-header-name');
+
+  const tabAuthLogin = document.getElementById('tab-auth-login');
+  const tabAuthSignup = document.getElementById('tab-auth-signup');
+  const formAuth = document.getElementById('form-auth');
+  const authEmail = document.getElementById('auth-email');
+  const authPassword = document.getElementById('auth-password');
+  const authName = document.getElementById('auth-name');
+  const groupAuthName = document.getElementById('group-auth-name');
+  const btnSubmitAuth = document.getElementById('btn-submit-auth');
+  const authModalTitle = document.getElementById('auth-modal-title');
+
+  const btnKakaoLogin = document.getElementById('btn-kakao-login');
+  const btnNaverLogin = document.getElementById('btn-naver-login');
+  const btnProfLogout = document.getElementById('btn-prof-logout');
+
+  let authMode = 'login'; // 'login' | 'signup'
+
+  function updateAuthHeaderUI() {
+    const currentUser = JSON.parse(localStorage.getItem('zipgigi_active_user') || 'null');
+    if (currentUser) {
+      state.user.name = currentUser.name || '사용자';
+      state.user.email = currentUser.email;
+      if (userHeaderName) userHeaderName.textContent = currentUser.name || '내 계정';
+    } else {
+      if (userHeaderName) userHeaderName.textContent = '로그인';
+    }
+  }
+
+  if (btnLoginModal && modalAuth) {
+    btnLoginModal.addEventListener('click', () => {
+      const currentUser = JSON.parse(localStorage.getItem('zipgigi_active_user') || 'null');
+      if (currentUser) {
+        if (confirm(`'${currentUser.name || currentUser.email}' 님으로 로그인되어 있습니다. 로그아웃하시겠습니까?`)) {
+          localStorage.removeItem('zipgigi_active_user');
+          updateAuthHeaderUI();
+          renderProfileView();
+          showToast('로그아웃되었습니다.');
+        }
+      } else {
+        modalAuth.classList.remove('hidden');
+      }
+    });
+  }
+
+  if (btnCloseAuth && modalAuth) {
+    btnCloseAuth.addEventListener('click', () => modalAuth.classList.add('hidden'));
+  }
+
+  if (tabAuthLogin && tabAuthSignup) {
+    tabAuthLogin.addEventListener('click', () => {
+      authMode = 'login';
+      tabAuthLogin.classList.add('active');
+      tabAuthSignup.classList.remove('active');
+      if (groupAuthName) groupAuthName.classList.add('hidden');
+      if (btnSubmitAuth) btnSubmitAuth.textContent = '로그인하기';
+      if (authModalTitle) authModalTitle.textContent = '🔐 개인 주거 아카이브 로그인';
+    });
+
+    tabAuthSignup.addEventListener('click', () => {
+      authMode = 'signup';
+      tabAuthSignup.classList.add('active');
+      tabAuthLogin.classList.remove('active');
+      if (groupAuthName) groupAuthName.classList.remove('hidden');
+      if (btnSubmitAuth) btnSubmitAuth.textContent = '회원가입 완료하기';
+      if (authModalTitle) authModalTitle.textContent = '📝 개인 주거 아카이브 회원가입';
+    });
+  }
+
+  if (formAuth) {
+    formAuth.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = authEmail?.value.trim();
+      const password = authPassword?.value.trim();
+      const name = authName?.value.trim() || email.split('@')[0];
+
+      if (!email || !password) {
+        showToast('이메일과 비밀번호를 입력해주세요.');
+        return;
+      }
+
+      const usersDB = getUsersDB();
+
+      if (authMode === 'signup') {
+        const exist = usersDB.find(u => u.email === email);
+        if (exist) {
+          showToast('이미 가입된 이메일 주소입니다.');
+          return;
+        }
+        const newUser = { email, password, name, age: 26, isHead: true, income: 3200, jobText: '직장인' };
+        usersDB.push(newUser);
+        saveUsersDB(usersDB);
+        localStorage.setItem('zipgigi_active_user', JSON.stringify(newUser));
+        showToast(`🎉 ${name} 님 회원가입이 완료되었습니다!`);
+      } else {
+        const user = usersDB.find(u => u.email === email && u.password === password);
+        if (!user) {
+          showToast('이메일 또는 비밀번호가 일치하지 않습니다.');
+          return;
+        }
+        localStorage.setItem('zipgigi_active_user', JSON.stringify(user));
+        showToast(`✨ ${user.name || name} 님 환영합니다!`);
+      }
+
+      if (modalAuth) modalAuth.classList.add('hidden');
+      updateAuthHeaderUI();
+      renderProfileView();
+    });
+  }
+
+  if (btnKakaoLogin) {
+    btnKakaoLogin.addEventListener('click', () => {
+      const kakaoUser = { email: 'kakao_user@zipgigi.com', name: '카카오 회원', isSocial: true };
+      localStorage.setItem('zipgigi_active_user', JSON.stringify(kakaoUser));
+      if (modalAuth) modalAuth.classList.add('hidden');
+      updateAuthHeaderUI();
+      renderProfileView();
+      showToast('💬 카카오 1초 소셜 로그인 성공!');
+    });
+  }
+
+  if (btnNaverLogin) {
+    btnNaverLogin.addEventListener('click', () => {
+      const naverUser = { email: 'naver_user@zipgigi.com', name: '네이버 회원', isSocial: true };
+      localStorage.setItem('zipgigi_active_user', JSON.stringify(naverUser));
+      if (modalAuth) modalAuth.classList.add('hidden');
+      updateAuthHeaderUI();
+      renderProfileView();
+      showToast('🟢 네이버 1초 소셜 로그인 성공!');
+    });
+  }
+
+  if (btnProfLogout) {
+    btnProfLogout.addEventListener('click', () => {
+      localStorage.removeItem('zipgigi_active_user');
+      updateAuthHeaderUI();
+      renderProfileView();
+      showToast('로그아웃되었습니다.');
+    });
+  }
+
+  updateAuthHeaderUI();
+
   // Initial renders
   renderRoadmapSteps('monthly');
   renderProfileView();
