@@ -1514,11 +1514,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const KAKAO_REST_API_KEY = '76e99ac4ae1e3065e089dc77f3a84494';
+  const KAKAO_REDIRECT_URI = 'https://jterkfiskoevvlvpavjc.supabase.co/auth/v1/callback';
 
   function handleKakaoOAuth() {
     showToast('💬 카카오 공식 로그인 화면으로 이동 중...');
-    let currentRedirectUri = window.location.origin.replace(/\/$/, '');
-    const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_REST_API_KEY}&redirect_uri=${encodeURIComponent(currentRedirectUri)}&response_type=code`;
+    const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_REST_API_KEY}&redirect_uri=${encodeURIComponent(KAKAO_REDIRECT_URI)}&response_type=code`;
     window.location.href = kakaoAuthUrl;
   }
 
