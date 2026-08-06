@@ -755,6 +755,31 @@ document.addEventListener('DOMContentLoaded', () => {
   const chatInput = document.getElementById('chat-input');
   const btnSendChat = document.getElementById('btn-send-chat');
 
+  function getLocalSmartAIReply(text) {
+    const msg = (text || '').toLowerCase();
+
+    if (msg.includes('전입신고') || msg.includes('확정일자') || msg.includes('대항력')) {
+      return `⏰ **전입신고와 확정일자 (보증금 사수 필수!)**\n\n1. **신청 시기**: 이사 당일 잔금을 치르자마자 즉시 주민센터 방문 또는 정부24 온라인 신청하세요.\n2. **대항력 시점**: 전입신고를 마치면 **다음 날 0시(자정)**부터 대항력이 생깁니다.\n3. **우선변제권**: 전입신고 + 확정일자를 받으면 경매 시 보증금을 후순위 빚보다 먼저 받습니다.\n4. **핵심 주의점**: 이사 익일까지 등기부에 새 근저당 대출이 들어오지 않는지 꼭 재열람하세요!`;
+    }
+    if (msg.includes('가계약금') || msg.includes('돌려받') || msg.includes('파기')) {
+      return `💡 **가계약금 반환 및 계약 취소 가이드**\n\n1. **기본 원칙**: 가계약 체결 시 "대출 미승인 시 가계약금 전액 반환" 특약을 사전에 구두/문자로 합의하지 않았다면 민법상 포기 처리될 수 있습니다.\n2. **대응법**: 가계약금 입금 전 반드시 중개사/집주인에게 **'대출 불승인 시 즉시 반환'** 문자를 주고받고 송금하세요.\n3. **집주인 귀책**: 당초 계약 조건(잔금일, 수리 등)을 집주인이 일방적으로 바꾸는 경우 반환을 강력히 요구할 수 있습니다.`;
+    }
+    if (msg.includes('근저당') || msg.includes('융자') || msg.includes('빚')) {
+      return `🛡️ **근저당(융자) 매물 안전 진단**\n\n1. **등기부 을구 확인**: 근저당 채권최고액(보통 대출금의 120%)을 확인하세요.\n2. **부채비율 공식**: (근저당 + 선순위보증금 + 내 보증금) ÷ 시세 ≦ 70% 이하여야 안전합니다.\n3. **필수 특약**: "임대인은 잔금 지급과 동시에 근저당 0,000만원을 상환 및 말소하며 감액 등기 접수증을 제출한다"를 계약서에 명시하세요.`;
+    }
+    if (msg.includes('특약') || msg.includes('거절') || msg.includes('대응')) {
+      return `🤝 **집주인 특약 거절 시 유연한 설득 스크립트**\n\n집주인이 "남들은 이런 거 안 넣는다"며 거절할 때는 이렇게 유연하게 말해보세요:\n\n💬 *"사장님! 집주인님을 못 믿어서가 아니라, 요즘 은행 청년 전세대출 심사가 까다로워져서 서류 절차상 필요한 필수 문구라고 합니다. 제 개인 변심으로 계약을 깨려는 것이 아니니 안심해 주세요!"*`;
+    }
+    if (msg.includes('버팀목') || msg.includes('대출') || msg.includes('디딤돌')) {
+      return `🏦 **청년 맞춤형 부동산 대출 안내**\n\n1. **청년 버팀목 전세**: 만 19~34세, 연소득 5천만원 이하, 보증금 80% 이내 (최대 1.5억원, 금리 연 1.8%~2.7%)\n2. **주거안정 월세대출**: 연소득 5천만원 이하, 월 최대 40만원 지원 (금리 1.3%~1.8%)\n3. 프로필 탭의 **'대출 진단기'**에서 나의 정확한 자격과 추천 상품을 즉시 확인해보세요!`;
+    }
+    if (msg.includes('수리') || msg.includes('곰팡이') || msg.includes('하수구') || msg.includes('고장')) {
+      return `🔧 **집 시설물 하자 및 수리 책임 기준**\n\n1. **집주인 책임**: 보일러 고장, 누수, 창틀 결로 곰팡이, 천장 수압 문제 등 기본 주거 유지 하자는 집주인이 비용을 부담합니다.\n2. **세입자 책임**: 전구 교체, 단순 하수구 막힘, 세입자 부주의 파손 등 소모성/부주의 하자는 세입자가 부담합니다.\n3. **계약 팁**: 입주 당일 고장/하자 부위를 사진 및 동영상으로 촬영하여 집주인에게 문자로 남겨두세요!`;
+    }
+
+    return `🤖 **집피지기 AI 수호 집킴이의 답변**\n\n질문하신 **'${text}'**에 대해 안내해 드립니다!\n\n• 전월세 및 매매 계약 관련 모든 궁금증(전입신고, 확정일자, 가계약금, 특약, 근저당 등)을 물어봐 주세요.\n• 보증금을 지키는 필수 안전 수칙과 집주인 특약 협상 스크립트를 언제든 답변해 드립니다!`;
+  }
+
   async function sendChatMessage(msgText) {
     if (!chatInput) return;
     const text = msgText || chatInput.value.trim();
@@ -770,9 +795,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const bLoading = document.createElement('div');
     bLoading.className = 'message bot';
-    bLoading.innerHTML = `<img src="assets/bot_character.png" class="bot-avatar-img" alt="AI 캐릭터"><div class="message-bubble" style="font-style:italic;">Gemini AI 답변 작성 중...</div>`;
+    bLoading.innerHTML = `<img src="assets/bot_character.png" onerror="this.onerror=null; this.src='assets/bot_avatar.svg';" class="bot-avatar-img" alt="AI 캐릭터"><div class="message-bubble" style="font-style:italic;">집킴이가 답변을 생성 중입니다...</div>`;
     if (chatMessagesBox) chatMessagesBox.appendChild(bLoading);
     if (chatMessagesBox) chatMessagesBox.scrollTop = chatMessagesBox.scrollHeight;
+
+    let replyText = '';
 
     try {
       const res = await fetch('/api/chat-gemini', {
@@ -780,17 +807,29 @@ document.addEventListener('DOMContentLoaded', () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: text })
       });
-      const data = await res.json();
-      if (chatMessagesBox) chatMessagesBox.removeChild(bLoading);
-
-      const bMsg = document.createElement('div');
-      bMsg.className = 'message bot';
-      bMsg.innerHTML = `<img src="assets/bot_character.png" class="bot-avatar-img" alt="AI 캐릭터"><div class="message-bubble">${data.reply.replace(/\n/g, '<br>')}</div>`;
-      if (chatMessagesBox) chatMessagesBox.appendChild(bMsg);
-      if (chatMessagesBox) chatMessagesBox.scrollTop = chatMessagesBox.scrollHeight;
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.reply) {
+          replyText = data.reply;
+        }
+      }
     } catch (e) {
-      if (chatMessagesBox) chatMessagesBox.removeChild(bLoading);
+      console.warn('API route call error, falling back to local AI engine:', e);
     }
+
+    if (!replyText) {
+      replyText = getLocalSmartAIReply(text);
+    }
+
+    if (chatMessagesBox && chatMessagesBox.contains(bLoading)) {
+      chatMessagesBox.removeChild(bLoading);
+    }
+
+    const bMsg = document.createElement('div');
+    bMsg.className = 'message bot';
+    bMsg.innerHTML = `<img src="assets/bot_character.png" onerror="this.onerror=null; this.src='assets/bot_avatar.svg';" class="bot-avatar-img" alt="AI 캐릭터"><div class="message-bubble">${replyText.replace(/\n/g, '<br>')}</div>`;
+    if (chatMessagesBox) chatMessagesBox.appendChild(bMsg);
+    if (chatMessagesBox) chatMessagesBox.scrollTop = chatMessagesBox.scrollHeight;
   }
 
   if (btnSendChat) btnSendChat.addEventListener('click', () => sendChatMessage());
