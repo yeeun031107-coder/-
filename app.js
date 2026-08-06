@@ -1513,11 +1513,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  const KAKAO_REST_API_KEY = '76e99ac4ae1e3065e089dc77f3a84494';
+
   function handleKakaoOAuth() {
-    const kakaoUser = { email: 'kakao_user@zipgigi.com', name: '카카오 회원', isSocial: true };
-    localStorage.setItem('zipgigi_active_user', JSON.stringify(kakaoUser));
-    showToast('💬 카카오 1초 로그인 성공!');
-    enterMainAppShell(kakaoUser);
+    showToast('💬 카카오 공식 로그인 화면으로 이동 중...');
+    const currentRedirectUri = window.location.href.split('?')[0].split('#')[0];
+    const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_REST_API_KEY}&redirect_uri=${encodeURIComponent(currentRedirectUri)}&response_type=code`;
+    window.location.href = kakaoAuthUrl;
   }
 
   function handleNaverOAuth() {
@@ -1538,6 +1540,17 @@ document.addEventListener('DOMContentLoaded', () => {
       showToast('🚀 게스트 모드로 서비스를 둘러봅니다.');
       enterMainAppShell(null);
     });
+  }
+
+  // Parse Kakao OAuth callback authorization code if redirected back from Kakao
+  const urlParams = new URLSearchParams(window.location.search);
+  const kakaoAuthCode = urlParams.get('code');
+  if (kakaoAuthCode) {
+    window.history.replaceState({}, document.title, window.location.pathname);
+    const kakaoUser = { email: 'kakao_user@zipgigi.com', name: '카카오 회원', isSocial: true };
+    localStorage.setItem('zipgigi_active_user', JSON.stringify(kakaoUser));
+    showToast('🎉 카카오 공식 계정 로그인 성공!');
+    enterMainAppShell(kakaoUser);
   }
 
   if (btnProfLogout) {
