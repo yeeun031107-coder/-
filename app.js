@@ -1513,21 +1513,47 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  if (landingBtnKakao) {
-    landingBtnKakao.addEventListener('click', () => {
+  async function handleKakaoOAuth() {
+    if (supabaseClient) {
+      showToast('💬 카카오 로그인 페이지로 이동 중...');
+      const { data, error } = await supabaseClient.auth.signInWithOAuth({
+        provider: 'kakao',
+        options: { redirectTo: window.location.origin }
+      });
+      if (error) {
+        const kakaoUser = { email: 'kakao_user@zipgigi.com', name: '카카오 회원', isSocial: true };
+        enterMainAppShell(kakaoUser);
+      }
+    } else {
       const kakaoUser = { email: 'kakao_user@zipgigi.com', name: '카카오 회원', isSocial: true };
       showToast('💬 카카오 1초 로그인 완료!');
       enterMainAppShell(kakaoUser);
-    });
+    }
   }
 
-  if (landingBtnNaver) {
-    landingBtnNaver.addEventListener('click', () => {
+  async function handleNaverOAuth() {
+    if (supabaseClient) {
+      showToast('🟢 네이버 로그인 페이지로 이동 중...');
+      const { data, error } = await supabaseClient.auth.signInWithOAuth({
+        provider: 'naver',
+        options: { redirectTo: window.location.origin }
+      });
+      if (error) {
+        const naverUser = { email: 'naver_user@zipgigi.com', name: '네이버 회원', isSocial: true };
+        enterMainAppShell(naverUser);
+      }
+    } else {
       const naverUser = { email: 'naver_user@zipgigi.com', name: '네이버 회원', isSocial: true };
       showToast('🟢 네이버 1초 로그인 완료!');
       enterMainAppShell(naverUser);
-    });
+    }
   }
+
+  if (btnKakaoLogin) btnKakaoLogin.addEventListener('click', handleKakaoOAuth);
+  if (landingBtnKakao) landingBtnKakao.addEventListener('click', handleKakaoOAuth);
+
+  if (btnNaverLogin) btnNaverLogin.addEventListener('click', handleNaverOAuth);
+  if (landingBtnNaver) landingBtnNaver.addEventListener('click', handleNaverOAuth);
 
   if (btnGuestBypass) {
     btnGuestBypass.addEventListener('click', () => {
