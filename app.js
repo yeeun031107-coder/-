@@ -1430,16 +1430,135 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // --- ONBOARDING AUTH LANDING SCREEN ENGINE ---
+  const authLandingScreen = document.getElementById('auth-landing-screen');
+  const mainAppShell = document.getElementById('main-app-shell');
+
+  const landingTabLogin = document.getElementById('landing-tab-login');
+  const landingTabSignup = document.getElementById('landing-tab-signup');
+  const landingFormAuth = document.getElementById('landing-form-auth');
+  const landingAuthEmail = document.getElementById('landing-auth-email');
+  const landingAuthPassword = document.getElementById('landing-auth-password');
+  const landingAuthName = document.getElementById('landing-auth-name');
+  const landingGroupName = document.getElementById('landing-group-name');
+  const landingBtnSubmit = document.getElementById('landing-btn-submit');
+  const landingBtnKakao = document.getElementById('landing-btn-kakao');
+  const landingBtnNaver = document.getElementById('landing-btn-naver');
+  const btnGuestBypass = document.getElementById('btn-guest-bypass');
+
+  let landingAuthMode = 'login';
+
+  function enterMainAppShell(user) {
+    if (user) {
+      localStorage.setItem('zipgigi_active_user', JSON.stringify(user));
+    }
+    if (authLandingScreen) authLandingScreen.classList.add('hidden');
+    if (mainAppShell) mainAppShell.classList.remove('hidden');
+    updateAuthHeaderUI();
+    renderProfileView();
+  }
+
+  if (landingTabLogin && landingTabSignup) {
+    landingTabLogin.addEventListener('click', () => {
+      landingAuthMode = 'login';
+      landingTabLogin.classList.add('active');
+      landingTabSignup.classList.remove('active');
+      if (landingGroupName) landingGroupName.classList.add('hidden');
+      if (landingBtnSubmit) landingBtnSubmit.textContent = '로그인하고 시작하기 🚀';
+    });
+
+    landingTabSignup.addEventListener('click', () => {
+      landingAuthMode = 'signup';
+      landingTabSignup.classList.add('active');
+      landingTabLogin.classList.remove('active');
+      if (landingGroupName) landingGroupName.classList.remove('hidden');
+      if (landingBtnSubmit) landingBtnSubmit.textContent = '회원가입 완료하고 시작하기 🚀';
+    });
+  }
+
+  if (landingFormAuth) {
+    landingFormAuth.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = landingAuthEmail?.value.trim();
+      const password = landingAuthPassword?.value.trim();
+      const name = landingAuthName?.value.trim() || email.split('@')[0];
+
+      if (!email || !password) {
+        showToast('이메일과 비밀번호를 입력해주세요.');
+        return;
+      }
+
+      const usersDB = getUsersDB();
+
+      if (landingAuthMode === 'signup') {
+        const exist = usersDB.find(u => u.email === email);
+        if (exist) {
+          showToast('이미 가입된 이메일 주소입니다.');
+          return;
+        }
+        const newUser = { email, password, name, age: 26, isHead: true, income: 3200, jobText: '직장인' };
+        usersDB.push(newUser);
+        saveUsersDB(usersDB);
+        showToast(`🎉 ${name} 님 회원가입 완료! 서비스로 진입합니다.`);
+        enterMainAppShell(newUser);
+      } else {
+        const user = usersDB.find(u => u.email === email && u.password === password);
+        if (!user) {
+          showToast('이메일 또는 비밀번호가 일치하지 않습니다.');
+          return;
+        }
+        showToast(`✨ ${user.name || name} 님 환영합니다!`);
+        enterMainAppShell(user);
+      }
+    });
+  }
+
+  if (landingBtnKakao) {
+    landingBtnKakao.addEventListener('click', () => {
+      const kakaoUser = { email: 'kakao_user@zipgigi.com', name: '카카오 회원', isSocial: true };
+      showToast('💬 카카오 1초 로그인 완료!');
+      enterMainAppShell(kakaoUser);
+    });
+  }
+
+  if (landingBtnNaver) {
+    landingBtnNaver.addEventListener('click', () => {
+      const naverUser = { email: 'naver_user@zipgigi.com', name: '네이버 회원', isSocial: true };
+      showToast('🟢 네이버 1초 로그인 완료!');
+      enterMainAppShell(naverUser);
+    });
+  }
+
+  if (btnGuestBypass) {
+    btnGuestBypass.addEventListener('click', () => {
+      showToast('🚀 게스트 모드로 서비스를 둘러봅니다.');
+      enterMainAppShell(null);
+    });
+  }
+
   if (btnProfLogout) {
     btnProfLogout.addEventListener('click', () => {
       localStorage.removeItem('zipgigi_active_user');
-      updateAuthHeaderUI();
-      renderProfileView();
+      if (mainAppShell) mainAppShell.classList.add('hidden');
+      if (authLandingScreen) authLandingScreen.classList.remove('hidden');
+      showToast('로그아웃되어 인트로 로그인 화면으로 이동합니다.');
+    });
+  }
+
+  if (btnLoginModal) {
+    btnLoginModal.addEventListener('click', () => {
+      localStorage.removeItem('zipgigi_active_user');
+      if (mainAppShell) mainAppShell.classList.add('hidden');
+      if (authLandingScreen) authLandingScreen.classList.remove('hidden');
       showToast('로그아웃되었습니다.');
     });
   }
 
-  updateAuthHeaderUI();
+  // Check if active session exists
+  const activeSession = JSON.parse(localStorage.getItem('zipgigi_active_user') || 'null');
+  if (activeSession) {
+    enterMainAppShell(activeSession);
+  }
 
   // Initial renders
   renderRoadmapSteps('monthly');

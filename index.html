@@ -22,9 +22,98 @@
     <div class="mobile-frame-container">
 
       <!-- ========================================== -->
-      <!-- MAIN APP SHELL                             -->
+      <!-- [SCREEN 1] AUTH LANDING SCREEN (BEFORE APP) -->
       <!-- ========================================== -->
-      <div class="main-app-shell" id="main-app-shell">
+      <div class="auth-landing-screen" id="auth-landing-screen">
+        <div class="auth-landing-content">
+          <!-- Brand Logo Hero -->
+          <div class="auth-brand-hero">
+            <svg width="48" height="50" viewBox="0 0 429 452" fill="none" xmlns="http://www.w3.org/2000/svg" class="brand-logo-img">
+              <path d="M220.834 30.4999L5.0003 198H66.667V421.333H220.834V337.583C140.667 337.583 140.667 253.833 220.834 253.833V198C301 198 301 114.25 220.834 114.25V30.4999Z" fill="url(#paint0_linear_3_29)" stroke="url(#paint1_linear_3_29)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M182.959 27.0755C172.155 58.2848 146.835 110.826 182.959 110.826C263.125 110.826 263.125 216.351 182.959 216.351C168.268 216.351 197.649 250.409 182.959 250.409C102.792 250.409 102.792 334.159 182.959 334.159C219.082 334.159 164.373 389.863 182.959 417.909C213.934 464.651 286.071 446.799 337.125 417.909C418.812 371.684 243.672 215.729 337.125 194.576C360.489 189.287 375.046 198.209 398.792 194.576C508.254 177.825 216.161 -68.8363 182.959 27.0755Z" fill="url(#paint2_linear_3_29)" stroke="url(#paint3_linear_3_29)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+              <defs>
+              <linearGradient id="paint0_linear_3_29" x1="5.0003" y1="30.4999" x2="373.302" y2="290.549" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#777777"/>
+              <stop offset="1" stop-color="#222222"/>
+              </linearGradient>
+              <linearGradient id="paint1_linear_3_29" x1="5.0003" y1="30.4999" x2="373.302" y2="290.549" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#777777"/>
+              <stop offset="1" stop-color="#222222"/>
+              </linearGradient>
+              <linearGradient id="paint2_linear_3_29" x1="122.834" y1="27.0755" x2="491.135" y2="287.125" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#66FF88"/>
+              <stop offset="1" stop-color="#00BA2F"/>
+              </linearGradient>
+              <linearGradient id="paint3_linear_3_29" x1="122.834" y1="27.0755" x2="491.135" y2="287.125" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#66FF88"/>
+              <stop offset="1" stop-color="#00BA2F"/>
+              </linearGradient>
+              </defs>
+            </svg>
+            <h1 class="auth-brand-title">집피지기</h1>
+            <p class="auth-brand-sub">2030 부동산 안심 계약 & 주거 아카이빙</p>
+          </div>
+
+          <!-- Character Hero -->
+          <div class="auth-char-hero">
+            <img src="assets/bot_character.png" onerror="this.onerror=null; this.src='assets/bot_avatar.svg';" alt="집킴이" class="auth-char-img floating-bounce">
+            <div class="auth-speech-bubble">"반가워요! 안전한 집 구하기, 집피지기와 시작하세요!"</div>
+          </div>
+
+          <!-- Auth Tab Bar -->
+          <div class="auth-tab-bar">
+            <button class="auth-tab-btn active" id="landing-tab-login">로그인</button>
+            <button class="auth-tab-btn" id="landing-tab-signup">회원가입</button>
+          </div>
+
+          <!-- Form -->
+          <form id="landing-form-auth" onsubmit="return false;">
+            <div class="form-group">
+              <label for="landing-auth-email">이메일 계정</label>
+              <input type="email" id="landing-auth-email" placeholder="example@zipgigi.com" required>
+            </div>
+            <div class="form-group">
+              <label for="landing-auth-password">비밀번호</label>
+              <input type="password" id="landing-auth-password" placeholder="비밀번호 (6자 이상)" required>
+            </div>
+            <div class="form-group hidden" id="landing-group-name">
+              <label for="landing-auth-name">이름 (닉네임)</label>
+              <input type="text" id="landing-auth-name" placeholder="홍길동">
+            </div>
+
+            <button type="submit" class="btn-primary full-width" id="landing-btn-submit" style="margin-top:6px; padding:12px;">
+              로그인하고 시작하기 🚀
+            </button>
+          </form>
+
+          <!-- Social Divider -->
+          <div class="social-divider">
+            <span>또는 소셜 계정으로 1초 시작</span>
+          </div>
+
+          <div class="social-btn-group">
+            <button class="btn-social kakao" id="landing-btn-kakao">
+              💬 카카오로 1초 시작하기
+            </button>
+            <button class="btn-social naver" id="landing-btn-naver">
+              🟢 네이버로 1초 시작하기
+            </button>
+          </div>
+
+          <!-- Guest Bypass Button -->
+          <div style="text-align:center; margin-top:14px;">
+            <button class="btn-guest-bypass" id="btn-guest-bypass">
+              로그인 없이 둘러보기 ➔
+            </button>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ========================================== -->
+      <!-- [SCREEN 2] MAIN APP SHELL (HIDDEN INITIALLY)-->
+      <!-- ========================================== -->
+      <div class="main-app-shell hidden" id="main-app-shell">
         
         <!-- App Header -->
         <header class="app-header">
@@ -62,7 +151,7 @@
             <div class="header-actions">
               <button class="btn-icon-action" id="btn-login-modal">
                 <i data-lucide="user"></i>
-                <span id="user-header-name">로그인</span>
+                <span id="user-header-name">로그아웃</span>
               </button>
               <button class="btn-icon-action" id="btn-tutorial-modal">
                 <i data-lucide="help-circle"></i>
@@ -418,60 +507,6 @@
 
       </div> <!-- END MAIN APP SHELL -->
 
-    </div>
-  </div>
-
-
-  <!-- MODAL: Auth & Social Login -->
-  <div class="modal-overlay hidden" id="modal-auth">
-    <div class="auth-modal-box">
-      <div class="tutorial-header">
-        <h4 style="font-size:0.95rem; font-weight:800; color:#0f172a;" id="auth-modal-title">🔐 개인 주거 아카이브 로그인</h4>
-        <button class="btn-close-tut" id="btn-close-auth" aria-label="닫기">
-          <i data-lucide="x"></i>
-        </button>
-      </div>
-
-      <div class="auth-tab-bar">
-        <button class="auth-tab-btn active" id="tab-auth-login">로그인</button>
-        <button class="auth-tab-btn" id="tab-auth-signup">회원가입</button>
-      </div>
-
-      <!-- Form -->
-      <form id="form-auth" onsubmit="return false;">
-        <div class="form-group">
-          <label for="auth-email">이메일 계정</label>
-          <input type="email" id="auth-email" placeholder="example@zipgigi.com" required>
-        </div>
-
-        <div class="form-group">
-          <label for="auth-password">비밀번호</label>
-          <input type="password" id="auth-password" placeholder="비밀번호 입력 (6자 이상)" required>
-        </div>
-
-        <div class="form-group hidden" id="group-auth-name">
-          <label for="auth-name">이름 (닉네임)</label>
-          <input type="text" id="auth-name" placeholder="홍길동">
-        </div>
-
-        <button type="submit" class="btn-primary full-width" id="btn-submit-auth" style="margin-top:8px;">
-          로그인하기
-        </button>
-      </form>
-
-      <!-- Social Login Section -->
-      <div class="social-divider">
-        <span>또는 소셜 계정으로 1초 시작</span>
-      </div>
-
-      <div class="social-btn-group">
-        <button class="btn-social kakao" id="btn-kakao-login">
-          💬 카카오로 1초 시작하기
-        </button>
-        <button class="btn-social naver" id="btn-naver-login">
-          🟢 네이버로 1초 시작하기
-        </button>
-      </div>
     </div>
   </div>
 
