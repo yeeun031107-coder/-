@@ -1517,7 +1517,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function handleKakaoOAuth() {
     showToast('💬 카카오 공식 로그인 화면으로 이동 중...');
-    const currentRedirectUri = window.location.href.split('?')[0].split('#')[0];
+    let currentRedirectUri = window.location.origin.replace(/\/$/, '');
     const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_REST_API_KEY}&redirect_uri=${encodeURIComponent(currentRedirectUri)}&response_type=code`;
     window.location.href = kakaoAuthUrl;
   }
