@@ -1524,49 +1524,49 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function handleKakaoOAuth() {
+  function handleKakaoOAuth(e) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     showToast('💬 카카오 로그인 진행 중...');
-    if (window.Kakao && window.Kakao.Auth) {
-      window.Kakao.Auth.login({
-        success: function(authObj) {
-          if (window.Kakao.API) {
-            window.Kakao.API.request({
-              url: '/v2/user/me',
-              success: function(res) {
-                const nickname = res.properties?.nickname || res.kakao_account?.profile?.nickname || '카카오 회원';
-                const email = res.kakao_account?.email || 'kakao_user@zipgigi.com';
-                const kakaoUser = { email, name: nickname, isSocial: true };
-                localStorage.setItem('zipgigi_active_user', JSON.stringify(kakaoUser));
-                showToast(`🎉 ${nickname} 님 카카오 1초 로그인 성공!`);
-                enterMainAppShell(kakaoUser);
-              },
-              fail: function() {
-                const kakaoUser = { email: 'kakao_user@zipgigi.com', name: '카카오 회원', isSocial: true };
-                localStorage.setItem('zipgigi_active_user', JSON.stringify(kakaoUser));
-                showToast('💬 카카오 1초 소셜 로그인 성공!');
-                enterMainAppShell(kakaoUser);
-              }
-            });
-          } else {
-            const kakaoUser = { email: 'kakao_user@zipgigi.com', name: '카카오 회원', isSocial: true };
-            localStorage.setItem('zipgigi_active_user', JSON.stringify(kakaoUser));
-            showToast('💬 카카오 1초 소셜 로그인 성공!');
-            enterMainAppShell(kakaoUser);
-          }
-        },
-        fail: function(err) {
-          console.warn('Kakao popup fallback:', err);
-          const kakaoUser = { email: 'kakao_user@zipgigi.com', name: '카카오 회원', isSocial: true };
-          localStorage.setItem('zipgigi_active_user', JSON.stringify(kakaoUser));
-          showToast('💬 카카오 1초 소셜 로그인 성공!');
-          enterMainAppShell(kakaoUser);
-        }
-      });
-    } else {
+
+    function performFallback() {
       const kakaoUser = { email: 'kakao_user@zipgigi.com', name: '카카오 회원', isSocial: true };
       localStorage.setItem('zipgigi_active_user', JSON.stringify(kakaoUser));
       showToast('💬 카카오 1초 소셜 로그인 성공!');
       enterMainAppShell(kakaoUser);
+    }
+
+    if (window.Kakao && window.Kakao.Auth) {
+      try {
+        window.Kakao.Auth.login({
+          success: function(authObj) {
+            if (window.Kakao.API) {
+              window.Kakao.API.request({
+                url: '/v2/user/me',
+                success: function(res) {
+                  const nickname = res.properties?.nickname || res.kakao_account?.profile?.nickname || '카카오 회원';
+                  const email = res.kakao_account?.email || 'kakao_user@zipgigi.com';
+                  const kakaoUser = { email, name: nickname, isSocial: true };
+                  localStorage.setItem('zipgigi_active_user', JSON.stringify(kakaoUser));
+                  showToast(`🎉 ${nickname} 님 카카오 1초 로그인 성공!`);
+                  enterMainAppShell(kakaoUser);
+                },
+                fail: performFallback
+              });
+            } else {
+              performFallback();
+            }
+          },
+          fail: performFallback
+        });
+      } catch (err) {
+        console.warn('Kakao Auth exception:', err);
+        performFallback();
+      }
+    } else {
+      performFallback();
     }
   }
 
