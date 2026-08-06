@@ -1516,9 +1516,10 @@ document.addEventListener('DOMContentLoaded', () => {
   async function handleKakaoOAuth() {
     if (supabaseClient) {
       showToast('💬 카카오 로그인 페이지로 이동 중...');
+      const targetRedirect = window.location.href.split('?')[0];
       const { data, error } = await supabaseClient.auth.signInWithOAuth({
         provider: 'kakao',
-        options: { redirectTo: window.location.origin }
+        options: { redirectTo: targetRedirect }
       });
       if (error) {
         const kakaoUser = { email: 'kakao_user@zipgigi.com', name: '카카오 회원', isSocial: true };
@@ -1534,9 +1535,10 @@ document.addEventListener('DOMContentLoaded', () => {
   async function handleNaverOAuth() {
     if (supabaseClient) {
       showToast('🟢 네이버 로그인 페이지로 이동 중...');
+      const targetRedirect = window.location.href.split('?')[0];
       const { data, error } = await supabaseClient.auth.signInWithOAuth({
         provider: 'naver',
-        options: { redirectTo: window.location.origin }
+        options: { redirectTo: targetRedirect }
       });
       if (error) {
         const naverUser = { email: 'naver_user@zipgigi.com', name: '네이버 회원', isSocial: true };
