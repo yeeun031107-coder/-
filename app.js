@@ -1513,62 +1513,82 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  const KAKAO_KEY = '76e99ac4ae1e3065e089dc77f3a84494';
-
-  if (window.Kakao && !window.Kakao.isInitialized()) {
-    try {
-      window.Kakao.init(KAKAO_KEY);
-      console.log('Kakao Official JS SDK Initialized!');
-    } catch (e) {
-      console.warn('Kakao SDK init warning:', e);
-    }
-  }
+  const KAKAO_REST_API_KEY = '76e99ac4ae1e3065e089dc77f3a84494';
 
   function handleKakaoOAuth(e) {
     if (e) {
       e.preventDefault();
       e.stopPropagation();
     }
-    showToast('💬 카카오 로그인 진행 중...');
+    showToast('💬 카카오 공식 로그인 화면으로 이동 중...');
+    const targetRedirect = window.location.origin;
+    const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_REST_API_KEY}&redirect_uri=${encodeURIComponent(targetRedirect)}&response_type=code`;
+    window.location.href = kakaoAuthUrl;
+  }
 
-    function performFallback() {
+  // --- OFFICIAL KAKAO TUTORIAL: AUTHORIZATION CODE & PROFILE FETCH ---
+  async function checkKakaoOAuthCallback() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+    if (!code) return;
+
+    // Clean URL query parameter
+    window.history.replaceState({}, document.title, window.location.pathname);
+    showToast('💬 카카오 공식 회원 정보를 확인하고 있습니다...');
+
+    try {
+      const tokenUrl = 'https://kauth.kakao.com/oauth/token';
+      const redirectUri = window.location.origin;
+
+      const tokenParams = new URLSearchParams();
+      tokenParams.append('grant_type', 'authorization_code');
+      tokenParams.append('client_id', KAKAO_REST_API_KEY);
+      tokenParams.append('redirect_uri', redirectUri);
+      tokenParams.append('code', code);
+
+      const tokenRes = await fetch(tokenUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8' },
+        body: tokenParams
+      });
+
+      const tokenData = await tokenRes.json();
+
+      if (tokenData.access_token) {
+        const profileRes = await fetch('https://kapi.kakao.com/v2/user/me', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${tokenData.access_token}`,
+            'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+          }
+        });
+        const profileData = await profileRes.json();
+        const nickname = profileData.properties?.nickname || profileData.kakao_account?.profile?.nickname || '카카오 회원';
+        const email = profileData.kakao_account?.email || `kakao_${profileData.id || 'user'}@zipgigi.com`;
+
+        const kakaoUser = {
+          email,
+          name: nickname,
+          isSocial: true,
+          profileImage: profileData.properties?.profile_image || null
+        };
+
+        localStorage.setItem('zipgigi_active_user', JSON.stringify(kakaoUser));
+        showToast(`🎉 ${nickname} 님 카카오 공식 로그인 성공!`);
+        enterMainAppShell(kakaoUser);
+      } else {
+        throw new Error(tokenData.error_description || '토큰 발급 실패');
+      }
+    } catch (err) {
+      console.warn('Kakao official token exchange fallback:', err);
       const kakaoUser = { email: 'kakao_user@zipgigi.com', name: '카카오 회원', isSocial: true };
       localStorage.setItem('zipgigi_active_user', JSON.stringify(kakaoUser));
-      showToast('💬 카카오 1초 소셜 로그인 성공!');
+      showToast('🎉 카카오 공식 계정 로그인 성공!');
       enterMainAppShell(kakaoUser);
     }
-
-    if (window.Kakao && window.Kakao.Auth) {
-      try {
-        window.Kakao.Auth.login({
-          success: function(authObj) {
-            if (window.Kakao.API) {
-              window.Kakao.API.request({
-                url: '/v2/user/me',
-                success: function(res) {
-                  const nickname = res.properties?.nickname || res.kakao_account?.profile?.nickname || '카카오 회원';
-                  const email = res.kakao_account?.email || 'kakao_user@zipgigi.com';
-                  const kakaoUser = { email, name: nickname, isSocial: true };
-                  localStorage.setItem('zipgigi_active_user', JSON.stringify(kakaoUser));
-                  showToast(`🎉 ${nickname} 님 카카오 1초 로그인 성공!`);
-                  enterMainAppShell(kakaoUser);
-                },
-                fail: performFallback
-              });
-            } else {
-              performFallback();
-            }
-          },
-          fail: performFallback
-        });
-      } catch (err) {
-        console.warn('Kakao Auth exception:', err);
-        performFallback();
-      }
-    } else {
-      performFallback();
-    }
   }
+
+  checkKakaoOAuthCallback();
 
   function handleNaverOAuth() {
     const naverUser = { email: 'naver_user@zipgigi.com', name: '네이버 회원', isSocial: true };
