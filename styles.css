@@ -1050,34 +1050,15 @@ input:focus::placeholder, textarea:focus::placeholder {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
   background: #ffffff;
-  z-index: 99999 !important;
+  z-index: 1000;
   display: flex;
   flex-direction: column;
   padding: 24px 20px;
   overflow-y: auto;
-  pointer-events: auto !important;
 }
 .auth-landing-screen.hidden {
   display: none !important;
   pointer-events: none !important;
-  z-index: -1 !important;
-}
-
-.auth-landing-screen *,
-.auth-landing-screen button,
-.auth-landing-screen input,
-.auth-landing-screen form {
-  pointer-events: auto !important;
-}
-
-.auth-landing-screen button,
-.btn-social,
-.btn-primary,
-.auth-tab-btn,
-.btn-guest-bypass {
-  position: relative !important;
-  z-index: 100000 !important;
-  cursor: pointer !important;
 }
 
 .auth-brand-hero {

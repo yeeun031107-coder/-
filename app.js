@@ -1437,14 +1437,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Auto-show tutorial on first landing
-  if (!localStorage.getItem('zipgigi_tutorial_seen') && modalTutorial) {
-    setTimeout(() => {
-      updateTutorialSlide(1);
-      modalTutorial.classList.remove('hidden');
-    }, 400);
-  }
-
   // --- SUPABASE CLOUD DATABASE CONFIGURATION ---
   const SUPABASE_URL = 'https://jterkfiskoevvlvpavjc.supabase.co';
   let SUPABASE_KEY = 'sb_publishable_Tsvkt8K4L4v-qOKNk2-fNQ_3EdYM';
