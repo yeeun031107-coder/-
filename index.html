@@ -15,6 +15,8 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <!-- Kakao Official JS SDK -->
   <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"></script>
+  <!-- Kakao Maps API SDK with Services library -->
+  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5b36f6f5de28975f68495ea0b6b8363a&libraries=services"></script>
   <!-- Stylesheet -->
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -157,7 +159,13 @@
 
               <div class="form-group">
                 <label for="input-address">매물 주소</label>
-                <input type="text" id="input-address" value="서울시 마포구 신수동 원룸 302호">
+                <div style="display:flex; gap:6px;">
+                  <input type="text" id="input-address" value="서울시 마포구 신수동 원룸 302호" style="flex:1;">
+                  <button type="button" class="btn-sm-outline" id="btn-search-map-safety" style="white-space:nowrap; background:#f0fdf4; border-color:#bbf7d0; color:#15803d; font-size:0.75rem; padding:0 10px;">
+                    🗺️ 지도 확인
+                  </button>
+                </div>
+                <div id="safety-map-container" class="map-preview-box hidden" style="width:100%; height:180px; border-radius:12px; margin-top:8px; border:1px solid #cbd5e1; overflow:hidden;"></div>
               </div>
 
               <div class="form-row-2">
@@ -311,7 +319,13 @@
 
                 <div class="form-group">
                   <label for="prop-address">매물 주소</label>
-                  <input type="text" id="prop-address" placeholder="예: 서울시 마포구 신수동 100-1">
+                  <div style="display:flex; gap:6px;">
+                    <input type="text" id="prop-address" placeholder="예: 서울시 마포구 신수동 100-1" style="flex:1;">
+                    <button type="button" class="btn-sm-outline" id="btn-search-map-property" style="white-space:nowrap; background:#f0fdf4; border-color:#bbf7d0; color:#15803d; font-size:0.75rem; padding:0 10px;">
+                      🗺️ 카카오맵 지도 보기
+                    </button>
+                  </div>
+                  <div id="property-map-container" class="map-preview-box hidden" style="width:100%; height:180px; border-radius:12px; margin-top:8px; border:1px solid #cbd5e1; overflow:hidden;"></div>
                 </div>
 
                 <div class="form-group">

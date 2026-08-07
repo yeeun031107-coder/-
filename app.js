@@ -790,6 +790,68 @@ document.addEventListener('DOMContentLoaded', () => {
   renderPropertyTabs();
   renderActivePropertyDetails();
 
+  // --- KAKAO MAPS INTEGRATION ENGINE ---
+  function openOrRenderMap(address, containerId) {
+    if (!address || !address.trim()) {
+      showToast('매물 주소를 먼저 입력해주세요.');
+      return;
+    }
+
+    const container = document.getElementById(containerId);
+
+    if (window.kakao && window.kakao.maps && window.kakao.maps.services) {
+      if (container) container.classList.remove('hidden');
+      const geocoder = new kakao.maps.services.Geocoder();
+
+      geocoder.addressSearch(address, function(result, status) {
+        if (status === kakao.maps.services.Status.OK) {
+          const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+          const mapOptions = {
+            center: coords,
+            level: 3
+          };
+          const map = new kakao.maps.Map(container, mapOptions);
+
+          const marker = new kakao.maps.Marker({
+            position: coords,
+            map: map
+          });
+
+          const infowindow = new kakao.maps.InfoWindow({
+            content: `<div style="padding:6px 10px; font-size:12px; font-weight:bold; color:#15803d;">📍 ${result[0].address_name || address}</div>`
+          });
+          infowindow.open(map, marker);
+          showToast('🗺️ 카카오 지도에서 위치가 확인되었습니다.');
+        } else {
+          openExternalKakaoMap(address);
+        }
+      });
+    } else {
+      openExternalKakaoMap(address);
+    }
+  }
+
+  function openExternalKakaoMap(address) {
+    const kakaoMapUrl = `https://map.kakao.com/link/search/${encodeURIComponent(address)}`;
+    window.open(kakaoMapUrl, '_blank');
+    showToast('🗺️ 카카오맵 지도로 이동합니다.');
+  }
+
+  const btnSearchMapSafety = document.getElementById('btn-search-map-safety');
+  const btnSearchMapProperty = document.getElementById('btn-search-map-property');
+
+  if (btnSearchMapSafety && inputAddress) {
+    btnSearchMapSafety.addEventListener('click', () => {
+      openOrRenderMap(inputAddress.value, 'safety-map-container');
+    });
+  }
+
+  if (btnSearchMapProperty && propAddressInput) {
+    btnSearchMapProperty.addEventListener('click', () => {
+      openOrRenderMap(propAddressInput.value, 'property-map-container');
+    });
+  }
+
 
   // --- TAB 4: AI CHATBOT (WITH NEW BOT AVATAR PNG) ---
   const chatMessagesBox = document.getElementById('chat-messages-box');
