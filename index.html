@@ -45,12 +45,12 @@
 
           <!-- Auth Tab Bar -->
           <div class="auth-tab-bar">
-            <button type="button" class="auth-tab-btn active" id="landing-tab-login" onclick="window.switchLandingTab && window.switchLandingTab('login')">로그인</button>
-            <button type="button" class="auth-tab-btn" id="landing-tab-signup" onclick="window.switchLandingTab && window.switchLandingTab('signup')">회원가입</button>
+            <button type="button" class="auth-tab-btn active" id="landing-tab-login" onclick="window.switchLandingTab('login')">로그인</button>
+            <button type="button" class="auth-tab-btn" id="landing-tab-signup" onclick="window.switchLandingTab('signup')">회원가입</button>
           </div>
 
           <!-- Form -->
-          <form id="landing-form-auth" onsubmit="if(window.handleEmailAuth) window.handleEmailAuth(event); return false;">
+          <form id="landing-form-auth" onsubmit="window.handleEmailAuth(event); return false;">
             <div class="form-group">
               <label for="landing-auth-email">이메일 계정</label>
               <input type="email" id="landing-auth-email" placeholder="example@zipgigi.com">
@@ -75,17 +75,17 @@
           </div>
 
           <div class="social-btn-group">
-            <button type="button" class="btn-social kakao" id="landing-btn-kakao" onclick="if(window.handleKakaoOAuth) window.handleKakaoOAuth(event)">
+            <button type="button" class="btn-social kakao" id="landing-btn-kakao" onclick="window.handleKakaoOAuth(event)">
               💬 카카오로 1초 시작하기
             </button>
-            <button type="button" class="btn-social naver" id="landing-btn-naver" onclick="if(window.handleNaverOAuth) window.handleNaverOAuth(event)">
+            <button type="button" class="btn-social naver" id="landing-btn-naver" onclick="window.handleNaverOAuth(event)">
               🟢 네이버로 1초 시작하기
             </button>
           </div>
 
           <!-- Guest Bypass Button -->
           <div style="text-align:center; margin-top:14px;">
-            <button type="button" class="btn-guest-bypass" id="btn-guest-bypass" onclick="if(window.handleGuestBypass) window.handleGuestBypass(event)">
+            <button type="button" class="btn-guest-bypass" id="btn-guest-bypass" onclick="window.handleGuestBypass(event)">
               로그인 없이 둘러보기 ➔
             </button>
           </div>
@@ -760,6 +760,87 @@
   <div class="toast hidden" id="toast-msg">
     <span id="toast-text">처리가 완료되었습니다.</span>
   </div>
+
+  <!-- FAIL-SAFE INLINE GLOBAL AUTH HANDLERS -->
+  <script>
+    window.switchLandingTab = function(mode) {
+      var tabLogin = document.getElementById('landing-tab-login');
+      var tabSignup = document.getElementById('landing-tab-signup');
+      var grpName = document.getElementById('landing-group-name');
+      var btnSubmit = document.getElementById('landing-btn-submit');
+
+      if (mode === 'login') {
+        if (tabLogin) tabLogin.className = 'auth-tab-btn active';
+        if (tabSignup) tabSignup.className = 'auth-tab-btn';
+        if (grpName) grpName.className = 'form-group hidden';
+        if (btnSubmit) btnSubmit.textContent = '로그인하고 시작하기 🚀';
+      } else {
+        if (tabSignup) tabSignup.className = 'auth-tab-btn active';
+        if (tabLogin) tabLogin.className = 'auth-tab-btn';
+        if (grpName) grpName.className = 'form-group';
+        if (btnSubmit) btnSubmit.textContent = '회원가입 완료하고 시작하기 🚀';
+      }
+    };
+
+    window.handleKakaoOAuth = function(e) {
+      if (e && e.preventDefault) e.preventDefault();
+      if (e && e.stopPropagation) e.stopPropagation();
+      var KAKAO_REST_API_KEY = '76e99ac4ae1e3065e089dc77f3a84494';
+      var targetRedirect = window.location.origin;
+      var kakaoAuthUrl = 'https://kauth.kakao.com/oauth/authorize?client_id=' + KAKAO_REST_API_KEY + '&redirect_uri=' + encodeURIComponent(targetRedirect) + '&response_type=code';
+      window.location.href = kakaoAuthUrl;
+    };
+
+    window.handleNaverOAuth = function(e) {
+      if (e && e.preventDefault) e.preventDefault();
+      if (e && e.stopPropagation) e.stopPropagation();
+      var naverUser = { email: 'naver_user@zipgigi.com', name: '네이버 회원', isSocial: true };
+      localStorage.setItem('zipgigi_active_user', JSON.stringify(naverUser));
+      if (window.enterMainAppShell) {
+        window.enterMainAppShell(naverUser);
+      } else {
+        var landing = document.getElementById('auth-landing-screen');
+        var app = document.getElementById('main-app-shell');
+        if (landing) landing.classList.add('hidden');
+        if (app) app.classList.remove('hidden');
+      }
+    };
+
+    window.handleGuestBypass = function(e) {
+      if (e && e.preventDefault) e.preventDefault();
+      if (e && e.stopPropagation) e.stopPropagation();
+      if (window.enterMainAppShell) {
+        window.enterMainAppShell(null);
+      } else {
+        var landing = document.getElementById('auth-landing-screen');
+        var app = document.getElementById('main-app-shell');
+        if (landing) landing.classList.add('hidden');
+        if (app) app.classList.remove('hidden');
+      }
+    };
+
+    window.handleEmailAuth = function(e) {
+      if (e && e.preventDefault) e.preventDefault();
+      var emailEl = document.getElementById('landing-auth-email');
+      var passEl = document.getElementById('landing-auth-password');
+      var email = emailEl ? emailEl.value.trim() : '';
+      var pass = passEl ? passEl.value.trim() : '';
+      if (!email || !pass) {
+        alert('이메일과 비밀번호를 입력해주세요.');
+        return;
+      }
+      var user = { email: email, name: email.split('@')[0], isSocial: false };
+      localStorage.setItem('zipgigi_active_user', JSON.stringify(user));
+      if (window.enterMainAppShell) {
+        window.enterMainAppShell(user);
+      } else {
+        var landing = document.getElementById('auth-landing-screen');
+        var app = document.getElementById('main-app-shell');
+        if (landing) landing.classList.add('hidden');
+        if (app) app.classList.remove('hidden');
+      }
+    };
+  </script>
 
   <script src="app.js"></script>
 </body>
