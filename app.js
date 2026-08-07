@@ -973,6 +973,10 @@ document.addEventListener('DOMContentLoaded', () => {
     renderBenefits('all');
   }
 
+  window.renderProfileView = renderProfileView;
+  window.renderLoans = renderLoans;
+  window.renderBenefits = renderBenefits;
+
   // --- EDIT PROFILE MODAL ENGINE ---
   const modalEditProfile = document.getElementById('modal-edit-profile');
   const btnEditProfileModal = document.getElementById('btn-edit-profile-modal');

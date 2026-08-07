@@ -440,17 +440,17 @@
 
             <!-- Subtab Switcher: 대출 정보 vs 혜택 정보 -->
             <div class="sub-tab-bar">
-              <button type="button" class="sub-tab-btn active" data-prof-tab="loans">대출 정보</button>
-              <button type="button" class="sub-tab-btn" data-prof-tab="benefits">혜택 정보</button>
+              <button type="button" class="sub-tab-btn active" data-prof-tab="loans" onclick="window.switchProfSubTab && window.switchProfSubTab('loans')">대출 정보</button>
+              <button type="button" class="sub-tab-btn" data-prof-tab="benefits" onclick="window.switchProfSubTab && window.switchProfSubTab('benefits')">혜택 정보</button>
             </div>
 
             <!-- View 1: Loans ONLY -->
             <div class="prof-sub-view active" id="prof-sub-loans">
               <div class="filter-chips">
-                <button type="button" class="chip-btn active" data-loan-cat="all">전체</button>
-                <button type="button" class="chip-btn" data-loan-cat="buying">주택 구입 (매매)</button>
-                <button type="button" class="chip-btn" data-loan-cat="jeonse">전세 자금</button>
-                <button type="button" class="chip-btn" data-loan-cat="monthly">월세 대출</button>
+                <button type="button" class="chip-btn active" data-loan-cat="all" onclick="window.filterLoans && window.filterLoans('all')">전체</button>
+                <button type="button" class="chip-btn" data-loan-cat="buying" onclick="window.filterLoans && window.filterLoans('buying')">주택 구입 (매매)</button>
+                <button type="button" class="chip-btn" data-loan-cat="jeonse" onclick="window.filterLoans && window.filterLoans('jeonse')">전세 자금</button>
+                <button type="button" class="chip-btn" data-loan-cat="monthly" onclick="window.filterLoans && window.filterLoans('monthly')">월세 대출</button>
               </div>
 
               <div class="loan-cards-list" id="loan-cards-container"></div>
@@ -459,10 +459,10 @@
             <!-- View 2: Benefits ONLY -->
             <div class="prof-sub-view" id="prof-sub-benefits">
               <div class="filter-chips">
-                <button type="button" class="chip-btn active" data-benefit-cat="all">전체 혜택</button>
-                <button type="button" class="chip-btn" data-benefit-cat="monthly">월세 혜택</button>
-                <button type="button" class="chip-btn" data-benefit-cat="buying">매매 혜택</button>
-                <button type="button" class="chip-btn" data-benefit-cat="jeonse">전세 혜택</button>
+                <button type="button" class="chip-btn active" data-benefit-cat="all" onclick="window.filterBenefits && window.filterBenefits('all')">전체 혜택</button>
+                <button type="button" class="chip-btn" data-benefit-cat="monthly" onclick="window.filterBenefits && window.filterBenefits('monthly')">월세 혜택</button>
+                <button type="button" class="chip-btn" data-benefit-cat="buying" onclick="window.filterBenefits && window.filterBenefits('buying')">매매 혜택</button>
+                <button type="button" class="chip-btn" data-benefit-cat="jeonse" onclick="window.filterBenefits && window.filterBenefits('jeonse')">전세 혜택</button>
               </div>
 
               <div class="benefit-cards-list" id="benefit-cards-container"></div>
@@ -747,6 +747,46 @@
         if (p.id === targetTabId) p.classList.add('active');
         else p.classList.remove('active');
       });
+
+      if (targetTabId === 'tab-profile' && window.renderProfileView) {
+        window.renderProfileView();
+      }
+    };
+
+    window.switchProfSubTab = function(subTab) {
+      var btns = document.querySelectorAll('#tab-profile .sub-tab-bar .sub-tab-btn');
+      var views = document.querySelectorAll('#tab-profile .prof-sub-view');
+
+      btns.forEach(function(b) {
+        if (b.getAttribute('data-prof-tab') === subTab) b.classList.add('active');
+        else b.classList.remove('active');
+      });
+
+      views.forEach(function(v) {
+        if (v.id === 'prof-sub-' + subTab) v.classList.add('active');
+        else v.classList.remove('active');
+      });
+
+      if (subTab === 'loans' && window.renderLoans) window.renderLoans('all');
+      if (subTab === 'benefits' && window.renderBenefits) window.renderBenefits('all');
+    };
+
+    window.filterLoans = function(cat) {
+      var chips = document.querySelectorAll('#prof-sub-loans [data-loan-cat]');
+      chips.forEach(function(c) {
+        if (c.getAttribute('data-loan-cat') === cat) c.classList.add('active');
+        else c.classList.remove('active');
+      });
+      if (window.renderLoans) window.renderLoans(cat);
+    };
+
+    window.filterBenefits = function(cat) {
+      var chips = document.querySelectorAll('#prof-sub-benefits [data-benefit-cat]');
+      chips.forEach(function(c) {
+        if (c.getAttribute('data-benefit-cat') === cat) c.classList.add('active');
+        else c.classList.remove('active');
+      });
+      if (window.renderBenefits) window.renderBenefits(cat);
     };
 
     window.switchContractType = function(type) {
