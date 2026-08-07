@@ -1732,72 +1732,105 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  if (landingTabLogin && landingTabSignup) {
-    landingTabLogin.addEventListener('click', () => {
-      landingAuthMode = 'login';
-      landingTabLogin.classList.add('active');
-      landingTabSignup.classList.remove('active');
-      if (landingGroupName) landingGroupName.classList.add('hidden');
-      if (landingBtnSubmit) landingBtnSubmit.textContent = '로그인하고 시작하기 🚀';
-    });
+  window.switchLandingTab = function(mode) {
+    landingAuthMode = mode;
+    const tabLogin = document.getElementById('landing-tab-login');
+    const tabSignup = document.getElementById('landing-tab-signup');
+    const grpName = document.getElementById('landing-group-name');
+    const btnSubmit = document.getElementById('landing-btn-submit');
 
-    landingTabSignup.addEventListener('click', () => {
-      landingAuthMode = 'signup';
-      landingTabSignup.classList.add('active');
-      landingTabLogin.classList.remove('active');
-      if (landingGroupName) landingGroupName.classList.remove('hidden');
-      if (landingBtnSubmit) landingBtnSubmit.textContent = '회원가입 완료하고 시작하기 🚀';
-    });
-  }
+    if (mode === 'login') {
+      if (tabLogin) tabLogin.classList.add('active');
+      if (tabSignup) tabSignup.classList.remove('active');
+      if (grpName) grpName.classList.add('hidden');
+      if (btnSubmit) btnSubmit.textContent = '로그인하고 시작하기 🚀';
+    } else {
+      if (tabSignup) tabSignup.classList.add('active');
+      if (tabLogin) tabLogin.classList.remove('active');
+      if (grpName) grpName.classList.remove('hidden');
+      if (btnSubmit) btnSubmit.textContent = '회원가입 완료하고 시작하기 🚀';
+    }
+  };
 
-  if (landingFormAuth) {
-    landingFormAuth.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const email = landingAuthEmail?.value.trim();
-      const password = landingAuthPassword?.value.trim();
-      const name = landingAuthName?.value.trim() || email.split('@')[0];
-
-      if (!email || !password) {
-        showToast('이메일과 비밀번호를 입력해주세요.');
-        return;
-      }
-
-      const usersDB = getUsersDB();
-
-      if (landingAuthMode === 'signup') {
-        const exist = usersDB.find(u => u.email === email);
-        if (exist) {
-          showToast('이미 가입된 이메일 주소입니다.');
-          return;
-        }
-        const newUser = { email, password, name, age: 26, isHead: true, income: 3200, jobText: '직장인' };
-        usersDB.push(newUser);
-        saveUsersDB(usersDB);
-        showToast(`🎉 ${name} 님 회원가입 완료! 서비스로 진입합니다.`);
-        enterMainAppShell(newUser);
-      } else {
-        const user = usersDB.find(u => u.email === email && u.password === password);
-        if (!user) {
-          showToast('이메일 또는 비밀번호가 일치하지 않습니다.');
-          return;
-        }
-        showToast(`✨ ${user.name || name} 님 환영합니다!`);
-        enterMainAppShell(user);
-      }
-    });
-  }
-
-  const KAKAO_REST_API_KEY = '76e99ac4ae1e3065e089dc77f3a84494';
-
-  function handleKakaoOAuth(e) {
+  window.handleKakaoOAuth = function(e) {
     if (e) {
       e.preventDefault();
       e.stopPropagation();
     }
     showToast('💬 카카오 공식 로그인 화면으로 이동 중...');
     const targetRedirect = window.location.origin;
-    const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_REST_API_KEY}&redirect_uri=${encodeURIComponent(targetRedirect)}&response_type=code`;
+    const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=76e99ac4ae1e3065e089dc77f3a84494&redirect_uri=${encodeURIComponent(targetRedirect)}&response_type=code`;
     window.location.href = kakaoAuthUrl;
+  };
+
+  window.handleNaverOAuth = function(e) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    const naverUser = { email: 'naver_user@zipgigi.com', name: '네이버 회원', isSocial: true };
+    localStorage.setItem('zipgigi_active_user', JSON.stringify(naverUser));
+    showToast('🎉 로그인 성공!');
+    enterMainAppShell(naverUser);
+  };
+
+  window.handleGuestBypass = function(e) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    showToast('🚀 게스트 모드로 서비스를 둘러봅니다.');
+    enterMainAppShell(null);
+  };
+
+  window.handleEmailAuth = function(e) {
+    if (e) e.preventDefault();
+    const email = landingAuthEmail?.value.trim();
+    const password = landingAuthPassword?.value.trim();
+    const name = landingAuthName?.value.trim() || (email ? email.split('@')[0] : '사용자');
+
+    if (!email || !password) {
+      showToast('이메일과 비밀번호를 입력해주세요.');
+      return;
+    }
+
+    const usersDB = getUsersDB();
+
+    if (landingAuthMode === 'signup') {
+      const exist = usersDB.find(u => u.email === email);
+      if (exist) {
+        showToast('이미 가입된 이메일 주소입니다.');
+        return;
+      }
+      const newUser = { email, password, name, age: 26, isHead: true, income: 3200, jobText: '직장인' };
+      usersDB.push(newUser);
+      saveUsersDB(usersDB);
+      showToast(`🎉 ${name} 님 회원가입 완료!`);
+      enterMainAppShell(newUser);
+    } else {
+      const user = usersDB.find(u => u.email === email && u.password === password);
+      if (!user) {
+        showToast('이메일 또는 비밀번호가 일치하지 않습니다.');
+        return;
+      }
+      showToast('🎉 로그인 성공!');
+      enterMainAppShell(user);
+    }
+  };
+
+  if (landingTabLogin && landingTabSignup) {
+    landingTabLogin.addEventListener('click', () => window.switchLandingTab('login'));
+    landingTabSignup.addEventListener('click', () => window.switchLandingTab('signup'));
+  }
+
+  if (landingFormAuth) {
+    landingFormAuth.addEventListener('submit', (e) => window.handleEmailAuth(e));
+  }
+
+  const KAKAO_REST_API_KEY = '76e99ac4ae1e3065e089dc77f3a84494';
+
+  function handleKakaoOAuth(e) {
+    window.handleKakaoOAuth(e);
   }
 
   // --- OFFICIAL KAKAO TUTORIAL: AUTHORIZATION CODE & PROFILE FETCH ---

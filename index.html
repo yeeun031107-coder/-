@@ -45,19 +45,19 @@
 
           <!-- Auth Tab Bar -->
           <div class="auth-tab-bar">
-            <button type="button" class="auth-tab-btn active" id="landing-tab-login">로그인</button>
-            <button type="button" class="auth-tab-btn" id="landing-tab-signup">회원가입</button>
+            <button type="button" class="auth-tab-btn active" id="landing-tab-login" onclick="window.switchLandingTab && window.switchLandingTab('login')">로그인</button>
+            <button type="button" class="auth-tab-btn" id="landing-tab-signup" onclick="window.switchLandingTab && window.switchLandingTab('signup')">회원가입</button>
           </div>
 
           <!-- Form -->
-          <form id="landing-form-auth" onsubmit="return false;">
+          <form id="landing-form-auth" onsubmit="if(window.handleEmailAuth) window.handleEmailAuth(event); return false;">
             <div class="form-group">
               <label for="landing-auth-email">이메일 계정</label>
-              <input type="email" id="landing-auth-email" placeholder="example@zipgigi.com" required>
+              <input type="email" id="landing-auth-email" placeholder="example@zipgigi.com">
             </div>
             <div class="form-group">
               <label for="landing-auth-password">비밀번호</label>
-              <input type="password" id="landing-auth-password" placeholder="비밀번호 (6자 이상)" required>
+              <input type="password" id="landing-auth-password" placeholder="비밀번호 (6자 이상)">
             </div>
             <div class="form-group hidden" id="landing-group-name">
               <label for="landing-auth-name">이름 (닉네임)</label>
@@ -75,17 +75,17 @@
           </div>
 
           <div class="social-btn-group">
-            <button type="button" class="btn-social kakao" id="landing-btn-kakao">
+            <button type="button" class="btn-social kakao" id="landing-btn-kakao" onclick="if(window.handleKakaoOAuth) window.handleKakaoOAuth(event)">
               💬 카카오로 1초 시작하기
             </button>
-            <button type="button" class="btn-social naver" id="landing-btn-naver">
+            <button type="button" class="btn-social naver" id="landing-btn-naver" onclick="if(window.handleNaverOAuth) window.handleNaverOAuth(event)">
               🟢 네이버로 1초 시작하기
             </button>
           </div>
 
           <!-- Guest Bypass Button -->
           <div style="text-align:center; margin-top:14px;">
-            <button type="button" class="btn-guest-bypass" id="btn-guest-bypass">
+            <button type="button" class="btn-guest-bypass" id="btn-guest-bypass" onclick="if(window.handleGuestBypass) window.handleGuestBypass(event)">
               로그인 없이 둘러보기 ➔
             </button>
           </div>
