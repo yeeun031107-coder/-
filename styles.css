@@ -130,6 +130,22 @@ button {
   align-items: center;
   margin-bottom: 16px;
 }
+.auth-char-img {
+  width: 90px !important;
+  height: 90px !important;
+  object-fit: contain !important;
+  margin-bottom: 8px;
+}
+.auth-speech-bubble {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #166534;
+  padding: 6px 12px;
+  border-radius: 12px !important;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-align: center;
+}
 
 .auth-tab-bar {
   display: flex;
@@ -152,6 +168,7 @@ button {
 .auth-tab-btn.active {
   background: #ffffff;
   color: var(--primary);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
 
 .social-divider {
@@ -375,6 +392,7 @@ button {
 .sub-tab-btn.active, .type-btn.active {
   background: #ffffff;
   color: var(--primary);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
 /* STEPS CARDS (TAB 1 GUIDE) */
@@ -724,9 +742,12 @@ button {
 .chat-card {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 160px);
+  height: calc(100vh - 180px);
+  min-height: 480px;
   max-height: 640px;
   padding: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
 }
 .chat-header {
   display: flex;
@@ -746,12 +767,13 @@ button {
 .btn-prompt-chip {
   background: #ffffff;
   border: 1px solid var(--border-color);
-  padding: 4px 10px;
+  padding: 5px 10px;
   font-size: 0.7rem;
   color: var(--text-sub);
   white-space: nowrap;
   cursor: pointer;
 }
+.btn-prompt-chip:hover { border-color: var(--primary); color: var(--primary); }
 
 .chat-messages {
   flex: 1;
@@ -760,6 +782,7 @@ button {
   flex-direction: column;
   gap: 10px;
   padding: 10px 0;
+  min-height: 280px;
 }
 .message { display: flex; gap: 8px; max-width: 85%; }
 .message.user { align-self: flex-end; flex-direction: row-reverse; }
@@ -771,6 +794,7 @@ button {
   font-size: 0.78rem;
   line-height: 1.45;
   white-space: pre-wrap;
+  border-radius: 8px;
 }
 .message.bot .message-bubble {
   background: #ffffff;
@@ -793,6 +817,7 @@ button {
   padding: 10px 12px;
   border: 1px solid var(--border-color);
   font-size: 0.8rem;
+  background: #ffffff;
 }
 .btn-send-circle {
   width: 38px; height: 38px;
@@ -1043,9 +1068,9 @@ button {
   margin-bottom: 12px;
 }
 .tut-char-img {
-  width: 90px;
-  height: 90px;
-  object-fit: contain;
+  width: 90px !important;
+  height: 90px !important;
+  object-fit: contain !important;
 }
 
 .tut-speech-bubble {

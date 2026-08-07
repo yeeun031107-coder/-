@@ -935,10 +935,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (chatMessagesBox) chatMessagesBox.scrollTop = chatMessagesBox.scrollHeight;
   }
 
+  window.sendChatPrompt = sendChatMessage;
+
   if (btnSendChat) btnSendChat.addEventListener('click', () => sendChatMessage());
   if (chatInput) chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendChatMessage(); });
   document.querySelectorAll('.btn-prompt-chip').forEach(c => {
-    c.addEventListener('click', () => sendChatMessage(c.textContent));
+    c.addEventListener('click', () => sendChatMessage(c.textContent.trim()));
   });
 
 

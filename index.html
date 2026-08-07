@@ -377,9 +377,9 @@
               </div>
 
               <div class="quick-prompts">
-                <button type="button" class="btn-prompt-chip">대출 미승인 시 계약금 반환 특약 거절할 때 대응법</button>
-                <button type="button" class="btn-prompt-chip">집주인이 잔금날 대출 금지 특약 거절하면?</button>
-                <button type="button" class="btn-prompt-chip">전입신고와 확정일자 대항력 시점</button>
+                <button type="button" class="btn-prompt-chip" onclick="window.sendChatPrompt && window.sendChatPrompt(this.textContent.trim())">대출 미승인 시 계약금 반환 특약 거절할 때 대응법</button>
+                <button type="button" class="btn-prompt-chip" onclick="window.sendChatPrompt && window.sendChatPrompt(this.textContent.trim())">집주인이 잔금날 대출 금지 특약 거절하면?</button>
+                <button type="button" class="btn-prompt-chip" onclick="window.sendChatPrompt && window.sendChatPrompt(this.textContent.trim())">전입신고와 확정일자 대항력 시점</button>
               </div>
 
               <div class="chat-messages" id="chat-messages-box">
@@ -750,6 +750,15 @@
 
       if (targetTabId === 'tab-profile' && window.renderProfileView) {
         window.renderProfileView();
+      }
+    };
+
+    window.sendChatPrompt = function(text) {
+      var input = document.getElementById('chat-input');
+      if (input) {
+        input.value = text;
+        var btn = document.getElementById('btn-send-chat');
+        if (btn) btn.click();
       }
     };
 
