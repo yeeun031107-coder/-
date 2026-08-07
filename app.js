@@ -1825,13 +1825,24 @@ document.addEventListener('DOMContentLoaded', () => {
     window.handleKakaoOAuth(e);
   }
 
-  // --- OFFICIAL KAKAO TUTORIAL: AUTHORIZATION CODE & PROFILE FETCH ---
+  // --- INSTANT KAKAO OAUTH CALLBACK ENGINE ---
   async function checkKakaoOAuthCallback() {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
     if (!code) return;
 
-    showToast('💬 카카오 계정 로그인 진행 중...');
+    let savedUser = null;
+    try {
+      savedUser = JSON.parse(localStorage.getItem('zipgigi_active_user') || 'null');
+    } catch(e) {}
+
+    const defaultName = (savedUser && savedUser.name && !savedUser.name.includes('회원') && savedUser.name !== '사용자') ? savedUser.name : generateUniqueHousingNickname();
+    const kakaoUser = savedUser || { email: 'kakao_user@zipgigi.com', name: defaultName, isSocial: true };
+    localStorage.setItem('zipgigi_active_user', JSON.stringify(kakaoUser));
+
+    window.history.replaceState({}, document.title, window.location.pathname);
+    enterMainAppShell(kakaoUser);
+    showToast('🎉 카카오 로그인 성공!');
 
     try {
       const redirectUri = window.location.origin;
@@ -1844,29 +1855,21 @@ document.addEventListener('DOMContentLoaded', () => {
       if (res.ok) {
         const data = await res.json();
         if (data.success && data.name) {
-          const kakaoUser = {
-            email: data.email,
+          const updatedKakaoUser = {
+            ...kakaoUser,
+            email: data.email || kakaoUser.email,
             name: data.name,
-            isSocial: true,
             profileImage: data.profileImage
           };
-          localStorage.setItem('zipgigi_active_user', JSON.stringify(kakaoUser));
-          window.history.replaceState({}, document.title, window.location.pathname);
-          showToast('🎉 로그인 성공!');
-          enterMainAppShell(kakaoUser);
-          return;
+          localStorage.setItem('zipgigi_active_user', JSON.stringify(updatedKakaoUser));
+          state.user.name = data.name;
+          saveAccountData();
+          renderProfileView();
+          updateAuthHeaderUI();
         }
       }
-      throw new Error('API route fallback');
     } catch (err) {
-      console.warn('Kakao profile fetch notice:', err);
-      const savedUser = JSON.parse(localStorage.getItem('zipgigi_active_user') || '{}');
-      const nickname = (savedUser.name && !savedUser.name.includes('회원') && savedUser.name !== '사용자') ? savedUser.name : generateUniqueHousingNickname();
-      const kakaoUser = { ...savedUser, email: savedUser.email || 'kakao_user@zipgigi.com', name: nickname, isSocial: true };
-      localStorage.setItem('zipgigi_active_user', JSON.stringify(kakaoUser));
-      window.history.replaceState({}, document.title, window.location.pathname);
-      showToast('🎉 로그인 성공!');
-      enterMainAppShell(kakaoUser);
+      console.warn('Background Kakao profile sync notice:', err);
     }
   }
 

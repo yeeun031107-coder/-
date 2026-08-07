@@ -5,6 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>집피지기 - 부동산 안심 계약 서비스</title>
   <meta name="description" content="부동산 안심 계약 서비스">
+
+  <!-- INSTANT CRITICAL CSS: PREVENT LANDING BOUNCE ON KAKAO OAUTH REDIRECT -->
+  <script>
+    (function() {
+      var hasCode = window.location.search.indexOf('code=') !== -1;
+      var hasSession = false;
+      try {
+        hasSession = !!localStorage.getItem('zipgigi_active_user');
+      } catch (e) {}
+
+      if (hasCode || hasSession) {
+        document.write('<style>#auth-landing-screen { display: none !important; } #main-app-shell { display: flex !important; }</style>');
+      }
+    })();
+  </script>
+
   <!-- Google Fonts: Noto Sans KR -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
