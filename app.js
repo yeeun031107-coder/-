@@ -1776,8 +1776,8 @@ document.addEventListener('DOMContentLoaded', () => {
       console.warn('Kakao profile fetch notice:', err);
       // Saved session or default name
       const savedUser = JSON.parse(localStorage.getItem('zipgigi_active_user') || '{}');
-      const nickname = (savedUser.name && !savedUser.name.includes('회원')) ? savedUser.name : '사용자';
-      const kakaoUser = { email: 'kakao_user@zipgigi.com', name: nickname, isSocial: true };
+      const nickname = (savedUser.name && !savedUser.name.includes('회원') && savedUser.name !== '사용자') ? savedUser.name : generateUniqueHousingNickname();
+      const kakaoUser = { ...savedUser, email: savedUser.email || 'kakao_user@zipgigi.com', name: nickname, isSocial: true };
       localStorage.setItem('zipgigi_active_user', JSON.stringify(kakaoUser));
       showToast(`🎉 ${nickname} 님 카카오 로그인 성공!`);
       enterMainAppShell(kakaoUser);
