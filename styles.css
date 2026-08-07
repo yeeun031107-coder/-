@@ -1117,5 +1117,124 @@ input:focus::placeholder, textarea:focus::placeholder {
   color: var(--text-main);
 }
 
+/* PREMIUM PROFILE HERO CARD & BUTTONS */
+.profile-card-hero {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: 16px !important;
+  padding: 18px 16px !important;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
+}
+
+.profile-main-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.profile-avatar-circle {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  border: 1.5px solid #bbf7d0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #16a34a;
+  flex-shrink: 0;
+}
+.profile-avatar-circle i {
+  width: 22px;
+  height: 22px;
+}
+
+.profile-info-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.profile-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.profile-name-row h3 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+}
+
+.user-badge-tag {
+  background: #f1f5f9;
+  color: #475569;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+}
+
+.profile-info-content .prof-sub {
+  font-size: 0.76rem;
+  color: #64748b;
+  margin-top: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ACTIONS BAR */
+.profile-actions-bar {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.btn-profile-act {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 12px;
+  border-radius: 10px !important;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.btn-profile-act i {
+  width: 14px;
+  height: 14px;
+}
+
+.btn-profile-act.edit {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #15803d;
+}
+.btn-profile-act.edit:hover {
+  background: #dcfce7;
+  border-color: #86efac;
+}
+
+.btn-profile-act.logout {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #64748b;
+}
+.btn-profile-act.logout:hover {
+  background: #fee2e2;
+  border-color: #fca5a5;
+  color: #dc2626;
+}
+
+
 
 

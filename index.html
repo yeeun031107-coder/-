@@ -43,8 +43,8 @@
 
           <!-- Auth Tab Bar -->
           <div class="auth-tab-bar">
-            <button class="auth-tab-btn active" id="landing-tab-login">로그인</button>
-            <button class="auth-tab-btn" id="landing-tab-signup">회원가입</button>
+            <button type="button" class="auth-tab-btn active" id="landing-tab-login">로그인</button>
+            <button type="button" class="auth-tab-btn" id="landing-tab-signup">회원가입</button>
           </div>
 
           <!-- Form -->
@@ -59,7 +59,7 @@
             </div>
             <div class="form-group hidden" id="landing-group-name">
               <label for="landing-auth-name">이름 (닉네임)</label>
-              <input type="text" id="landing-auth-name" placeholder="홍길동">
+              <input type="text" id="landing-auth-name" placeholder="홍길동 / 황예은">
             </div>
 
             <button type="submit" class="btn-primary full-width" id="landing-btn-submit" style="margin-top:6px; padding:12px;">
@@ -109,11 +109,11 @@
             </div>
             
             <div class="header-actions">
-              <button class="btn-icon-action" id="btn-tutorial-modal">
+              <button type="button" class="btn-icon-action" id="btn-tutorial-modal">
                 <i data-lucide="help-circle"></i>
                 <span>가이드</span>
               </button>
-              <button class="btn-icon-action" id="btn-glossary-modal">
+              <button type="button" class="btn-icon-action" id="btn-glossary-modal">
                 <i data-lucide="book-open"></i>
                 <span>용어사전</span>
               </button>
@@ -182,7 +182,7 @@
                 </div>
               </div>
 
-              <button class="btn-primary full-width" id="btn-calc-safety">
+              <button type="button" class="btn-primary full-width" id="btn-calc-safety">
                 부채비율 계산하기
               </button>
             </div>
@@ -237,12 +237,12 @@
 
               <div class="preset-samples">
                 <span>예시 매물:</span>
-                <button class="btn-chip" id="sample-safe">안전 매물 예시</button>
-                <button class="btn-chip" id="sample-mortgage">근저당 과다 예시</button>
-                <button class="btn-chip" id="sample-trust">신탁 등기 예시</button>
+                <button type="button" class="btn-chip" id="sample-safe">안전 매물 예시</button>
+                <button type="button" class="btn-chip" id="sample-mortgage">근저당 과다 예시</button>
+                <button type="button" class="btn-chip" id="sample-trust">신탁 등기 예시</button>
               </div>
 
-              <button class="btn-primary full-width" id="btn-run-gemini-analysis" style="margin-top:10px;">
+              <button type="button" class="btn-primary full-width" id="btn-run-gemini-analysis" style="margin-top:10px;">
                 <i data-lucide="sparkles"></i> 위험도 분석
               </button>
 
@@ -269,9 +269,9 @@
             <!-- Calendar Card -->
             <div class="card-box">
               <div class="calendar-header-bar">
-                <button class="btn-icon" id="btn-cal-prev"><i data-lucide="chevron-left"></i></button>
+                <button type="button" class="btn-icon" id="btn-cal-prev"><i data-lucide="chevron-left"></i></button>
                 <h3 id="cal-month-title">2026년 7월</h3>
-                <button class="btn-icon" id="btn-cal-next"><i data-lucide="chevron-right"></i></button>
+                <button type="button" class="btn-icon" id="btn-cal-next"><i data-lucide="chevron-right"></i></button>
               </div>
 
               <div class="calendar-grid-weekdays">
@@ -284,7 +284,7 @@
                 <div id="events-list-container">
                   <p class="no-events">등록된 일정이 없습니다.</p>
                 </div>
-                <button class="btn-sm-secondary btn-rounded-pill" id="btn-add-event">
+                <button type="button" class="btn-sm-secondary btn-rounded-pill" id="btn-add-event">
                   <i data-lucide="plus" style="width:14px; height:14px;"></i>
                   <span>일정 추가</span>
                 </button>
@@ -295,7 +295,7 @@
             <div class="card-box">
               <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
                 <h3 class="card-title" style="margin-bottom:0;"><i data-lucide="clipboard-list"></i> 매물 기록</h3>
-                <button class="btn-sm-danger" id="btn-delete-property"><i data-lucide="trash-2" style="width:12px;"></i> 매물 삭제</button>
+                <button type="button" class="btn-sm-danger" id="btn-delete-property"><i data-lucide="trash-2" style="width:12px;"></i> 매물 삭제</button>
               </div>
               <p class="card-sub-desc">방문하신 여러 매물의 정보, 사진 및 체크리스트를 기록하세요.</p>
 
@@ -336,7 +336,7 @@
 
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
                   <h4 style="font-size:0.85rem; font-weight:700; color:#0f172a;">체크리스트</h4>
-                  <button class="btn-sm-outline" id="btn-add-custom-chk"><i data-lucide="plus" style="width:12px;"></i> 항목 추가</button>
+                  <button type="button" class="btn-sm-outline" id="btn-add-custom-chk"><i data-lucide="plus" style="width:12px;"></i> 항목 추가</button>
                 </div>
 
                 <div class="checklist-container" id="checklist-container"></div>
@@ -362,9 +362,9 @@
               </div>
 
               <div class="quick-prompts">
-                <button class="btn-prompt-chip">대출 미승인 시 계약금 반환 특약 거절할 때 대응법</button>
-                <button class="btn-prompt-chip">집주인이 잔금날 대출 금지 특약 거절하면?</button>
-                <button class="btn-prompt-chip">전입신고와 확정일자 대항력 시점</button>
+                <button type="button" class="btn-prompt-chip">대출 미승인 시 계약금 반환 특약 거절할 때 대응법</button>
+                <button type="button" class="btn-prompt-chip">집주인이 잔금날 대출 금지 특약 거절하면?</button>
+                <button type="button" class="btn-prompt-chip">전입신고와 확정일자 대항력 시점</button>
               </div>
 
               <div class="chat-messages" id="chat-messages-box">
@@ -378,7 +378,7 @@
 
               <div class="chat-input-bar">
                 <input type="text" id="chat-input" placeholder="질문하기">
-                <button id="btn-send-chat" class="btn-send-circle" aria-label="전송"><i data-lucide="send"></i></button>
+                <button type="button" id="btn-send-chat" class="btn-send-circle" aria-label="전송"><i data-lucide="send"></i></button>
               </div>
             </div>
           </section>
@@ -392,33 +392,46 @@
               <h2><i data-lucide="user"></i> 프로필 & 개인 아카이브</h2>
             </div>
 
-            <!-- Profile Card -->
-            <div class="card-box">
-              <div class="profile-header-row" style="display:flex; justify-content:space-between; align-items:center;">
-                <div>
-                  <h3 id="prof-disp-name">홍길동 님</h3>
-                  <p class="prof-sub" id="prof-disp-details">만 26세 | 세대주 | 소득 3,200만원 | 직장인 (중소기업)</p>
+            <!-- Premium Profile Card -->
+            <div class="card-box profile-card-hero">
+              <div class="profile-main-row">
+                <div class="profile-avatar-circle">
+                  <i data-lucide="user"></i>
                 </div>
-                <div style="display:flex; gap:6px; flex-wrap:wrap;">
-                  <button class="btn-sm-outline" id="btn-edit-profile-modal" style="background:#f0fdf4; border-color:#bbf7d0; color:#15803d;"><i data-lucide="edit-3" style="width:12px;"></i> 정보 수정</button>
-                  <button class="btn-sm-outline" id="btn-prof-logout"><i data-lucide="log-out" style="width:12px;"></i> 로그아웃</button>
+                <div class="profile-info-content">
+                  <div class="profile-name-row">
+                    <h3 id="prof-disp-name">황예은 님</h3>
+                    <span class="user-badge-tag">맞춤 아카이브</span>
+                  </div>
+                  <p class="prof-sub" id="prof-disp-details">만 26세 · 세대주 · 소득 3,200만원 · 직장인</p>
                 </div>
+              </div>
+
+              <div class="profile-actions-bar">
+                <button type="button" class="btn-profile-act edit" id="btn-edit-profile-modal">
+                  <i data-lucide="edit-3"></i>
+                  <span>정보 수정</span>
+                </button>
+                <button type="button" class="btn-profile-act logout" id="btn-prof-logout">
+                  <i data-lucide="log-out"></i>
+                  <span>로그아웃</span>
+                </button>
               </div>
             </div>
 
             <!-- Subtab Switcher: 대출 정보 vs 혜택 정보 -->
             <div class="sub-tab-bar">
-              <button class="sub-tab-btn active" data-prof-tab="loans">대출 정보</button>
-              <button class="sub-tab-btn" data-prof-tab="benefits">혜택 정보</button>
+              <button type="button" class="sub-tab-btn active" data-prof-tab="loans">대출 정보</button>
+              <button type="button" class="sub-tab-btn" data-prof-tab="benefits">혜택 정보</button>
             </div>
 
             <!-- View 1: Loans ONLY -->
             <div class="prof-sub-view active" id="prof-sub-loans">
               <div class="filter-chips">
-                <button class="chip-btn active" data-loan-cat="all">전체</button>
-                <button class="chip-btn" data-loan-cat="buying">주택 구입 (매매)</button>
-                <button class="chip-btn" data-loan-cat="jeonse">전세 자금</button>
-                <button class="chip-btn" data-loan-cat="monthly">월세 대출</button>
+                <button type="button" class="chip-btn active" data-loan-cat="all">전체</button>
+                <button type="button" class="chip-btn" data-loan-cat="buying">주택 구입 (매매)</button>
+                <button type="button" class="chip-btn" data-loan-cat="jeonse">전세 자금</button>
+                <button type="button" class="chip-btn" data-loan-cat="monthly">월세 대출</button>
               </div>
 
               <div class="loan-cards-list" id="loan-cards-container"></div>
@@ -427,10 +440,10 @@
             <!-- View 2: Benefits ONLY -->
             <div class="prof-sub-view" id="prof-sub-benefits">
               <div class="filter-chips">
-                <button class="chip-btn active" data-benefit-cat="all">전체 혜택</button>
-                <button class="chip-btn" data-benefit-cat="monthly">월세 혜택</button>
-                <button class="chip-btn" data-benefit-cat="buying">매매 혜택</button>
-                <button class="chip-btn" data-benefit-cat="jeonse">전세 혜택</button>
+                <button type="button" class="chip-btn active" data-benefit-cat="all">전체 혜택</button>
+                <button type="button" class="chip-btn" data-benefit-cat="monthly">월세 혜택</button>
+                <button type="button" class="chip-btn" data-benefit-cat="buying">매매 혜택</button>
+                <button type="button" class="chip-btn" data-benefit-cat="jeonse">전세 혜택</button>
               </div>
 
               <div class="benefit-cards-list" id="benefit-cards-container"></div>
@@ -442,23 +455,23 @@
 
         <!-- Bottom 5-Tab Navigation -->
         <nav class="bottom-nav">
-          <button class="nav-tab active" data-tab="tab-guide">
+          <button type="button" class="nav-tab active" data-tab="tab-guide">
             <i data-lucide="map"></i>
             <span>가이드</span>
           </button>
-          <button class="nav-tab" data-tab="tab-safety">
+          <button type="button" class="nav-tab" data-tab="tab-safety">
             <i data-lucide="shield-check"></i>
             <span>매물안정성</span>
           </button>
-          <button class="nav-tab" data-tab="tab-calendar">
+          <button type="button" class="nav-tab" data-tab="tab-calendar">
             <i data-lucide="calendar"></i>
             <span>캘린더</span>
           </button>
-          <button class="nav-tab" data-tab="tab-chatbot">
+          <button type="button" class="nav-tab" data-tab="tab-chatbot">
             <i data-lucide="message-square"></i>
             <span>AI특약챗봇</span>
           </button>
-          <button class="nav-tab" data-tab="tab-profile">
+          <button type="button" class="nav-tab" data-tab="tab-profile">
             <i data-lucide="user"></i>
             <span>프로필</span>
           </button>
@@ -477,7 +490,7 @@
       <!-- Tutorial Header -->
       <div class="tutorial-header">
         <span class="tutorial-step-badge" id="tut-step-badge">1 / 3</span>
-        <button class="btn-close-tut" id="btn-close-tutorial" aria-label="닫기">
+        <button type="button" class="btn-close-tut" id="btn-close-tutorial" aria-label="닫기">
           <i data-lucide="x"></i>
         </button>
       </div>
@@ -530,9 +543,9 @@
         </div>
 
         <div class="tut-nav-btns">
-          <button class="btn-tut-prev hidden" id="btn-tut-prev">이전</button>
-          <button class="btn-primary btn-tut-next" id="btn-tut-next">다음 <i data-lucide="chevron-right" style="width:14px; height:14px;"></i></button>
-          <button class="btn-primary btn-tut-start hidden" id="btn-tut-start">집피지기 시작하기 🚀</button>
+          <button type="button" class="btn-tut-prev hidden" id="btn-tut-prev">이전</button>
+          <button type="button" class="btn-primary btn-tut-next" id="btn-tut-next">다음 <i data-lucide="chevron-right" style="width:14px; height:14px;"></i></button>
+          <button type="button" class="btn-primary btn-tut-start hidden" id="btn-tut-start">집피지기 시작하기 🚀</button>
         </div>
       </div>
 
@@ -545,7 +558,7 @@
     <div class="modal-box">
       <div class="modal-header">
         <h3><i data-lucide="book-open"></i> 부동산 용어 사전</h3>
-        <button class="btn-close" id="btn-close-glossary"><i data-lucide="x"></i></button>
+        <button type="button" class="btn-close" id="btn-close-glossary"><i data-lucide="x"></i></button>
       </div>
       <div class="modal-body">
         <input type="text" id="glossary-search" placeholder="용어 검색 (예: 근저당, 신탁, 대항력...)">
@@ -555,12 +568,62 @@
   </div>
 
 
+  <!-- MODAL: Onboarding Initial Profile Setup (첫 진입 회원정보 설정) -->
+  <div class="modal-overlay hidden" id="modal-onboarding-profile">
+    <div class="modal-box" style="text-align:center; max-width:380px;">
+      <div class="icon-circle-badge green" style="width:48px; height:48px; margin:0 auto 10px auto; background:#f0fdf4; border:1px solid #bbf7d0; color:#16a34a; border-radius:50%; display:flex; align-items:center; justify-content:center;">
+        <i data-lucide="sparkles" style="width:24px; height:24px;"></i>
+      </div>
+      <h3 style="font-size:1.15rem; font-weight:800; color:#0f172a; margin-bottom:4px;">내 맞춤 주거 프로필 설정</h3>
+      <p style="font-size:0.78rem; color:#64748b; margin-bottom:14px;">
+        나이, 소득, 세대주 여부를 설정하면 나에게 딱 맞는 <strong>청년 주택 대출 및 정부 혜택</strong>을 자동 진단해 드려요!
+      </p>
+
+      <form id="form-onboarding-profile" onsubmit="return false;" style="text-align:left;">
+        <div class="form-group">
+          <label for="onboard-prof-name">이름 (닉네임)</label>
+          <input type="text" id="onboard-prof-name" placeholder="예: 황예은 / 홍길동" required>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="onboard-prof-age">나이 (만)</label>
+            <input type="number" id="onboard-prof-age" value="26" min="19" max="99" required>
+          </div>
+          <div class="form-group">
+            <label for="onboard-prof-head">세대주 여부</label>
+            <select id="onboard-prof-head" style="width:100%; padding:10px; border-radius:8px; border:1px solid var(--border-light); font-size:0.85rem;">
+              <option value="true">세대주 (단독 세대주 포함)</option>
+              <option value="false">세대원</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="onboard-prof-income">연소득 (만원)</label>
+            <input type="number" id="onboard-prof-income" value="3200" min="0" required>
+          </div>
+          <div class="form-group">
+            <label for="onboard-prof-job">직업 / 직종</label>
+            <input type="text" id="onboard-prof-job" value="직장인" placeholder="예: 직장인, 대학생, 자영업자" required>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary full-width" style="margin-top:14px; padding:12px; font-weight:700;">
+          설정 완료하고 내 맞춤 대출/혜택 진단받기 🚀
+        </button>
+      </form>
+    </div>
+  </div>
+
+
   <!-- MODAL: Edit Profile -->
   <div class="modal-overlay hidden" id="modal-edit-profile">
     <div class="modal-box">
       <div class="modal-header">
         <h3><i data-lucide="edit-3"></i> 회원정보 수정</h3>
-        <button class="btn-close" id="btn-close-edit-profile"><i data-lucide="x"></i></button>
+        <button type="button" class="btn-close" id="btn-close-edit-profile"><i data-lucide="x"></i></button>
       </div>
       <div class="modal-body">
         <form id="form-edit-profile" onsubmit="return false;">

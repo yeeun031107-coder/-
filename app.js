@@ -1519,6 +1519,60 @@ document.addEventListener('DOMContentLoaded', () => {
     renderProfileView();
   }
 
+  // --- ONBOARDING INITIAL PROFILE SETUP ENGINE ---
+  const modalOnboardingProfile = document.getElementById('modal-onboarding-profile');
+  const formOnboardingProfile = document.getElementById('form-onboarding-profile');
+  const onboardProfName = document.getElementById('onboard-prof-name');
+  const onboardProfAge = document.getElementById('onboard-prof-age');
+  const onboardProfHead = document.getElementById('onboard-prof-head');
+  const onboardProfIncome = document.getElementById('onboard-prof-income');
+  const onboardProfJob = document.getElementById('onboard-prof-job');
+
+  function checkAndTriggerOnboardingProfile(user) {
+    if (!user) return;
+    if (!user.hasConfiguredProfile) {
+      if (modalOnboardingProfile) {
+        if (onboardProfName) onboardProfName.value = (user.name && !user.name.includes('회원')) ? user.name : '';
+        if (onboardProfAge) onboardProfAge.value = user.age || 26;
+        if (onboardProfHead) onboardProfHead.value = user.isHead !== false ? 'true' : 'false';
+        if (onboardProfIncome) onboardProfIncome.value = user.income || 3200;
+        if (onboardProfJob) onboardProfJob.value = user.jobText || '직장인';
+
+        modalOnboardingProfile.classList.remove('hidden');
+      }
+    }
+  }
+
+  if (formOnboardingProfile) {
+    formOnboardingProfile.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = onboardProfName?.value.trim() || '사용자';
+      const age = parseInt(onboardProfAge?.value, 10) || 26;
+      const isHead = onboardProfHead?.value === 'true';
+      const income = parseInt(onboardProfIncome?.value, 10) || 3200;
+      const jobText = onboardProfJob?.value.trim() || '직장인';
+
+      const currentUser = JSON.parse(localStorage.getItem('zipgigi_active_user') || '{}');
+      const updatedUser = {
+        ...currentUser,
+        name,
+        age,
+        isHead,
+        income,
+        jobText,
+        hasConfiguredProfile: true
+      };
+
+      localStorage.setItem('zipgigi_active_user', JSON.stringify(updatedUser));
+      state.user = updatedUser;
+
+      if (modalOnboardingProfile) modalOnboardingProfile.classList.add('hidden');
+      renderProfileView();
+      updateAuthHeaderUI();
+      showToast(`🎉 ${name} 님 맞춤 프로필 설정 완료!`);
+    });
+  }
+
   if (landingTabLogin && landingTabSignup) {
     landingTabLogin.addEventListener('click', () => {
       landingAuthMode = 'login';
