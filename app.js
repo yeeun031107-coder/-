@@ -1633,22 +1633,40 @@ document.addEventListener('DOMContentLoaded', () => {
       state.user.name = generateUniqueHousingNickname();
     }
 
+    state.user.hasConfiguredProfile = true;
     saveAccountData();
 
-    if (authLandingScreen) authLandingScreen.classList.add('hidden');
-    if (mainAppShell) mainAppShell.classList.remove('hidden');
+    // 1. Force hide landing screen
+    const landing = document.getElementById('auth-landing-screen');
+    if (landing) {
+      landing.classList.add('hidden');
+      landing.style.display = 'none';
+      landing.style.pointerEvents = 'none';
+    }
+
+    // 2. Force show main app shell
+    const appShell = document.getElementById('main-app-shell');
+    if (appShell) {
+      appShell.classList.remove('hidden');
+      appShell.style.display = 'flex';
+      appShell.style.pointerEvents = 'auto';
+    }
+
+    // 3. Force hide all modal overlays on initial shell enter so no overlay blocks clicks
+    document.querySelectorAll('.modal-overlay').forEach(m => {
+      m.classList.add('hidden');
+      m.style.display = 'none';
+      m.style.pointerEvents = 'none';
+    });
+
     updateAuthHeaderUI();
     renderProfileView();
     renderPropertyTabs();
     renderActivePropertyDetails();
-
-    // Check if initial profile setup is completed, trigger modal if first time
-    if (!state.user.hasConfiguredProfile) {
-      setTimeout(() => {
-        checkAndTriggerOnboardingProfile(state.user);
-      }, 300);
-    }
+    renderRoadmapSteps(state.contractType || 'monthly');
   }
+
+  window.enterMainAppShell = enterMainAppShell;
 
   // --- ONBOARDING INITIAL PROFILE SETUP ENGINE ---
   const modalOnboardingProfile = document.getElementById('modal-onboarding-profile');

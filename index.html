@@ -127,11 +127,11 @@
             </div>
             
             <div class="header-actions">
-              <button type="button" class="btn-icon-action" id="btn-tutorial-modal">
+              <button type="button" class="btn-icon-action" id="btn-tutorial-modal" onclick="window.openModal('modal-tutorial')">
                 <i data-lucide="help-circle"></i>
                 <span>가이드</span>
               </button>
-              <button type="button" class="btn-icon-action" id="btn-glossary-modal">
+              <button type="button" class="btn-icon-action" id="btn-glossary-modal" onclick="window.openModal('modal-glossary')">
                 <i data-lucide="book-open"></i>
                 <span>용어사전</span>
               </button>
@@ -152,9 +152,9 @@
 
             <!-- Contract Type Bar -->
             <div class="contract-type-bar">
-              <button class="type-btn active" data-type="monthly">월세</button>
-              <button class="type-btn" data-type="jeonse">전세</button>
-              <button class="type-btn" data-type="buying">매매</button>
+              <button class="type-btn active" data-type="monthly" onclick="window.switchContractType('monthly')">월세</button>
+              <button class="type-btn" data-type="jeonse" onclick="window.switchContractType('jeonse')">전세</button>
+              <button class="type-btn" data-type="buying" onclick="window.switchContractType('buying')">매매</button>
             </div>
 
             <div class="steps-wrapper" id="guide-steps-container"></div>
@@ -438,7 +438,7 @@
               </div>
 
               <div class="profile-actions-bar">
-                <button type="button" class="btn-profile-act edit" id="btn-edit-profile-modal">
+                <button type="button" class="btn-profile-act edit" id="btn-edit-profile-modal" onclick="window.openModal('modal-edit-profile')">
                   <i data-lucide="edit-3"></i>
                   <span>정보 수정</span>
                 </button>
@@ -446,7 +446,7 @@
                   <i data-lucide="log-out"></i>
                   <span>로그아웃</span>
                 </button>
-                <button type="button" class="btn-profile-act delete" id="btn-delete-account-modal">
+                <button type="button" class="btn-profile-act delete" id="btn-delete-account-modal" onclick="window.openModal('modal-delete-account')">
                   <i data-lucide="user-x"></i>
                   <span>회원 탈퇴</span>
                 </button>
@@ -489,23 +489,23 @@
 
         <!-- Bottom 5-Tab Navigation -->
         <nav class="bottom-nav">
-          <button type="button" class="nav-tab active" data-tab="tab-guide">
+          <button type="button" class="nav-tab active" data-tab="tab-guide" onclick="window.switchAppTab('tab-guide')">
             <i data-lucide="map"></i>
             <span>가이드</span>
           </button>
-          <button type="button" class="nav-tab" data-tab="tab-safety">
+          <button type="button" class="nav-tab" data-tab="tab-safety" onclick="window.switchAppTab('tab-safety')">
             <i data-lucide="shield-check"></i>
             <span>매물안정성</span>
           </button>
-          <button type="button" class="nav-tab" data-tab="tab-calendar">
+          <button type="button" class="nav-tab" data-tab="tab-calendar" onclick="window.switchAppTab('tab-calendar')">
             <i data-lucide="calendar"></i>
             <span>캘린더</span>
           </button>
-          <button type="button" class="nav-tab" data-tab="tab-chatbot">
+          <button type="button" class="nav-tab" data-tab="tab-chatbot" onclick="window.switchAppTab('tab-chatbot')">
             <i data-lucide="message-square"></i>
             <span>AI특약챗봇</span>
           </button>
-          <button type="button" class="nav-tab" data-tab="tab-profile">
+          <button type="button" class="nav-tab" data-tab="tab-profile" onclick="window.switchAppTab('tab-profile')">
             <i data-lucide="user"></i>
             <span>프로필</span>
           </button>
@@ -524,7 +524,7 @@
       <!-- Tutorial Header -->
       <div class="tutorial-header">
         <span class="tutorial-step-badge" id="tut-step-badge">1 / 3</span>
-        <button type="button" class="btn-close-tut" id="btn-close-tutorial" aria-label="닫기">
+        <button type="button" class="btn-close-tut" id="btn-close-tutorial" onclick="window.closeModal('modal-tutorial')" aria-label="닫기">
           <i data-lucide="x"></i>
         </button>
       </div>
@@ -579,7 +579,7 @@
         <div class="tut-nav-btns">
           <button type="button" class="btn-tut-prev hidden" id="btn-tut-prev">이전</button>
           <button type="button" class="btn-primary btn-tut-next" id="btn-tut-next">다음 <i data-lucide="chevron-right" style="width:14px; height:14px;"></i></button>
-          <button type="button" class="btn-primary btn-tut-start hidden" id="btn-tut-start">집피지기 시작하기 🚀</button>
+          <button type="button" class="btn-primary btn-tut-start hidden" id="btn-tut-start" onclick="window.closeModal('modal-tutorial')">집피지기 시작하기 🚀</button>
         </div>
       </div>
 
@@ -592,7 +592,7 @@
     <div class="modal-box">
       <div class="modal-header">
         <h3><i data-lucide="book-open"></i> 부동산 용어 사전</h3>
-        <button type="button" class="btn-close" id="btn-close-glossary"><i data-lucide="x"></i></button>
+        <button type="button" class="btn-close" id="btn-close-glossary" onclick="window.closeModal('modal-glossary')"><i data-lucide="x"></i></button>
       </div>
       <div class="modal-body">
         <input type="text" id="glossary-search" placeholder="용어 검색 (예: 근저당, 신탁, 대항력...)">
@@ -608,6 +608,9 @@
       
       <!-- Hero Header Banner -->
       <div class="onboarding-modal-hero">
+        <button type="button" class="btn-close-tut" onclick="window.closeModal('modal-onboarding-profile')" style="position:absolute; top:12px; right:12px; color:#fff;" aria-label="닫기">
+          <i data-lucide="x"></i>
+        </button>
         <div class="onboarding-sparkle-badge">
           <i data-lucide="sparkles"></i>
         </div>
@@ -688,7 +691,7 @@
     <div class="modal-box">
       <div class="modal-header">
         <h3><i data-lucide="edit-3"></i> 회원정보 수정</h3>
-        <button type="button" class="btn-close" id="btn-close-edit-profile"><i data-lucide="x"></i></button>
+        <button type="button" class="btn-close" id="btn-close-edit-profile" onclick="window.closeModal('modal-edit-profile')"><i data-lucide="x"></i></button>
       </div>
       <div class="modal-body">
         <form id="form-edit-profile" onsubmit="return false;">
@@ -738,7 +741,7 @@
     <div class="modal-box delete-account-modal-box">
       <div class="modal-header warning-header">
         <h3><i data-lucide="alert-triangle"></i> 회원 탈퇴 확인</h3>
-        <button type="button" class="btn-close" id="btn-close-delete-account"><i data-lucide="x"></i></button>
+        <button type="button" class="btn-close" id="btn-close-delete-account" onclick="window.closeModal('modal-delete-account')"><i data-lucide="x"></i></button>
       </div>
       <div class="modal-body" style="padding:20px 18px;">
         <div class="delete-warning-hero">
@@ -762,7 +765,7 @@
         </p>
 
         <div class="delete-actions-group">
-          <button type="button" class="btn-secondary" id="btn-cancel-delete-account" style="flex:1;">취소</button>
+          <button type="button" class="btn-secondary" id="btn-cancel-delete-account" onclick="window.closeModal('modal-delete-account')" style="flex:1;">취소</button>
           <button type="button" class="btn-danger-confirm" id="btn-confirm-delete-account" style="flex:1.4;">
             네, 탈퇴하겠습니다
           </button>
@@ -777,7 +780,7 @@
     <span id="toast-text">처리가 완료되었습니다.</span>
   </div>
 
-  <!-- FAIL-SAFE INLINE GLOBAL AUTH HANDLERS -->
+  <!-- FAIL-SAFE INLINE GLOBAL AUTH & APP TAB HANDLERS -->
   <script>
     window.switchLandingTab = function(mode) {
       var tabLogin = document.getElementById('landing-tab-login');
@@ -795,6 +798,47 @@
         if (tabLogin) tabLogin.className = 'auth-tab-btn';
         if (grpName) grpName.className = 'form-group';
         if (btnSubmit) btnSubmit.textContent = '회원가입 완료하고 시작하기 🚀';
+      }
+    };
+
+    window.switchAppTab = function(targetTabId) {
+      var tabs = document.querySelectorAll('.bottom-nav .nav-tab');
+      var panels = document.querySelectorAll('.tab-panel');
+
+      tabs.forEach(function(t) {
+        if (t.getAttribute('data-tab') === targetTabId) t.classList.add('active');
+        else t.classList.remove('active');
+      });
+
+      panels.forEach(function(p) {
+        if (p.id === targetTabId) p.classList.add('active');
+        else p.classList.remove('active');
+      });
+    };
+
+    window.switchContractType = function(type) {
+      var btns = document.querySelectorAll('.contract-type-bar .type-btn');
+      btns.forEach(function(b) {
+        if (b.getAttribute('data-type') === type) b.classList.add('active');
+        else b.classList.remove('active');
+      });
+    };
+
+    window.openModal = function(modalId) {
+      var m = document.getElementById(modalId);
+      if (m) {
+        m.classList.remove('hidden');
+        m.style.display = 'flex';
+        m.style.pointerEvents = 'auto';
+      }
+    };
+
+    window.closeModal = function(modalId) {
+      var m = document.getElementById(modalId);
+      if (m) {
+        m.classList.add('hidden');
+        m.style.display = 'none';
+        m.style.pointerEvents = 'none';
       }
     };
 
