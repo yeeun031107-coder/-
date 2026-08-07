@@ -416,6 +416,10 @@
                   <i data-lucide="log-out"></i>
                   <span>로그아웃</span>
                 </button>
+                <button type="button" class="btn-profile-act delete" id="btn-delete-account-modal">
+                  <i data-lucide="user-x"></i>
+                  <span>회원 탈퇴</span>
+                </button>
               </div>
             </div>
 
@@ -568,7 +572,7 @@
   </div>
 
 
-  <!-- MODAL: Onboarding Initial Profile Setup (첫 진입 회원정보 설정 - Ultra Premium Redesign) -->
+  <!-- MODAL: Onboarding Initial Profile Setup -->
   <div class="modal-overlay hidden" id="modal-onboarding-profile">
     <div class="modal-box onboarding-modal-box">
       
@@ -694,6 +698,45 @@
             회원정보 수정 완료 ✨
           </button>
         </form>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- MODAL: Delete Account Confirmation (회원 탈퇴 모달) -->
+  <div class="modal-overlay hidden" id="modal-delete-account">
+    <div class="modal-box delete-account-modal-box">
+      <div class="modal-header warning-header">
+        <h3><i data-lucide="alert-triangle"></i> 회원 탈퇴 확인</h3>
+        <button type="button" class="btn-close" id="btn-close-delete-account"><i data-lucide="x"></i></button>
+      </div>
+      <div class="modal-body" style="padding:20px 18px;">
+        <div class="delete-warning-hero">
+          <div class="warning-icon-circle">
+            <i data-lucide="user-x"></i>
+          </div>
+          <h4>정말 집피지기를 탈퇴하시겠습니까?</h4>
+          <p>탈퇴 시 아래의 <strong>모든 맞춤 데이터가 즉시 영구 삭제</strong>되며 복구할 수 없습니다.</p>
+        </div>
+
+        <div class="delete-warning-box">
+          <ul>
+            <li>⚠️ <strong>프로필 정보:</strong> 닉네임, 나이, 소득, 세대주 여부 완전 삭제</li>
+            <li>⚠️ <strong>매물 기록:</strong> 작성하신 임장 노트, 첨부 사진, 체크리스트 전체 삭제</li>
+            <li>⚠️ <strong>캘린더 일정:</strong> 등록된 계약 및 방 방문 일정 전체 삭제</li>
+          </ul>
+        </div>
+
+        <p class="delete-relogin-note">
+          💡 탈퇴 후 향후 동일 계정으로 재로그인 시 <strong>첫 사용자(새 계정)</strong>로 초기화되어 다시 시작하실 수 있습니다.
+        </p>
+
+        <div class="delete-actions-group">
+          <button type="button" class="btn-secondary" id="btn-cancel-delete-account" style="flex:1;">취소</button>
+          <button type="button" class="btn-danger-confirm" id="btn-confirm-delete-account" style="flex:1.4;">
+            네, 탈퇴하겠습니다
+          </button>
+        </div>
       </div>
     </div>
   </div>

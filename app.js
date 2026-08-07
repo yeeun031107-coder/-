@@ -1835,6 +1835,60 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // --- DELETE ACCOUNT ENGINE ---
+  const modalDeleteAccount = document.getElementById('modal-delete-account');
+  const btnDeleteAccountModal = document.getElementById('btn-delete-account-modal');
+  const btnCloseDeleteAccount = document.getElementById('btn-close-delete-account');
+  const btnCancelDeleteAccount = document.getElementById('btn-cancel-delete-account');
+  const btnConfirmDeleteAccount = document.getElementById('btn-confirm-delete-account');
+
+  if (btnDeleteAccountModal && modalDeleteAccount) {
+    btnDeleteAccountModal.addEventListener('click', () => {
+      modalDeleteAccount.classList.remove('hidden');
+    });
+  }
+
+  function closeDeleteAccountModal() {
+    if (modalDeleteAccount) modalDeleteAccount.classList.add('hidden');
+  }
+
+  if (btnCloseDeleteAccount) btnCloseDeleteAccount.addEventListener('click', closeDeleteAccountModal);
+  if (btnCancelDeleteAccount) btnCancelDeleteAccount.addEventListener('click', closeDeleteAccountModal);
+
+  if (btnConfirmDeleteAccount) {
+    btnConfirmDeleteAccount.addEventListener('click', () => {
+      const activeUser = state.user || JSON.parse(localStorage.getItem('zipgigi_active_user') || '{}');
+      const accountKey = getAccountKey(activeUser);
+
+      // 1. Delete account-scoped data completely
+      localStorage.removeItem(`zipgigi_user_data_${accountKey}`);
+
+      // 2. Clear active user session
+      localStorage.removeItem('zipgigi_active_user');
+
+      // 3. Reset internal app state
+      state.user = { name: '', age: 26, isHead: true, income: 3200, jobText: '직장인', hasConfiguredProfile: false };
+      state.properties = [
+        {
+          id: 1,
+          name: '매물 1',
+          address: '',
+          features: '',
+          photos: [],
+          checklist: DEFAULT_CHECKLIST.map(item => ({ ...item, checked: false, memo: '' }))
+        }
+      ];
+      state.calendarEvents = {};
+
+      // 4. Hide delete modal and main app shell, show landing screen
+      closeDeleteAccountModal();
+      if (mainAppShell) mainAppShell.classList.add('hidden');
+      if (authLandingScreen) authLandingScreen.classList.remove('hidden');
+
+      showToast('👋 회원 탈퇴가 완료되었습니다. 모든 데이터가 영구 삭제되었습니다.');
+    });
+  }
+
   // Check if active session exists
   const activeSession = JSON.parse(localStorage.getItem('zipgigi_active_user') || 'null');
   if (activeSession) {

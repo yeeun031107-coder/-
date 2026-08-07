@@ -1392,6 +1392,118 @@ input:focus::placeholder, textarea:focus::placeholder {
   box-shadow: 0 6px 16px rgba(0, 186, 47, 0.25) !important;
 }
 
+/* DELETE ACCOUNT MODAL & STYLES */
+.btn-profile-act.delete {
+  background: #fff1f2;
+  border: 1px solid #fecdd3;
+  color: #e11d48;
+}
+.btn-profile-act.delete:hover {
+  background: #ffe4e6;
+  border-color: #fda4af;
+}
+
+.delete-account-modal-box {
+  max-width: 390px !important;
+  border-radius: 20px !important;
+  overflow: hidden;
+}
+
+.modal-header.warning-header {
+  background: #fff1f2;
+  border-bottom: 1px solid #ffe4e6;
+}
+.modal-header.warning-header h3 {
+  color: #e11d48;
+}
+
+.delete-warning-hero {
+  text-align: center;
+  margin-bottom: 14px;
+}
+
+.warning-icon-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #ffe4e6;
+  color: #e11d48;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 10px auto;
+}
+.warning-icon-circle i {
+  width: 26px;
+  height: 26px;
+}
+
+.delete-warning-hero h4 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 4px;
+}
+.delete-warning-hero p {
+  font-size: 0.78rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.delete-warning-box {
+  background: #fff1f2;
+  border: 1px solid #fecdd3;
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+}
+.delete-warning-box ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.delete-warning-box li {
+  font-size: 0.76rem;
+  color: #9f1239;
+  line-height: 1.4;
+}
+
+.delete-relogin-note {
+  font-size: 0.74rem;
+  color: #475569;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 8px 12px;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  line-height: 1.4;
+}
+
+.delete-actions-group {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-danger-confirm {
+  background: #e11d48;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(225, 29, 72, 0.25);
+}
+.btn-danger-confirm:hover {
+  background: #be123c;
+}
+
+
 
 
 
