@@ -6,21 +6,6 @@
   <title>집피지기 - 부동산 안심 계약 서비스</title>
   <meta name="description" content="부동산 안심 계약 서비스">
 
-  <!-- INSTANT CRITICAL CSS: PREVENT LANDING BOUNCE ON KAKAO OAUTH REDIRECT -->
-  <script>
-    (function() {
-      var hasCode = window.location.search.indexOf('code=') !== -1;
-      var hasSession = false;
-      try {
-        hasSession = !!localStorage.getItem('zipgigi_active_user');
-      } catch (e) {}
-
-      if (hasCode || hasSession) {
-        document.write('<style>#auth-landing-screen { display: none !important; } #main-app-shell { display: flex !important; }</style>');
-      }
-    })();
-  </script>
-
   <!-- Google Fonts: Noto Sans KR -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -61,12 +46,12 @@
 
           <!-- Auth Tab Bar -->
           <div class="auth-tab-bar">
-            <button type="button" class="auth-tab-btn active" id="landing-tab-login" onclick="window.switchLandingTab('login')">로그인</button>
-            <button type="button" class="auth-tab-btn" id="landing-tab-signup" onclick="window.switchLandingTab('signup')">회원가입</button>
+            <button type="button" class="auth-tab-btn active" id="landing-tab-login" onclick="window.switchLandingTab && window.switchLandingTab('login')">로그인</button>
+            <button type="button" class="auth-tab-btn" id="landing-tab-signup" onclick="window.switchLandingTab && window.switchLandingTab('signup')">회원가입</button>
           </div>
 
           <!-- Form -->
-          <form id="landing-form-auth" onsubmit="window.handleEmailAuth(event); return false;">
+          <form id="landing-form-auth" onsubmit="if(window.handleEmailAuth) window.handleEmailAuth(event); return false;">
             <div class="form-group">
               <label for="landing-auth-email">이메일 계정</label>
               <input type="email" id="landing-auth-email" placeholder="example@zipgigi.com">
@@ -91,17 +76,17 @@
           </div>
 
           <div class="social-btn-group">
-            <button type="button" class="btn-social kakao" id="landing-btn-kakao" onclick="window.handleKakaoOAuth(event)">
+            <button type="button" class="btn-social kakao" id="landing-btn-kakao" onclick="if(window.handleKakaoOAuth) window.handleKakaoOAuth(event)">
               💬 카카오로 1초 시작하기
             </button>
-            <button type="button" class="btn-social naver" id="landing-btn-naver" onclick="window.handleNaverOAuth(event)">
+            <button type="button" class="btn-social naver" id="landing-btn-naver" onclick="if(window.handleNaverOAuth) window.handleNaverOAuth(event)">
               🟢 네이버로 1초 시작하기
             </button>
           </div>
 
           <!-- Guest Bypass Button -->
           <div style="text-align:center; margin-top:14px;">
-            <button type="button" class="btn-guest-bypass" id="btn-guest-bypass" onclick="window.handleGuestBypass(event)">
+            <button type="button" class="btn-guest-bypass" id="btn-guest-bypass" onclick="if(window.handleGuestBypass) window.handleGuestBypass(event)">
               로그인 없이 둘러보기 ➔
             </button>
           </div>
@@ -127,11 +112,11 @@
             </div>
             
             <div class="header-actions">
-              <button type="button" class="btn-icon-action" id="btn-tutorial-modal" onclick="window.openModal('modal-tutorial')">
+              <button type="button" class="btn-icon-action" id="btn-tutorial-modal" onclick="window.openModal && window.openModal('modal-tutorial')">
                 <i data-lucide="help-circle"></i>
                 <span>가이드</span>
               </button>
-              <button type="button" class="btn-icon-action" id="btn-glossary-modal" onclick="window.openModal('modal-glossary')">
+              <button type="button" class="btn-icon-action" id="btn-glossary-modal" onclick="window.openModal && window.openModal('modal-glossary')">
                 <i data-lucide="book-open"></i>
                 <span>용어사전</span>
               </button>
@@ -152,9 +137,9 @@
 
             <!-- Contract Type Bar -->
             <div class="contract-type-bar">
-              <button class="type-btn active" data-type="monthly" onclick="window.switchContractType('monthly')">월세</button>
-              <button class="type-btn" data-type="jeonse" onclick="window.switchContractType('jeonse')">전세</button>
-              <button class="type-btn" data-type="buying" onclick="window.switchContractType('buying')">매매</button>
+              <button class="type-btn active" data-type="monthly" onclick="window.switchContractType && window.switchContractType('monthly')">월세</button>
+              <button class="type-btn" data-type="jeonse" onclick="window.switchContractType && window.switchContractType('jeonse')">전세</button>
+              <button class="type-btn" data-type="buying" onclick="window.switchContractType && window.switchContractType('buying')">매매</button>
             </div>
 
             <div class="steps-wrapper" id="guide-steps-container"></div>
@@ -438,7 +423,7 @@
               </div>
 
               <div class="profile-actions-bar">
-                <button type="button" class="btn-profile-act edit" id="btn-edit-profile-modal" onclick="window.openModal('modal-edit-profile')">
+                <button type="button" class="btn-profile-act edit" id="btn-edit-profile-modal" onclick="window.openModal && window.openModal('modal-edit-profile')">
                   <i data-lucide="edit-3"></i>
                   <span>정보 수정</span>
                 </button>
@@ -446,7 +431,7 @@
                   <i data-lucide="log-out"></i>
                   <span>로그아웃</span>
                 </button>
-                <button type="button" class="btn-profile-act delete" id="btn-delete-account-modal" onclick="window.openModal('modal-delete-account')">
+                <button type="button" class="btn-profile-act delete" id="btn-delete-account-modal" onclick="window.openModal && window.openModal('modal-delete-account')">
                   <i data-lucide="user-x"></i>
                   <span>회원 탈퇴</span>
                 </button>
@@ -489,23 +474,23 @@
 
         <!-- Bottom 5-Tab Navigation -->
         <nav class="bottom-nav">
-          <button type="button" class="nav-tab active" data-tab="tab-guide" onclick="window.switchAppTab('tab-guide')">
+          <button type="button" class="nav-tab active" data-tab="tab-guide" onclick="window.switchAppTab && window.switchAppTab('tab-guide')">
             <i data-lucide="map"></i>
             <span>가이드</span>
           </button>
-          <button type="button" class="nav-tab" data-tab="tab-safety" onclick="window.switchAppTab('tab-safety')">
+          <button type="button" class="nav-tab" data-tab="tab-safety" onclick="window.switchAppTab && window.switchAppTab('tab-safety')">
             <i data-lucide="shield-check"></i>
             <span>매물안정성</span>
           </button>
-          <button type="button" class="nav-tab" data-tab="tab-calendar" onclick="window.switchAppTab('tab-calendar')">
+          <button type="button" class="nav-tab" data-tab="tab-calendar" onclick="window.switchAppTab && window.switchAppTab('tab-calendar')">
             <i data-lucide="calendar"></i>
             <span>캘린더</span>
           </button>
-          <button type="button" class="nav-tab" data-tab="tab-chatbot" onclick="window.switchAppTab('tab-chatbot')">
+          <button type="button" class="nav-tab" data-tab="tab-chatbot" onclick="window.switchAppTab && window.switchAppTab('tab-chatbot')">
             <i data-lucide="message-square"></i>
             <span>AI특약챗봇</span>
           </button>
-          <button type="button" class="nav-tab" data-tab="tab-profile" onclick="window.switchAppTab('tab-profile')">
+          <button type="button" class="nav-tab" data-tab="tab-profile" onclick="window.switchAppTab && window.switchAppTab('tab-profile')">
             <i data-lucide="user"></i>
             <span>프로필</span>
           </button>
@@ -513,274 +498,222 @@
 
       </div> <!-- END MAIN APP SHELL -->
 
-    </div>
-  </div>
 
+      <!-- ========================================== -->
+      <!-- MODALS (SCOPED INSIDE FRAME CONTAINER) -->
+      <!-- ========================================== -->
 
-  <!-- MODAL: Intro & Tutorial Carousel -->
-  <div class="modal-overlay tutorial-modal-overlay hidden" id="modal-tutorial">
-    <div class="tutorial-card-box">
-      
-      <!-- Tutorial Header -->
-      <div class="tutorial-header">
-        <span class="tutorial-step-badge" id="tut-step-badge">1 / 3</span>
-        <button type="button" class="btn-close-tut" id="btn-close-tutorial" onclick="window.closeModal('modal-tutorial')" aria-label="닫기">
-          <i data-lucide="x"></i>
-        </button>
-      </div>
-
-      <!-- Slide 1: Welcome with Character -->
-      <div class="tut-slide active" data-tut-slide="1">
-        <div class="tut-character-hero">
-          <img src="assets/bot_character.png" onerror="this.onerror=null; this.src='assets/bot_avatar.svg';" alt="집킴이 캐릭터" class="tut-char-img floating-bounce">
-          <div class="tut-speech-bubble">
-            "반가워요! 저는 집피지기의 수호 마스코트 <strong>집킴이</strong>예요!"
+      <!-- MODAL: Intro & Tutorial Carousel -->
+      <div class="modal-overlay tutorial-modal-overlay hidden" id="modal-tutorial">
+        <div class="tutorial-card-box">
+          <div class="tutorial-header">
+            <span class="tutorial-step-badge" id="tut-step-badge">1 / 3</span>
+            <button type="button" class="btn-close-tut" id="btn-close-tutorial" onclick="window.closeModal && window.closeModal('modal-tutorial')" aria-label="닫기">
+              <i data-lucide="x"></i>
+            </button>
           </div>
-        </div>
-        <h3 class="tut-title">부동산 안심 계약 내비게이션</h3>
-        <p class="tut-desc">
-          어렵고 복잡한 전월세·매매 계약 과정을 <strong>5단계 로드맵</strong>으로 쉽고 명쾌하게 안내해 드릴게요.
-        </p>
-      </div>
 
-      <!-- Slide 2: Debt Calc & AI Decoder -->
-      <div class="tut-slide" data-tut-slide="2">
-        <div class="tut-icon-hero">
-          <div class="icon-circle-badge green"><i data-lucide="shield-check"></i></div>
-          <div class="icon-circle-badge yellow"><i data-lucide="calculator"></i></div>
-          <div class="icon-circle-badge red"><i data-lucide="cpu"></i></div>
-        </div>
-        <h3 class="tut-title">위험 매물 사전 차단</h3>
-        <p class="tut-desc">
-          <strong>부채비율 신호등 계산기</strong>와 <strong>Gemini AI 등기부 심층 해독</strong>으로 깡통전세와 권리 위험을 1초 만에 진단하세요.
-        </p>
-      </div>
+          <div class="tut-slide active" data-tut-slide="1">
+            <div class="tut-character-hero">
+              <img src="assets/bot_character.png" onerror="this.onerror=null; this.src='assets/bot_avatar.svg';" alt="집킴이 캐릭터" class="tut-char-img floating-bounce">
+              <div class="tut-speech-bubble">"반가워요! 저는 집피지기의 수호 마스코트 <strong>집킴이</strong>예요!"</div>
+            </div>
+            <h3 class="tut-title">부동산 안심 계약 내비게이션</h3>
+            <p class="tut-desc">어렵고 복잡한 전월세·매매 계약 과정을 <strong>5단계 로드맵</strong>으로 쉽고 명쾌하게 안내해 드릴게요.</p>
+          </div>
 
-      <!-- Slide 3: Property Record & AI Chatbot -->
-      <div class="tut-slide" data-tut-slide="3">
-        <div class="tut-icon-hero">
-          <div class="icon-circle-badge main"><i data-lucide="clipboard-list"></i></div>
-          <div class="icon-circle-badge main"><i data-lucide="bot"></i></div>
-        </div>
-        <h3 class="tut-title">현장 임장 노트 & AI 특약 챗봇</h3>
-        <p class="tut-desc">
-          매물별 체크리스트와 사진을 기록하고, 집주인의 거절에 대처하는 <strong>유연한 거절 타협 스크립트</strong>를 활용해 보세요!
-        </p>
-      </div>
+          <div class="tut-slide" data-tut-slide="2">
+            <div class="tut-icon-hero">
+              <div class="icon-circle-badge green"><i data-lucide="shield-check"></i></div>
+              <div class="icon-circle-badge yellow"><i data-lucide="calculator"></i></div>
+              <div class="icon-circle-badge red"><i data-lucide="cpu"></i></div>
+            </div>
+            <h3 class="tut-title">위험 매물 사전 차단</h3>
+            <p class="tut-desc"><strong>부채비율 신호등 계산기</strong>와 <strong>Gemini AI 등기부 심층 해독</strong>으로 깡통전세와 권리 위험을 1초 만에 진단하세요.</p>
+          </div>
 
-      <!-- Dots & Navigation Buttons -->
-      <div class="tut-footer">
-        <div class="tut-dots">
-          <span class="dot active" data-dot="1"></span>
-          <span class="dot" data-dot="2"></span>
-          <span class="dot" data-dot="3"></span>
-        </div>
+          <div class="tut-slide" data-tut-slide="3">
+            <div class="tut-icon-hero">
+              <div class="icon-circle-badge main"><i data-lucide="clipboard-list"></i></div>
+              <div class="icon-circle-badge main"><i data-lucide="bot"></i></div>
+            </div>
+            <h3 class="tut-title">현장 임장 노트 & AI 특약 챗봇</h3>
+            <p class="tut-desc">매물별 체크리스트와 사진을 기록하고, 집주인의 거절에 대처하는 <strong>유연한 거절 타협 스크립트</strong>를 활용해 보세요!</p>
+          </div>
 
-        <div class="tut-nav-btns">
-          <button type="button" class="btn-tut-prev hidden" id="btn-tut-prev">이전</button>
-          <button type="button" class="btn-primary btn-tut-next" id="btn-tut-next">다음 <i data-lucide="chevron-right" style="width:14px; height:14px;"></i></button>
-          <button type="button" class="btn-primary btn-tut-start hidden" id="btn-tut-start" onclick="window.closeModal('modal-tutorial')">집피지기 시작하기 🚀</button>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-
-  <!-- MODAL: Glossary -->
-  <div class="modal-overlay hidden" id="modal-glossary">
-    <div class="modal-box">
-      <div class="modal-header">
-        <h3><i data-lucide="book-open"></i> 부동산 용어 사전</h3>
-        <button type="button" class="btn-close" id="btn-close-glossary" onclick="window.closeModal('modal-glossary')"><i data-lucide="x"></i></button>
-      </div>
-      <div class="modal-body">
-        <input type="text" id="glossary-search" placeholder="용어 검색 (예: 근저당, 신탁, 대항력...)">
-        <div class="glossary-list" id="glossary-list"></div>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- MODAL: Onboarding Initial Profile Setup -->
-  <div class="modal-overlay hidden" id="modal-onboarding-profile">
-    <div class="modal-box onboarding-modal-box">
-      
-      <!-- Hero Header Banner -->
-      <div class="onboarding-modal-hero">
-        <button type="button" class="btn-close-tut" onclick="window.closeModal('modal-onboarding-profile')" style="position:absolute; top:12px; right:12px; color:#fff;" aria-label="닫기">
-          <i data-lucide="x"></i>
-        </button>
-        <div class="onboarding-sparkle-badge">
-          <i data-lucide="sparkles"></i>
-        </div>
-        <h3>맞춤 주거 프로필 설정</h3>
-        <p>나이, 소득, 세대주 여부를 설정하면 나에게 딱 맞는 <strong>청년 대출 & 정부 주거 혜택</strong>을 1초 만에 진단해 드려요!</p>
-      </div>
-
-      <div class="modal-body onboarding-modal-body">
-        <form id="form-onboarding-profile" onsubmit="return false;">
-          
-          <div class="onboard-form-card">
-            <div class="form-group">
-              <label for="onboard-prof-name" class="form-label-bold">
-                <i data-lucide="user-check"></i> 내 닉네임
-              </label>
-              <div class="input-with-action">
-                <input type="text" id="onboard-prof-name" placeholder="예: 황예은 / 행복한자취러482" required class="custom-input-lg">
-                <button type="button" class="btn-random-nickname-pill" id="btn-gen-random-name-onboard">
-                  🎲 랜덤 뽑기
-                </button>
-              </div>
+          <div class="tut-footer">
+            <div class="tut-dots">
+              <span class="dot active" data-dot="1"></span>
+              <span class="dot" data-dot="2"></span>
+              <span class="dot" data-dot="3"></span>
             </div>
 
-            <div class="form-row-2">
-              <div class="form-group">
-                <label for="onboard-prof-age" class="form-label-bold">
-                  <i data-lucide="calendar"></i> 만 나이
-                </label>
-                <div class="input-unit-wrapper">
-                  <input type="number" id="onboard-prof-age" value="26" min="19" max="99" required class="custom-input-lg">
-                  <span class="unit-tag">세</span>
+            <div class="tut-nav-btns">
+              <button type="button" class="btn-tut-prev hidden" id="btn-tut-prev">이전</button>
+              <button type="button" class="btn-primary btn-tut-next" id="btn-tut-next">다음 <i data-lucide="chevron-right" style="width:14px; height:14px;"></i></button>
+              <button type="button" class="btn-primary btn-tut-start hidden" id="btn-tut-start" onclick="window.closeModal && window.closeModal('modal-tutorial')">집피지기 시작하기 🚀</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODAL: Glossary -->
+      <div class="modal-overlay hidden" id="modal-glossary">
+        <div class="modal-box">
+          <div class="modal-header">
+            <h3><i data-lucide="book-open"></i> 부동산 용어 사전</h3>
+            <button type="button" class="btn-close" id="btn-close-glossary" onclick="window.closeModal && window.closeModal('modal-glossary')"><i data-lucide="x"></i></button>
+          </div>
+          <div class="modal-body">
+            <input type="text" id="glossary-search" placeholder="용어 검색 (예: 근저당, 신탁, 대항력...)">
+            <div class="glossary-list" id="glossary-list"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODAL: Onboarding Initial Profile Setup -->
+      <div class="modal-overlay hidden" id="modal-onboarding-profile">
+        <div class="modal-box onboarding-modal-box">
+          <div class="onboarding-modal-hero">
+            <button type="button" class="btn-close-tut" onclick="window.closeModal && window.closeModal('modal-onboarding-profile')" style="position:absolute; top:12px; right:12px; color:#fff;" aria-label="닫기">
+              <i data-lucide="x"></i>
+            </button>
+            <div class="onboarding-sparkle-badge"><i data-lucide="sparkles"></i></div>
+            <h3>맞춤 주거 프로필 설정</h3>
+            <p>나이, 소득, 세대주 여부를 설정하면 나에게 딱 맞는 <strong>청년 대출 & 정부 주거 혜택</strong>을 1초 만에 진단해 드려요!</p>
+          </div>
+
+          <div class="modal-body onboarding-modal-body">
+            <form id="form-onboarding-profile" onsubmit="return false;">
+              <div class="onboard-form-card">
+                <div class="form-group">
+                  <label for="onboard-prof-name" class="form-label-bold"><i data-lucide="user-check"></i> 내 닉네임</label>
+                  <div class="input-with-action">
+                    <input type="text" id="onboard-prof-name" placeholder="예: 황예은 / 행복한자취러482" required class="custom-input-lg">
+                    <button type="button" class="btn-random-nickname-pill" id="btn-gen-random-name-onboard">🎲 랜덤 뽑기</button>
+                  </div>
+                </div>
+
+                <div class="form-row-2">
+                  <div class="form-group">
+                    <label for="onboard-prof-age" class="form-label-bold"><i data-lucide="calendar"></i> 만 나이</label>
+                    <div class="input-unit-wrapper">
+                      <input type="number" id="onboard-prof-age" value="26" min="19" max="99" required class="custom-input-lg">
+                      <span class="unit-tag">세</span>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="onboard-prof-head" class="form-label-bold"><i data-lucide="home"></i> 세대주 여부</label>
+                    <select id="onboard-prof-head" class="custom-select-lg">
+                      <option value="true">세대주 (단독 세대주 포함)</option>
+                      <option value="false">세대원</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-row-2">
+                  <div class="form-group">
+                    <label for="onboard-prof-income" class="form-label-bold"><i data-lucide="coins"></i> 연소득</label>
+                    <div class="input-unit-wrapper">
+                      <input type="number" id="onboard-prof-income" value="3200" min="0" required class="custom-input-lg">
+                      <span class="unit-tag">만원</span>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="onboard-prof-job" class="form-label-bold"><i data-lucide="briefcase"></i> 직업 / 직종</label>
+                    <input type="text" id="onboard-prof-job" value="직장인" placeholder="예: 직장인, 대학생" required class="custom-input-lg">
+                  </div>
                 </div>
               </div>
-              
-              <div class="form-group">
-                <label for="onboard-prof-head" class="form-label-bold">
-                  <i data-lucide="home"></i> 세대주 여부
-                </label>
-                <select id="onboard-prof-head" class="custom-select-lg">
-                  <option value="true">세대주 (단독 세대주 포함)</option>
-                  <option value="false">세대원</option>
-                </select>
-              </div>
-            </div>
+              <button type="submit" class="btn-primary full-width btn-onboard-submit">✨ 맞춤 대출/혜택 진단 시작하기 🚀</button>
+            </form>
+          </div>
+        </div>
+      </div>
 
-            <div class="form-row-2">
+      <!-- MODAL: Edit Profile -->
+      <div class="modal-overlay hidden" id="modal-edit-profile">
+        <div class="modal-box">
+          <div class="modal-header">
+            <h3><i data-lucide="edit-3"></i> 회원정보 수정</h3>
+            <button type="button" class="btn-close" id="btn-close-edit-profile" onclick="window.closeModal && window.closeModal('modal-edit-profile')"><i data-lucide="x"></i></button>
+          </div>
+          <div class="modal-body">
+            <form id="form-edit-profile" onsubmit="return false;">
               <div class="form-group">
-                <label for="onboard-prof-income" class="form-label-bold">
-                  <i data-lucide="coins"></i> 연소득
-                </label>
-                <div class="input-unit-wrapper">
-                  <input type="number" id="onboard-prof-income" value="3200" min="0" required class="custom-input-lg">
-                  <span class="unit-tag">만원</span>
+                <label for="edit-prof-name">이름 (닉네임)</label>
+                <div style="display:flex; gap:6px;">
+                  <input type="text" id="edit-prof-name" placeholder="홍길동 / 황예은" required style="flex:1;">
+                  <button type="button" class="btn-sm-outline" id="btn-gen-random-name-edit" style="white-space:nowrap; padding:0 10px; font-size:0.75rem; background:#f0fdf4; border-color:#bbf7d0; color:#15803d;">🎲 랜덤 생성</button>
                 </div>
               </div>
-
-              <div class="form-group">
-                <label for="onboard-prof-job" class="form-label-bold">
-                  <i data-lucide="briefcase"></i> 직업 / 직종
-                </label>
-                <input type="text" id="onboard-prof-job" value="직장인" placeholder="예: 직장인, 대학생" required class="custom-input-lg">
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label for="edit-prof-age">나이 (만)</label>
+                  <input type="number" id="edit-prof-age" value="26" min="19" max="99" required>
+                </div>
+                <div class="form-group">
+                  <label for="edit-prof-head">세대주 여부</label>
+                  <select id="edit-prof-head" style="width:100%; padding:10px; border-radius:8px; border:1px solid var(--border-light); font-size:0.85rem;">
+                    <option value="true">세대주 (단독 세대주 포함)</option>
+                    <option value="false">세대원</option>
+                  </select>
+                </div>
               </div>
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label for="edit-prof-income">연소득 (만원)</label>
+                  <input type="number" id="edit-prof-income" value="3200" min="0" required>
+                </div>
+                <div class="form-group">
+                  <label for="edit-prof-job">직업 / 직종</label>
+                  <input type="text" id="edit-prof-job" value="직장인 (중소기업)" required>
+                </div>
+              </div>
+              <button type="submit" class="btn-primary full-width" style="margin-top:12px; padding:12px;">회원정보 수정 완료 ✨</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODAL: Delete Account Confirmation -->
+      <div class="modal-overlay hidden" id="modal-delete-account">
+        <div class="modal-box delete-account-modal-box">
+          <div class="modal-header warning-header">
+            <h3><i data-lucide="alert-triangle"></i> 회원 탈퇴 확인</h3>
+            <button type="button" class="btn-close" id="btn-close-delete-account" onclick="window.closeModal && window.closeModal('modal-delete-account')"><i data-lucide="x"></i></button>
+          </div>
+          <div class="modal-body" style="padding:20px 18px;">
+            <div class="delete-warning-hero">
+              <div class="warning-icon-circle"><i data-lucide="user-x"></i></div>
+              <h4>정말 집피지기를 탈퇴하시겠습니까?</h4>
+              <p>탈퇴 시 아래의 <strong>모든 맞춤 데이터가 즉시 영구 삭제</strong>되며 복구할 수 없습니다.</p>
+            </div>
+            <div class="delete-warning-box">
+              <ul>
+                <li>⚠️ <strong>프로필 정보:</strong> 닉네임, 나이, 소득, 세대주 여부 완전 삭제</li>
+                <li>⚠️ <strong>매물 기록:</strong> 작성하신 임장 노트, 첨부 사진, 체크리스트 전체 삭제</li>
+                <li>⚠️ <strong>캘린더 일정:</strong> 등록된 계약 및 방 방문 일정 전체 삭제</li>
+              </ul>
+            </div>
+            <p class="delete-relogin-note">💡 탈퇴 후 향후 동일 계정으로 재로그인 시 <strong>첫 사용자(새 계정)</strong>로 초기화되어 다시 시작하실 수 있습니다.</p>
+            <div class="delete-actions-group">
+              <button type="button" class="btn-secondary" id="btn-cancel-delete-account" onclick="window.closeModal && window.closeModal('modal-delete-account')" style="flex:1;">취소</button>
+              <button type="button" class="btn-danger-confirm" id="btn-confirm-delete-account" style="flex:1.4;">네, 탈퇴하겠습니다</button>
             </div>
           </div>
+        </div>
+      </div>
 
-          <button type="submit" class="btn-primary full-width btn-onboard-submit">
-            ✨ 맞춤 대출/혜택 진단 시작하기 🚀
-          </button>
-        </form>
+      <!-- Toast Popup -->
+      <div class="toast hidden" id="toast-msg">
+        <span id="toast-text">처리가 완료되었습니다.</span>
       </div>
 
     </div>
   </div>
 
-
-  <!-- MODAL: Edit Profile -->
-  <div class="modal-overlay hidden" id="modal-edit-profile">
-    <div class="modal-box">
-      <div class="modal-header">
-        <h3><i data-lucide="edit-3"></i> 회원정보 수정</h3>
-        <button type="button" class="btn-close" id="btn-close-edit-profile" onclick="window.closeModal('modal-edit-profile')"><i data-lucide="x"></i></button>
-      </div>
-      <div class="modal-body">
-        <form id="form-edit-profile" onsubmit="return false;">
-          <div class="form-group">
-            <label for="edit-prof-name">이름 (닉네임)</label>
-            <div style="display:flex; gap:6px;">
-              <input type="text" id="edit-prof-name" placeholder="홍길동 / 황예은" required style="flex:1;">
-              <button type="button" class="btn-sm-outline" id="btn-gen-random-name-edit" style="white-space:nowrap; padding:0 10px; font-size:0.75rem; background:#f0fdf4; border-color:#bbf7d0; color:#15803d;">
-                🎲 랜덤 생성
-              </button>
-            </div>
-          </div>
-          <div class="form-row-2">
-            <div class="form-group">
-              <label for="edit-prof-age">나이 (만)</label>
-              <input type="number" id="edit-prof-age" value="26" min="19" max="99" required>
-            </div>
-            <div class="form-group">
-              <label for="edit-prof-head">세대주 여부</label>
-              <select id="edit-prof-head" style="width:100%; padding:10px; border-radius:8px; border:1px solid var(--border-light); font-size:0.85rem;">
-                <option value="true">세대주 (단독 세대주 포함)</option>
-                <option value="false">세대원</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-row-2">
-            <div class="form-group">
-              <label for="edit-prof-income">연소득 (만원)</label>
-              <input type="number" id="edit-prof-income" value="3200" min="0" required>
-            </div>
-            <div class="form-group">
-              <label for="edit-prof-job">직업 / 직종</label>
-              <input type="text" id="edit-prof-job" value="직장인 (중소기업)" required>
-            </div>
-          </div>
-          <button type="submit" class="btn-primary full-width" style="margin-top:12px; padding:12px;">
-            회원정보 수정 완료 ✨
-          </button>
-        </form>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- MODAL: Delete Account Confirmation (회원 탈퇴 모달) -->
-  <div class="modal-overlay hidden" id="modal-delete-account">
-    <div class="modal-box delete-account-modal-box">
-      <div class="modal-header warning-header">
-        <h3><i data-lucide="alert-triangle"></i> 회원 탈퇴 확인</h3>
-        <button type="button" class="btn-close" id="btn-close-delete-account" onclick="window.closeModal('modal-delete-account')"><i data-lucide="x"></i></button>
-      </div>
-      <div class="modal-body" style="padding:20px 18px;">
-        <div class="delete-warning-hero">
-          <div class="warning-icon-circle">
-            <i data-lucide="user-x"></i>
-          </div>
-          <h4>정말 집피지기를 탈퇴하시겠습니까?</h4>
-          <p>탈퇴 시 아래의 <strong>모든 맞춤 데이터가 즉시 영구 삭제</strong>되며 복구할 수 없습니다.</p>
-        </div>
-
-        <div class="delete-warning-box">
-          <ul>
-            <li>⚠️ <strong>프로필 정보:</strong> 닉네임, 나이, 소득, 세대주 여부 완전 삭제</li>
-            <li>⚠️ <strong>매물 기록:</strong> 작성하신 임장 노트, 첨부 사진, 체크리스트 전체 삭제</li>
-            <li>⚠️ <strong>캘린더 일정:</strong> 등록된 계약 및 방 방문 일정 전체 삭제</li>
-          </ul>
-        </div>
-
-        <p class="delete-relogin-note">
-          💡 탈퇴 후 향후 동일 계정으로 재로그인 시 <strong>첫 사용자(새 계정)</strong>로 초기화되어 다시 시작하실 수 있습니다.
-        </p>
-
-        <div class="delete-actions-group">
-          <button type="button" class="btn-secondary" id="btn-cancel-delete-account" onclick="window.closeModal('modal-delete-account')" style="flex:1;">취소</button>
-          <button type="button" class="btn-danger-confirm" id="btn-confirm-delete-account" style="flex:1.4;">
-            네, 탈퇴하겠습니다
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- Toast Popup -->
-  <div class="toast hidden" id="toast-msg">
-    <span id="toast-text">처리가 완료되었습니다.</span>
-  </div>
-
-  <!-- FAIL-SAFE INLINE GLOBAL AUTH & APP TAB HANDLERS -->
+  <!-- FAIL-SAFE INLINE GLOBAL HANDLERS -->
   <script>
     window.switchLandingTab = function(mode) {
       var tabLogin = document.getElementById('landing-tab-login');
@@ -826,25 +759,16 @@
 
     window.openModal = function(modalId) {
       var m = document.getElementById(modalId);
-      if (m) {
-        m.classList.remove('hidden');
-        m.style.display = 'flex';
-        m.style.pointerEvents = 'auto';
-      }
+      if (m) m.classList.remove('hidden');
     };
 
     window.closeModal = function(modalId) {
       var m = document.getElementById(modalId);
-      if (m) {
-        m.classList.add('hidden');
-        m.style.display = 'none';
-        m.style.pointerEvents = 'none';
-      }
+      if (m) m.classList.add('hidden');
     };
 
     window.handleKakaoOAuth = function(e) {
       if (e && e.preventDefault) e.preventDefault();
-      if (e && e.stopPropagation) e.stopPropagation();
       var KAKAO_REST_API_KEY = '76e99ac4ae1e3065e089dc77f3a84494';
       var targetRedirect = window.location.origin;
       var kakaoAuthUrl = 'https://kauth.kakao.com/oauth/authorize?client_id=' + KAKAO_REST_API_KEY + '&redirect_uri=' + encodeURIComponent(targetRedirect) + '&response_type=code';
@@ -853,7 +777,6 @@
 
     window.handleNaverOAuth = function(e) {
       if (e && e.preventDefault) e.preventDefault();
-      if (e && e.stopPropagation) e.stopPropagation();
       var naverUser = { email: 'naver_user@zipgigi.com', name: '네이버 회원', isSocial: true };
       localStorage.setItem('zipgigi_active_user', JSON.stringify(naverUser));
       if (window.enterMainAppShell) {
@@ -868,7 +791,6 @@
 
     window.handleGuestBypass = function(e) {
       if (e && e.preventDefault) e.preventDefault();
-      if (e && e.stopPropagation) e.stopPropagation();
       if (window.enterMainAppShell) {
         window.enterMainAppShell(null);
       } else {
