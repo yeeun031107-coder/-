@@ -399,7 +399,10 @@
                   <h3 id="prof-disp-name">홍길동 님</h3>
                   <p class="prof-sub" id="prof-disp-details">만 26세 | 세대주 | 소득 3,200만원 | 직장인 (중소기업)</p>
                 </div>
-                <button class="btn-sm-outline" id="btn-prof-logout"><i data-lucide="log-out" style="width:12px;"></i> 로그아웃</button>
+                <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                  <button class="btn-sm-outline" id="btn-edit-profile-modal" style="background:#f0fdf4; border-color:#bbf7d0; color:#15803d;"><i data-lucide="edit-3" style="width:12px;"></i> 정보 수정</button>
+                  <button class="btn-sm-outline" id="btn-prof-logout"><i data-lucide="log-out" style="width:12px;"></i> 로그아웃</button>
+                </div>
               </div>
             </div>
 
@@ -547,6 +550,51 @@
       <div class="modal-body">
         <input type="text" id="glossary-search" placeholder="용어 검색 (예: 근저당, 신탁, 대항력...)">
         <div class="glossary-list" id="glossary-list"></div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- MODAL: Edit Profile -->
+  <div class="modal-overlay hidden" id="modal-edit-profile">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3><i data-lucide="edit-3"></i> 회원정보 수정</h3>
+        <button class="btn-close" id="btn-close-edit-profile"><i data-lucide="x"></i></button>
+      </div>
+      <div class="modal-body">
+        <form id="form-edit-profile" onsubmit="return false;">
+          <div class="form-group">
+            <label for="edit-prof-name">이름 (닉네임)</label>
+            <input type="text" id="edit-prof-name" placeholder="홍길동 / 황예은" required>
+          </div>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="edit-prof-age">나이 (만)</label>
+              <input type="number" id="edit-prof-age" value="26" min="19" max="99" required>
+            </div>
+            <div class="form-group">
+              <label for="edit-prof-head">세대주 여부</label>
+              <select id="edit-prof-head" style="width:100%; padding:10px; border-radius:8px; border:1px solid var(--border-light); font-size:0.85rem;">
+                <option value="true">세대주 (단독 세대주 포함)</option>
+                <option value="false">세대원</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="edit-prof-income">연소득 (만원)</label>
+              <input type="number" id="edit-prof-income" value="3200" min="0" required>
+            </div>
+            <div class="form-group">
+              <label for="edit-prof-job">직업 / 직종</label>
+              <input type="text" id="edit-prof-job" value="직장인 (중소기업)" required>
+            </div>
+          </div>
+          <button type="submit" class="btn-primary full-width" style="margin-top:12px; padding:12px;">
+            회원정보 수정 완료 ✨
+          </button>
+        </form>
       </div>
     </div>
   </div>

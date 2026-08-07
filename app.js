@@ -856,17 +856,78 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   function renderProfileView() {
-    const u = state.user || { name: '홍길동', age: 26, isHead: true, income: 3200, jobText: '직장인 (중소기업)', marriage: 'single' };
-    const typeLabel = state.contractType === 'monthly' ? '월세' : (state.contractType === 'jeonse' ? '전세' : '매매');
+    const activeSession = JSON.parse(localStorage.getItem('zipgigi_active_user') || 'null');
+    const u = activeSession || state.user || { name: '홍길동', age: 26, isHead: true, income: 3200, jobText: '직장인 (중소기업)', marriage: 'single' };
+    state.user = u;
 
     const nameEl = document.getElementById('prof-disp-name');
     const detailsEl = document.getElementById('prof-disp-details');
 
     if (nameEl) nameEl.textContent = `${u.name} 님`;
-    if (detailsEl) detailsEl.textContent = `만 ${u.age}세 | ${u.isHead ? '세대주' : '세대원'} | 소득 ${u.income}만원 | ${u.jobText}`;
+    if (detailsEl) detailsEl.textContent = `만 ${u.age || 26}세 | ${u.isHead ? '세대주' : '세대원'} | 소득 ${u.income || 3200}만원 | ${u.jobText || '직장인'}`;
 
     renderLoans('all');
     renderBenefits('all');
+  }
+
+  // --- EDIT PROFILE MODAL ENGINE ---
+  const modalEditProfile = document.getElementById('modal-edit-profile');
+  const btnEditProfileModal = document.getElementById('btn-edit-profile-modal');
+  const btnCloseEditProfile = document.getElementById('btn-close-edit-profile');
+  const formEditProfile = document.getElementById('form-edit-profile');
+
+  const editProfName = document.getElementById('edit-prof-name');
+  const editProfAge = document.getElementById('edit-prof-age');
+  const editProfHead = document.getElementById('edit-prof-head');
+  const editProfIncome = document.getElementById('edit-prof-income');
+  const editProfJob = document.getElementById('edit-prof-job');
+
+  if (btnEditProfileModal && modalEditProfile) {
+    btnEditProfileModal.addEventListener('click', () => {
+      const u = state.user || { name: '카카오 회원', age: 26, isHead: true, income: 3200, jobText: '직장인' };
+      if (editProfName) editProfName.value = u.name || '';
+      if (editProfAge) editProfAge.value = u.age || 26;
+      if (editProfHead) editProfHead.value = u.isHead !== false ? 'true' : 'false';
+      if (editProfIncome) editProfIncome.value = u.income || 3200;
+      if (editProfJob) editProfJob.value = u.jobText || '직장인';
+
+      modalEditProfile.classList.remove('hidden');
+    });
+  }
+
+  if (btnCloseEditProfile && modalEditProfile) {
+    btnCloseEditProfile.addEventListener('click', () => {
+      modalEditProfile.classList.add('hidden');
+    });
+  }
+
+  if (formEditProfile) {
+    formEditProfile.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const updatedName = editProfName?.value.trim() || '사용자';
+      const updatedAge = parseInt(editProfAge?.value, 10) || 26;
+      const updatedIsHead = editProfHead?.value === 'true';
+      const updatedIncome = parseInt(editProfIncome?.value, 10) || 3200;
+      const updatedJob = editProfJob?.value.trim() || '직장인';
+
+      const currentUser = JSON.parse(localStorage.getItem('zipgigi_active_user') || '{}');
+      const newUserData = {
+        ...currentUser,
+        name: updatedName,
+        age: updatedAge,
+        isHead: updatedIsHead,
+        income: updatedIncome,
+        jobText: updatedJob
+      };
+
+      localStorage.setItem('zipgigi_active_user', JSON.stringify(newUserData));
+      state.user = newUserData;
+
+      if (modalEditProfile) modalEditProfile.classList.add('hidden');
+      renderProfileView();
+      updateAuthHeaderUI();
+      showToast('✨ 회원정보가 성공적으로 수정되었습니다!');
+    });
   }
 
   // LOAN DATABASE
