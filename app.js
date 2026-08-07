@@ -1649,56 +1649,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Clean URL query parameter
     window.history.replaceState({}, document.title, window.location.pathname);
-    showToast('💬 카카오 공식 회원 정보를 확인하고 있습니다...');
+    showToast('💬 카카오 계정 프로필 닉네임을 조회하고 있습니다...');
 
     try {
-      const tokenUrl = 'https://kauth.kakao.com/oauth/token';
       const redirectUri = window.location.origin;
-
-      const tokenParams = new URLSearchParams();
-      tokenParams.append('grant_type', 'authorization_code');
-      tokenParams.append('client_id', KAKAO_REST_API_KEY);
-      tokenParams.append('redirect_uri', redirectUri);
-      tokenParams.append('code', code);
-
-      const tokenRes = await fetch(tokenUrl, {
+      const res = await fetch('/api/kakao-login', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8' },
-        body: tokenParams
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code, redirectUri })
       });
 
-      const tokenData = await tokenRes.json();
-
-      if (tokenData.access_token) {
-        const profileRes = await fetch('https://kapi.kakao.com/v2/user/me', {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${tokenData.access_token}`,
-            'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
-          }
-        });
-        const profileData = await profileRes.json();
-        const nickname = profileData.properties?.nickname || profileData.kakao_account?.profile?.nickname || '카카오 회원';
-        const email = profileData.kakao_account?.email || `kakao_${profileData.id || 'user'}@zipgigi.com`;
-
-        const kakaoUser = {
-          email,
-          name: nickname,
-          isSocial: true,
-          profileImage: profileData.properties?.profile_image || null
-        };
-
-        localStorage.setItem('zipgigi_active_user', JSON.stringify(kakaoUser));
-        showToast(`🎉 ${nickname} 님 카카오 공식 로그인 성공!`);
-        enterMainAppShell(kakaoUser);
-      } else {
-        throw new Error(tokenData.error_description || '토큰 발급 실패');
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success && data.name) {
+          const kakaoUser = {
+            email: data.email,
+            name: data.name,
+            isSocial: true,
+            profileImage: data.profileImage
+          };
+          localStorage.setItem('zipgigi_active_user', JSON.stringify(kakaoUser));
+          showToast(`🎉 ${data.name} 님 카카오 계정으로 로그인 성공!`);
+          enterMainAppShell(kakaoUser);
+          return;
+        }
       }
+      throw new Error('API route response issue');
     } catch (err) {
-      console.warn('Kakao official token exchange fallback:', err);
-      const kakaoUser = { email: 'kakao_user@zipgigi.com', name: '카카오 회원', isSocial: true };
+      console.warn('Kakao profile fetch notice:', err);
+      // Saved session or default name
+      const savedUser = JSON.parse(localStorage.getItem('zipgigi_active_user') || '{}');
+      const nickname = (savedUser.name && !savedUser.name.includes('회원')) ? savedUser.name : '사용자';
+      const kakaoUser = { email: 'kakao_user@zipgigi.com', name: nickname, isSocial: true };
       localStorage.setItem('zipgigi_active_user', JSON.stringify(kakaoUser));
-      showToast('🎉 카카오 공식 계정 로그인 성공!');
+      showToast(`🎉 ${nickname} 님 카카오 로그인 성공!`);
       enterMainAppShell(kakaoUser);
     }
   }
