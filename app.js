@@ -72,6 +72,47 @@ document.addEventListener('DOMContentLoaded', () => {
     ]
   };
 
+  // --- ACCOUNT-SCOPED DATA PERSISTENCE ENGINE ---
+  function getAccountKey(user) {
+    if (!user) return 'guest_user';
+    const identifier = user.email || user.id || user.name || 'guest_user';
+    return identifier.toLowerCase().replace(/[^a-z0-9_]/g, '_');
+  }
+
+  function saveAccountData() {
+    const u = state.user || JSON.parse(localStorage.getItem('zipgigi_active_user') || '{}');
+    const key = getAccountKey(u);
+    const payload = {
+      user: u,
+      properties: state.properties,
+      calendarEvents: state.calendarEvents,
+      activePropId: state.activePropId
+    };
+    localStorage.setItem(`zipgigi_user_data_${key}`, JSON.stringify(payload));
+    localStorage.setItem('zipgigi_active_user', JSON.stringify(u));
+  }
+
+  function loadAccountData(user) {
+    if (!user) return;
+    const key = getAccountKey(user);
+    const raw = localStorage.getItem(`zipgigi_user_data_${key}`);
+    if (raw) {
+      try {
+        const parsed = JSON.parse(raw);
+        if (parsed.user) state.user = { ...state.user, ...parsed.user };
+        if (parsed.properties && Array.isArray(parsed.properties) && parsed.properties.length > 0) {
+          state.properties = parsed.properties;
+        }
+        if (parsed.calendarEvents) state.calendarEvents = parsed.calendarEvents;
+        if (parsed.activePropId) state.activePropId = parsed.activePropId;
+      } catch (e) {
+        console.warn('Load user data error:', e);
+      }
+    } else {
+      state.user = user;
+    }
+  }
+
   // --- ROADMAP DATA ---
   const ROADMAP_DATA = {
     monthly: [
@@ -922,6 +963,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       localStorage.setItem('zipgigi_active_user', JSON.stringify(newUserData));
       state.user = newUserData;
+      saveAccountData();
 
       if (modalEditProfile) modalEditProfile.classList.add('hidden');
       renderProfileView();
@@ -1531,21 +1573,25 @@ document.addEventListener('DOMContentLoaded', () => {
       user = { email: 'guest@zipgigi.com', name: generateUniqueHousingNickname(), isSocial: false };
     }
 
-    if (!user.name || user.name.includes('회원') || user.name === '사용자') {
-      user.name = generateUniqueHousingNickname();
+    loadAccountData(user);
+
+    if (!state.user.name || state.user.name.includes('회원') || state.user.name === '사용자') {
+      state.user.name = generateUniqueHousingNickname();
     }
 
-    localStorage.setItem('zipgigi_active_user', JSON.stringify(user));
+    saveAccountData();
 
     if (authLandingScreen) authLandingScreen.classList.add('hidden');
     if (mainAppShell) mainAppShell.classList.remove('hidden');
     updateAuthHeaderUI();
     renderProfileView();
+    renderPropertyTabs();
+    renderActivePropertyDetails();
 
     // Check if initial profile setup is completed, trigger modal if first time
-    if (!user.hasConfiguredProfile) {
+    if (!state.user.hasConfiguredProfile) {
       setTimeout(() => {
-        checkAndTriggerOnboardingProfile(user);
+        checkAndTriggerOnboardingProfile(state.user);
       }, 300);
     }
   }
@@ -1615,6 +1661,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       localStorage.setItem('zipgigi_active_user', JSON.stringify(updatedUser));
       state.user = updatedUser;
+      saveAccountData();
 
       if (modalOnboardingProfile) modalOnboardingProfile.classList.add('hidden');
       renderProfileView();
