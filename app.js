@@ -1507,16 +1507,47 @@ document.addEventListener('DOMContentLoaded', () => {
   const landingBtnNaver = document.getElementById('landing-btn-naver');
   const btnGuestBypass = document.getElementById('btn-guest-bypass');
 
-  let landingAuthMode = 'login';
+  // --- RANDOM HOUSING NICKNAME GENERATOR ---
+  function generateUniqueHousingNickname() {
+    const prefixes = [
+      '행복한', '안심하는', '슬기로운', '당당한', '따뜻한',
+      '보호하는', '똑똑한', '든든한', '자유로운', '희망찬',
+      '지혜로운', '소중한', '밝은', '쾌적한', '포근한'
+    ];
+    const nouns = [
+      '자취러', '세입자', '집킴이', '내집마련가', '임차인',
+      '하우스키퍼', '주거탐험가', '보증금수호자', '안심가이더', '아카이버'
+    ];
+
+    const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+    const randomNoun = nouns[Math.floor(Math.random() * nouns.length)];
+    const randomNumber = Math.floor(100 + Math.random() * 900);
+
+    return `${randomPrefix}${randomNoun}${randomNumber}`;
+  }
 
   function enterMainAppShell(user) {
-    if (user) {
-      localStorage.setItem('zipgigi_active_user', JSON.stringify(user));
+    if (!user) {
+      user = { email: 'guest@zipgigi.com', name: generateUniqueHousingNickname(), isSocial: false };
     }
+
+    if (!user.name || user.name.includes('회원') || user.name === '사용자') {
+      user.name = generateUniqueHousingNickname();
+    }
+
+    localStorage.setItem('zipgigi_active_user', JSON.stringify(user));
+
     if (authLandingScreen) authLandingScreen.classList.add('hidden');
     if (mainAppShell) mainAppShell.classList.remove('hidden');
     updateAuthHeaderUI();
     renderProfileView();
+
+    // Check if initial profile setup is completed, trigger modal if first time
+    if (!user.hasConfiguredProfile) {
+      setTimeout(() => {
+        checkAndTriggerOnboardingProfile(user);
+      }, 300);
+    }
   }
 
   // --- ONBOARDING INITIAL PROFILE SETUP ENGINE ---
@@ -1528,25 +1559,44 @@ document.addEventListener('DOMContentLoaded', () => {
   const onboardProfIncome = document.getElementById('onboard-prof-income');
   const onboardProfJob = document.getElementById('onboard-prof-job');
 
+  const btnGenRandomNameOnboard = document.getElementById('btn-gen-random-name-onboard');
+  const btnGenRandomNameEdit = document.getElementById('btn-gen-random-name-edit');
+
+  if (btnGenRandomNameOnboard && onboardProfName) {
+    btnGenRandomNameOnboard.addEventListener('click', () => {
+      onboardProfName.value = generateUniqueHousingNickname();
+      showToast('🎲 랜덤 주거 닉네임이 생성되었습니다!');
+    });
+  }
+
+  if (btnGenRandomNameEdit && editProfName) {
+    btnGenRandomNameEdit.addEventListener('click', () => {
+      editProfName.value = generateUniqueHousingNickname();
+      showToast('🎲 랜덤 주거 닉네임이 생성되었습니다!');
+    });
+  }
+
   function checkAndTriggerOnboardingProfile(user) {
     if (!user) return;
-    if (!user.hasConfiguredProfile) {
-      if (modalOnboardingProfile) {
-        if (onboardProfName) onboardProfName.value = (user.name && !user.name.includes('회원')) ? user.name : '';
-        if (onboardProfAge) onboardProfAge.value = user.age || 26;
-        if (onboardProfHead) onboardProfHead.value = user.isHead !== false ? 'true' : 'false';
-        if (onboardProfIncome) onboardProfIncome.value = user.income || 3200;
-        if (onboardProfJob) onboardProfJob.value = user.jobText || '직장인';
+    if (!user.hasConfiguredProfile && modalOnboardingProfile) {
+      const initialNickname = (!user.name || user.name.includes('회원')) ? generateUniqueHousingNickname() : user.name;
+      user.name = initialNickname;
+      localStorage.setItem('zipgigi_active_user', JSON.stringify(user));
 
-        modalOnboardingProfile.classList.remove('hidden');
-      }
+      if (onboardProfName) onboardProfName.value = initialNickname;
+      if (onboardProfAge) onboardProfAge.value = user.age || 26;
+      if (onboardProfHead) onboardProfHead.value = user.isHead !== false ? 'true' : 'false';
+      if (onboardProfIncome) onboardProfIncome.value = user.income || 3200;
+      if (onboardProfJob) onboardProfJob.value = user.jobText || '직장인';
+
+      modalOnboardingProfile.classList.remove('hidden');
     }
   }
 
   if (formOnboardingProfile) {
     formOnboardingProfile.addEventListener('submit', (e) => {
       e.preventDefault();
-      const name = onboardProfName?.value.trim() || '사용자';
+      const name = onboardProfName?.value.trim() || generateUniqueHousingNickname();
       const age = parseInt(onboardProfAge?.value, 10) || 26;
       const isHead = onboardProfHead?.value === 'true';
       const income = parseInt(onboardProfIncome?.value, 10) || 3200;

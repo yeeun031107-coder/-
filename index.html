@@ -582,7 +582,12 @@
       <form id="form-onboarding-profile" onsubmit="return false;" style="text-align:left;">
         <div class="form-group">
           <label for="onboard-prof-name">이름 (닉네임)</label>
-          <input type="text" id="onboard-prof-name" placeholder="예: 황예은 / 홍길동" required>
+          <div style="display:flex; gap:6px;">
+            <input type="text" id="onboard-prof-name" placeholder="예: 황예은 / 행복한자취러482" required style="flex:1;">
+            <button type="button" class="btn-sm-outline" id="btn-gen-random-name-onboard" style="white-space:nowrap; padding:0 10px; font-size:0.75rem; background:#f0fdf4; border-color:#bbf7d0; color:#15803d;">
+              🎲 랜덤 생성
+            </button>
+          </div>
         </div>
 
         <div class="form-row-2">
@@ -629,7 +634,12 @@
         <form id="form-edit-profile" onsubmit="return false;">
           <div class="form-group">
             <label for="edit-prof-name">이름 (닉네임)</label>
-            <input type="text" id="edit-prof-name" placeholder="홍길동 / 황예은" required>
+            <div style="display:flex; gap:6px;">
+              <input type="text" id="edit-prof-name" placeholder="홍길동 / 황예은" required style="flex:1;">
+              <button type="button" class="btn-sm-outline" id="btn-gen-random-name-edit" style="white-space:nowrap; padding:0 10px; font-size:0.75rem; background:#f0fdf4; border-color:#bbf7d0; color:#15803d;">
+                🎲 랜덤 생성
+              </button>
+            </div>
           </div>
           <div class="form-row-2">
             <div class="form-group">
