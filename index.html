@@ -453,7 +453,102 @@
                 <button type="button" class="chip-btn" data-loan-cat="monthly" onclick="window.filterLoans && window.filterLoans('monthly')">월세 대출</button>
               </div>
 
-              <div class="loan-cards-list" id="loan-cards-container"></div>
+              <!-- PRE-RENDERED LOAN CARDS FOR ZERO-DELAY STATIC FALLBACK -->
+              <div class="loan-cards-list" id="loan-cards-container">
+                <div class="collapsible-card open">
+                  <div class="collapsible-card-header" onclick="this.parentElement.classList.toggle('open')">
+                    <h4>청년전용 버팀목 전세대출</h4>
+                    <span class="score-status-badge green">🟢 적합</span>
+                  </div>
+                  <div class="collapsible-card-body" style="display:block;">
+                    <p style="font-size:0.75rem; color:var(--text-sub); margin-bottom:8px;">만 19세~34세 이하 청년층의 전세 보증금을 낮은 금리로 지원</p>
+                    <div class="item-details-box">
+                      <div><label>지원 대상:</label><span>만 19세~만 34세 이하, 부부합산 연소득 5천만 원 이하, 순자산 3.45억 원 이하 무주택 세대주</span></div>
+                      <div><label>대출 한도:</label><span>최대 1.5억 원 이내 (임차보증금의 80% 이내)</span></div>
+                      <div><label>대출 금리:</label><span>소득 구간에 따라 연 1.8%~2.7%</span></div>
+                    </div>
+                    <div class="doc-list">
+                      <h5>필요 서류:</h5>
+                      <ul>
+                        <li>• 청년 무주택 확인서</li>
+                        <li>• 임대차계약서 확정일자본</li>
+                        <li>• 소득금액증명원</li>
+                        <li>• 건강보험자격득실확인서</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="collapsible-card">
+                  <div class="collapsible-card-header" onclick="this.parentElement.classList.toggle('open')">
+                    <h4>버팀목 전세자금대출</h4>
+                    <span class="score-status-badge green">🟢 적합</span>
+                  </div>
+                  <div class="collapsible-card-body">
+                    <p style="font-size:0.75rem; color:var(--text-sub); margin-bottom:8px;">무주택 서민과 근로자의 전월세 보증금을 지원하는 기금 대출</p>
+                    <div class="item-details-box">
+                      <div><label>지원 대상:</label><span>부부합산 연소득 5천만 원 이하, 순자산 3.45억 원 이하 무주택 세대주</span></div>
+                      <div><label>대출 한도:</label><span>수도권 최대 1.2억 원, 지방 최대 8천만 원 (보증금의 70% 이내)</span></div>
+                      <div><label>대출 금리:</label><span>임차보증금과 소득 구간에 따라 연 2.1%~2.9%</span></div>
+                    </div>
+                    <div class="doc-list">
+                      <h5>필요 서류:</h5>
+                      <ul>
+                        <li>• 임대차계약서 확정일자본</li>
+                        <li>• 보증금 5% 이상 입금 영수증</li>
+                        <li>• 주민등록등본</li>
+                        <li>• 재직 및 소득증빙</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="collapsible-card">
+                  <div class="collapsible-card-header" onclick="this.parentElement.classList.toggle('open')">
+                    <h4>청년전용 보증부월세 대출</h4>
+                    <span class="score-status-badge green">🟢 적합</span>
+                  </div>
+                  <div class="collapsible-card-body">
+                    <p style="font-size:0.75rem; color:var(--text-sub); margin-bottom:8px;">보증금과 월세를 동시에 지원하는 만 34세 이하 청년 전용 상품</p>
+                    <div class="item-details-box">
+                      <div><label>지원 대상:</label><span>부부합산 연소득 5천만 원 이하, 자산 3.45억 원 이하 무주택 청년</span></div>
+                      <div><label>대출 한도:</label><span>보증금 최대 4,500만 원, 월세 최대 월 50만 원 (2년간 총 1,200만 원)</span></div>
+                      <div><label>대출 금리:</label><span>보증금 연 1.3%, 월세 연 0% (20만원 이하) ~ 1.0%</span></div>
+                    </div>
+                    <div class="doc-list">
+                      <h5>필요 서류:</h5>
+                      <ul>
+                        <li>• 월세 임대차계약서</li>
+                        <li>• 보증금 영수증</li>
+                        <li>• 주민등록등본</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="collapsible-card">
+                  <div class="collapsible-card-header" onclick="this.parentElement.classList.toggle('open')">
+                    <h4>내집마련 디딤돌대출</h4>
+                    <span class="score-status-badge green">🟢 적합</span>
+                  </div>
+                  <div class="collapsible-card-body">
+                    <p style="font-size:0.75rem; color:var(--text-sub); margin-bottom:8px;">무주택 세대주가 주택 매매 계약 체결 시 이용 가능한 대표적 저금리 상품</p>
+                    <div class="item-details-box">
+                      <div><label>지원 대상:</label><span>부부합산 연소득 6천만 원 이하 (신혼 7천만 원 이하), 순자산 5.11억 원 이하 무주택 세대주</span></div>
+                      <div><label>대출 한도:</label><span>일반 가구 최대 2억 원 / 신혼·2자녀 최대 3.2억 원 (생애최초 2.4억 원)</span></div>
+                      <div><label>대출 금리:</label><span>소득 및 만기에 따라 연 2.35%~3.95%</span></div>
+                    </div>
+                    <div class="doc-list">
+                      <h5>필요 서류:</h5>
+                      <ul>
+                        <li>• 주택매매계약서 원본</li>
+                        <li>• 주민등록등본 및 초본</li>
+                        <li>• 소득증빙서류</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <!-- View 2: Benefits ONLY -->
@@ -465,7 +560,47 @@
                 <button type="button" class="chip-btn" data-benefit-cat="jeonse" onclick="window.filterBenefits && window.filterBenefits('jeonse')">전세 혜택</button>
               </div>
 
-              <div class="benefit-cards-list" id="benefit-cards-container"></div>
+              <!-- PRE-RENDERED BENEFIT CARDS FOR ZERO-DELAY STATIC FALLBACK -->
+              <div class="benefit-cards-list" id="benefit-cards-container">
+                <div class="collapsible-card open">
+                  <div class="collapsible-card-header" onclick="this.parentElement.classList.toggle('open')">
+                    <h4>월세 세액공제 (연말정산 환급)</h4>
+                    <span class="score-status-badge green">🟢 대상</span>
+                  </div>
+                  <div class="collapsible-card-body" style="display:block;">
+                    <div class="item-details-box">
+                      <div><label>혜택 내용:</label><span>1년간 낸 월세액(한도 1,000만 원)의 15%~17%를 연말정산 때 세금에서 직접 깎아 돌려받음</span></div>
+                      <div><label>지원 대상:</label><span>총급여 8,000만 원 이하 무주택 세대주</span></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="collapsible-card">
+                  <div class="collapsible-card-header" onclick="this.parentElement.classList.toggle('open')">
+                    <h4>청년월세 특별지원 (현금 480만원)</h4>
+                    <span class="score-status-badge green">🟢 대상</span>
+                  </div>
+                  <div class="collapsible-card-body">
+                    <div class="item-details-box">
+                      <div><label>혜택 내용:</label><span>매달 월세 20만 원씩 최대 24개월간(총 480만 원) 현금 지급 지원</span></div>
+                      <div><label>지원 대상:</label><span>만 19세~34세 독립거주 무주택 청년 (청년가구 중위소득 60% 이하)</span></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="collapsible-card">
+                  <div class="collapsible-card-header" onclick="this.parentElement.classList.toggle('open')">
+                    <h4>주택담보대출 이자 상환액 소득공제</h4>
+                    <span class="score-status-badge yellow">🟡 확인</span>
+                  </div>
+                  <div class="collapsible-card-body">
+                    <div class="item-details-box">
+                      <div><label>혜택 내용:</label><span>주택담보대출 이자 지불액 연말정산 소득공제</span></div>
+                      <div><label>지원 대상:</label><span>무주택 또는 1주택 세대주 (취득 시 기준시가 6억 원 이하)</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </section>
 
