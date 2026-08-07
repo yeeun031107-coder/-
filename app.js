@@ -1766,7 +1766,7 @@ document.addEventListener('DOMContentLoaded', () => {
             profileImage: data.profileImage
           };
           localStorage.setItem('zipgigi_active_user', JSON.stringify(kakaoUser));
-          showToast(`🎉 ${data.name} 님 카카오 계정으로 로그인 성공!`);
+          showToast('🎉 로그인 성공!');
           enterMainAppShell(kakaoUser);
           return;
         }
@@ -1779,7 +1779,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const nickname = (savedUser.name && !savedUser.name.includes('회원') && savedUser.name !== '사용자') ? savedUser.name : generateUniqueHousingNickname();
       const kakaoUser = { ...savedUser, email: savedUser.email || 'kakao_user@zipgigi.com', name: nickname, isSocial: true };
       localStorage.setItem('zipgigi_active_user', JSON.stringify(kakaoUser));
-      showToast(`🎉 ${nickname} 님 카카오 로그인 성공!`);
+      showToast('🎉 로그인 성공!');
       enterMainAppShell(kakaoUser);
     }
   }
@@ -1789,7 +1789,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function handleNaverOAuth() {
     const naverUser = { email: 'naver_user@zipgigi.com', name: '네이버 회원', isSocial: true };
     localStorage.setItem('zipgigi_active_user', JSON.stringify(naverUser));
-    showToast('🟢 네이버 1초 로그인 성공!');
+    showToast('🎉 로그인 성공!');
     enterMainAppShell(naverUser);
   }
 
@@ -1813,7 +1813,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.history.replaceState({}, document.title, window.location.pathname);
     const kakaoUser = { email: 'kakao_user@zipgigi.com', name: '카카오 회원', isSocial: true };
     localStorage.setItem('zipgigi_active_user', JSON.stringify(kakaoUser));
-    showToast('🎉 카카오 공식 계정 로그인 성공!');
+    showToast('🎉 로그인 성공!');
     enterMainAppShell(kakaoUser);
   }
 
