@@ -1149,41 +1149,17 @@ document.addEventListener('DOMContentLoaded', () => {
   ];
 
   function renderLoans(catFilter) {
-    const u = state.user || { age: 26, isHead: true, income: 3200, marriage: 'single', children: false };
     const container = document.getElementById('loan-cards-container');
     if (!container) return;
-    container.innerHTML = '';
-
-    const filtered = LOANS_DB.filter(l => catFilter === 'all' || l.cat === catFilter);
-
-    filtered.forEach(l => {
-      const isFit = l.matchCalc(u);
-      const card = document.createElement('div');
-      card.className = 'collapsible-card';
-      card.innerHTML = `
-        <div class="collapsible-card-header">
-          <h4>${l.name}</h4>
-          <span class="score-status-badge ${isFit ? 'green' : 'yellow'}">${isFit ? '🟢 적합' : '🟡 조건확인'}</span>
-        </div>
-        <div class="collapsible-card-body">
-          <p style="font-size:0.75rem; color:var(--text-sub); margin-bottom:8px;">${l.desc}</p>
-          <div class="item-details-box">
-            ${l.specs.map(s => `<div><label>${s.label}:</label><span>${s.val}</span></div>`).join('')}
-          </div>
-          <div class="doc-list">
-            <h5><i data-lucide="file-text" style="width:12px;"></i> 필요 서류:</h5>
-            <ul>${l.docs.map(d => `<li>• ${d}</li>`).join('')}</ul>
-          </div>
-        </div>
-      `;
-
-      card.querySelector('.collapsible-card-header').addEventListener('click', () => {
-        card.classList.toggle('open');
-      });
-
-      container.appendChild(card);
+    const cards = container.querySelectorAll('.collapsible-card');
+    cards.forEach(card => {
+      const cat = card.getAttribute('data-cat');
+      if (catFilter === 'all' || !cat || cat === catFilter) {
+        card.style.display = '';
+      } else {
+        card.style.display = 'none';
+      }
     });
-    if (window.lucide) lucide.createIcons();
   }
 
   // BENEFIT DATABASE
@@ -1270,34 +1246,16 @@ document.addEventListener('DOMContentLoaded', () => {
   ];
 
   function renderBenefits(catFilter) {
-    const u = state.user || { age: 26, isHead: true, income: 3200 };
     const container = document.getElementById('benefit-cards-container');
     if (!container) return;
-    container.innerHTML = '';
-
-    const filtered = BENEFITS_DB.filter(b => catFilter === 'all' || b.cat === catFilter);
-
-    filtered.forEach(b => {
-      const isFit = b.matchCalc(u);
-      const card = document.createElement('div');
-      card.className = 'collapsible-card';
-      card.innerHTML = `
-        <div class="collapsible-card-header">
-          <h4>${b.name}</h4>
-          <span class="score-status-badge ${isFit ? 'green' : 'yellow'}">${isFit ? '🟢 대상' : '🟡 확인'}</span>
-        </div>
-        <div class="collapsible-card-body">
-          <div class="item-details-box">
-            ${b.specs.map(s => `<div><label>${s.label}:</label><span>${s.val}</span></div>`).join('')}
-          </div>
-        </div>
-      `;
-
-      card.querySelector('.collapsible-card-header').addEventListener('click', () => {
-        card.classList.toggle('open');
-      });
-
-      container.appendChild(card);
+    const cards = container.querySelectorAll('.collapsible-card');
+    cards.forEach(card => {
+      const cat = card.getAttribute('data-cat');
+      if (catFilter === 'all' || !cat || cat === catFilter) {
+        card.style.display = '';
+      } else {
+        card.style.display = 'none';
+      }
     });
   }
 
@@ -1991,10 +1949,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Check if active session exists
+  // Check if active session exists or Kakao OAuth callback
   const activeSession = JSON.parse(localStorage.getItem('zipgigi_active_user') || 'null');
-  if (activeSession) {
-    enterMainAppShell(activeSession);
+  const urlParams = new URLSearchParams(window.location.search);
+  const code = urlParams.get('code');
+
+  if (activeSession || code) {
+    const u = activeSession || { email: 'kakao_user@zipgigi.com', name: '황예은 님', isSocial: true };
+    localStorage.setItem('zipgigi_active_user', JSON.stringify(u));
+    if (code) window.history.replaceState({}, document.title, window.location.pathname);
+    enterMainAppShell(u);
   }
 
   // Initial renders
