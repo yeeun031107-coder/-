@@ -1839,9 +1839,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const code = urlParams.get('code');
     if (!code) return;
 
-    // Clean URL query parameter
-    window.history.replaceState({}, document.title, window.location.pathname);
-    showToast('💬 카카오 계정 프로필 닉네임을 조회하고 있습니다...');
+    showToast('💬 카카오 계정 로그인 진행 중...');
 
     try {
       const redirectUri = window.location.origin;
@@ -1861,19 +1859,20 @@ document.addEventListener('DOMContentLoaded', () => {
             profileImage: data.profileImage
           };
           localStorage.setItem('zipgigi_active_user', JSON.stringify(kakaoUser));
+          window.history.replaceState({}, document.title, window.location.pathname);
           showToast('🎉 로그인 성공!');
           enterMainAppShell(kakaoUser);
           return;
         }
       }
-      throw new Error('API route response issue');
+      throw new Error('API route fallback');
     } catch (err) {
       console.warn('Kakao profile fetch notice:', err);
-      // Saved session or default name
       const savedUser = JSON.parse(localStorage.getItem('zipgigi_active_user') || '{}');
       const nickname = (savedUser.name && !savedUser.name.includes('회원') && savedUser.name !== '사용자') ? savedUser.name : generateUniqueHousingNickname();
       const kakaoUser = { ...savedUser, email: savedUser.email || 'kakao_user@zipgigi.com', name: nickname, isSocial: true };
       localStorage.setItem('zipgigi_active_user', JSON.stringify(kakaoUser));
+      window.history.replaceState({}, document.title, window.location.pathname);
       showToast('🎉 로그인 성공!');
       enterMainAppShell(kakaoUser);
     }
@@ -1899,17 +1898,6 @@ document.addEventListener('DOMContentLoaded', () => {
       showToast('🚀 게스트 모드로 서비스를 둘러봅니다.');
       enterMainAppShell(null);
     });
-  }
-
-  // Parse Kakao OAuth callback authorization code if redirected back from Kakao
-  const urlParams = new URLSearchParams(window.location.search);
-  const kakaoAuthCode = urlParams.get('code');
-  if (kakaoAuthCode) {
-    window.history.replaceState({}, document.title, window.location.pathname);
-    const kakaoUser = { email: 'kakao_user@zipgigi.com', name: '카카오 회원', isSocial: true };
-    localStorage.setItem('zipgigi_active_user', JSON.stringify(kakaoUser));
-    showToast('🎉 로그인 성공!');
-    enterMainAppShell(kakaoUser);
   }
 
   if (btnProfLogout) {
